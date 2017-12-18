@@ -1,0 +1,32 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.parallax-container {
+      height: 400px;
+    }
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+@font-face {
+    font-family: ocra;
+    src: url('../fonts/ocra/OCRAEXT.TTF');
+}
+
+html {
+    font-family: roboto, ocra;
+  }
+
+
+
+a#mail {
+  font-style: none;
+  color: lightgrey;
+}
