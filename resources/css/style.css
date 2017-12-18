@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+body {
+    background-color: #edf0f1;
+    padding-top: 80px;
+}
+
+body, input, button {
+    font-family: 'Roboto', sans-serif;
+}
+
+.noFill {
+    fill: none;
+}
+
+header {
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    padding: 15px;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    background: #25b99a;
+    box-shadow:  0px 2px 4px rgb(44,62,80,0.15);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+header input {
+    width: 100%;
+    height: 50px;
+    float: left;
+    color: #ffffff;
+    padding-right: 60px;
+    font-size: 15px;
+    font-weight: 400;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px 25px 25px 5px;
+    text-indent: 18px;
+    box-shadow: none;
+    border: none;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-apperance: none;
+    appearance: none;
+
+}
+
+header input::placeholder {
+    color: rgba(255,255,255,0.75);
+}
+
+header input::-webkit-input-placeholder {
+    color: rgba(255,255,255,0.75);
+}
+
+header input:-moz-input-placeholder {
+    color: rgba(255,255,255,0.75);
+}
+
+header input::-moz-input-placeholder {
+    color: rgba(255,255,255,0.75);
+}
+
+header input::-ms-input-placeholder {
+    color: rgba(255,255,255,0.75);
+}
+
+header button {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 25px;
+    border: 0px;
+    border-shadow: none;
+    z-index: 2;
+    backgroud: #ffffff;
+    cursor: pointer;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-apperance: none;
+    appearance: none;
+}
+
+header button svg {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -8px 0 0 -8px;
+}
+
+header button svg .fill {
+    fill: #25b99a;
+}
+
+.container {
+    width: 100%;
+    float: left;
+    padding: 15px ;
+}
+
+ul.todo {
+    width: 100%;
+    float: left;
+}
+
+ul.todo li {
+    width: 100%;
+    min-height: 50px;
+    position: relative;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444
+    line-height: 22px; <!-- Linjeavstand, må kompansere i padding -->
+    float: left;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(44,62,80,0.10);
+    margin: 0 0 10px 0;
+    padding: 14px 100px 14px 14px;
+}
+
+ul.todo li:last-of-type {
+    margin: 0;
+}
+
+ul.todo li .buttons {
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+ul.todo li .buttons button {
+    width: 50px;
+    height: 50px;
+    float: left;
+    position: relative;
+    background: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    cursor: pointer ;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-apperance: none;
+    appearance: none;
+}
+
+ul.todo li .buttons button:last-of-type:before {
+    content: '';
+    width: 1px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    background: #edf0f1;
+}
+
+ul.todo li .buttons button svg {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -11px 0 0 -11px;
+}
+
+/*fade effekt på knapper */
+ul.todo li .buttons button svg .fill {
+    -webkit-transition:fill 0.2s ease;
+    -moz-transition:fill 0.2s ease;
+    -ms-transition:fill 0.2s ease;
+    -o-transition:fill 0.2s ease;
+    transition:fill 0.2s ease;
+}
+
+/*endring av fill på remove-knappen */
+ul.todo li .buttons button.remove svg .fill {
+    fill: #c0cecb;
+}
+
+ul.todo li .buttons button.remove:hover svg .fill {
+    fill: #e85656;
+}
+
+/* Lager sirkelbakgrunn uten fill*/
+ul.todo li .buttons button.complete svg {
+    border-radius: 11px;
+    border: 1.5px solid #25b991;
+
+    transition:background 0.2s ease;
+}
+
+/*lager grønn bakgrunn i sirkel for completed*/
+ul.todo#completed li .buttons button.complete svg {
+    background: #25b991;
+    border: none;
+}
+
+/*Gjør haken hvit siden lik farge som bakgrunn ellers*/
+ul.todo#completed li .buttons button.complete svg .fill {
+    fill: #fff;
+}
+
+
+ul.todo li .buttons button.complete svg .fill {
+    fill: #25b991;
+}
+
+/*Fargeendring ved hover på complete */
+ul.todo:not(#completed) li .buttons button.complete:hover svg {
+    background: rgba(37,185,145,0.6);
+    transition:background 0.2s ease;
+}
+
+ul.todo:not(#completed) li .buttons button.complete:hover svg .fill {
+    fill: #fff;
+}
