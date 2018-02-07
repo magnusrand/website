@@ -1,4 +1,4 @@
-Redirect 301 / http://www.magnusrand.com/paranden
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.html [NC,L]
+Redirect 301 / http://www.magnusrand.com/paranden
