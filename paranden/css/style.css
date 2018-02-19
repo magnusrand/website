@@ -7,7 +7,7 @@
  */
 
 .parallax-container {
-      height: 400px;
+      height: 800px;
     }
 .icon-block {
   padding: 0 15px;
@@ -24,6 +24,9 @@ html {
     font-family: roboto, ocra;
   }
 
+.transparentTxt {
+  font-color: rgba(0,0,0,0);
+}
 
 
 a#mail {
