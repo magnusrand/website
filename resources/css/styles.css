@@ -1,0 +1,72 @@
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+.bg-1 {
+    background-color: #111111;
+    color: #FFFFFF;
+}
+
+.bg-2 {
+    background-color: #009BFF;
+    color: #FFFFFF;
+}
+
+.bg-3 {
+    background-color: #FF0000;
+    color: #FFFFFF;
+}
+
+.bg-4 {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+#logosvg {
+    padding-top: 25px;
+}
+
+.bg-footer-light {
+    background-color: #303030;
+    color: #FFFFFF;
+}
+
+.pad-top-bot-head {
+    padding: 250px 0 330px 0;
+}
+
+.pad-top-bot {
+    padding: 70px 0 70px 0;
+}
+
+.bungee-font {
+    font-family: 'Bungee', cursive;
+}
+
+.roboto-font {
+    font-family: 'Roboto', sans-serif;
+}
+
+.font-large {
+    font-size: 80px;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 18px;
+    letter-spacing: 5px;
+}
+
+.navbar-nav li a:hover {
+    color: #1abc9c !important;
+}
