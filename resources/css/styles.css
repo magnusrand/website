@@ -23,10 +23,6 @@ body {
     color: #000000;
 }
 
-#logosvg {
-    padding-top: 25px;
-}
-
 .bg-footer-light {
     background-color: #303030;
     color: #FFFFFF;
@@ -49,21 +45,39 @@ body {
 }
 
 #title-top {
-    font-size: 4vw; padding-top: 15px;
+    font-size: 3.61vw;
+    padding-top: 15px;
 }
 
 #title-bottom {
-    font-size: 13vw;
+    font-size: 12vw;
 }
 
 @media (max-width: 767px) {
     #title-top {
-        font-size: 100vw; padding-top: 15px;
+        font-size: 36px;
+        /*font-size: 100vw;*/
+        padding-top: 15px;
     }
 
     #title-bottom {
-        font-size: 100vw;
+        font-size: 120px;
+        /*font-size: 100vw;*/
     }
+
+    #logosvg {
+        width: 500px;
+        padding: 0px 30px 30px 30px;
+    }
+
+    .pad-top-bot-head {
+        padding: 150px 0 100px 0;
+    }
+}
+
+#logosvg {
+    max-height: 330px;
+    padding: 5px 30px 30px 30px;
 }
 
 .roboto-font {
