@@ -82,6 +82,10 @@ body {
     .pad-top-bot-head {
         padding: 150px 0 220px 0;
     }
+
+    body {
+        overflow-x: hidden;
+    }
 }
 
 #logosvg {
