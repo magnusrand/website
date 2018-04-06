@@ -80,7 +80,7 @@ body {
     }
 
     .pad-top-bot-head {
-        padding: 150px 0 100px 0;
+        padding: 150px 0 220px 0;
     }
 }
 
@@ -136,13 +136,24 @@ body {
     background-size: cover;
 }
 
-  .affix {
+  #navbarID.affix {
       top:0;
       width: 100%;
       z-index: 9999 !important;
   }
 
-  .affix ~ .container {
+  #navbarID.affix ~ .container {
      position: relative;
      top: 50px;
+  }
+
+  #down-arrow {
+      height: 70px;
+      width: 70px;
+      top: 90%;
+      right: 45%;
+      position: fixed;
+      z-index: 9998;
+
+      opacity: 0.5;
   }

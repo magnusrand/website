@@ -3,3 +3,14 @@
  */
 
 
+$(window).scroll(function() {
+
+    if ($(this).scrollTop()>700)
+     {
+        $('#down-arrow').fadeOut();
+     }
+    else
+     {
+      $('#down-arrow').fadeIn();
+     }
+ });
