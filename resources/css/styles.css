@@ -1,6 +1,5 @@
 body {
     font-family: "Roboto", sans-serif;
-    overflow-x: hidden;
 }
 
 .bg-1 {
@@ -24,12 +23,14 @@ body {
 }
 
 .bg-footer-light {
+    padding-top: 10px;
     background-color: #303030;
     color: #FFFFFF;
 }
 
 .nav-wrapper {
-    min-height: 80px;
+    min-height: 78px;
+    width: 100%;
 }
 
 .pad-top-bot-head {
@@ -139,24 +140,30 @@ body {
     background-size: cover;
 }
 
-  #navbarID.affix {
+#navbarID.affix {
       top:0;
       width: 100%;
-      z-index: 9999 !important;
+      z-index: 9998 !important;
   }
 
-  #navbarID.affix ~ .container {
+#navbarID.affix-top {
+      top:0;
+      width: 100%;
+      z-index: 9998 !important;
+  }
+
+#navbarID.affix ~ .container {
      position: relative;
      top: 50px;
   }
 
-  #down-arrow {
+#down-arrow {
       height: 70px;
       width: 70px;
       top: 90%;
       right: 45%;
       position: fixed;
-      z-index: 9998;
+      z-index: 9999;
 
       opacity: 0.5;
   }
