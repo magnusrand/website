@@ -42,11 +42,11 @@ body {
 }
 
 .pad-top-bot-head-1 {
-    padding: 250px 0px 340px 0px;
+    padding: 250px 0px 240px 0px;
 }
 
 .pad-top-bot-head-2 {
-    padding: 250px 0px 340px 0px;
+    padding: 250px 0px 240px 0px;
 }
 
 #title-top {
@@ -97,7 +97,7 @@ body {
     }
 
     .pad-top-bot-head-1 {
-        padding: 150px 0 10px 0;
+        padding: 50px 0 10px 0;
     }
 
     .pad-top-bot-head-2 {
@@ -111,6 +111,10 @@ body {
     body {
         overflow-x: hidden;
     }
+}
+
+#down-arrow:hover {
+    cursor: pointer;
 }
 
 #logosvg {
@@ -192,3 +196,13 @@ body {
 
       opacity: 0.5;
   }
+
+a.disable {
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  background-color: #181818;
+}
