@@ -206,11 +206,3 @@ a.disable {
   cursor: pointer;
   background-color: #181818;
 }
-
-.box {
-    height: 200px;
-    background-color: #00acc1;
-    padding: 0 10px 0 10px;
-    margin: 10px 0 10px 0;
-    border-radius: 5px;
-}
