@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "outDir": "./dist/",
+        "lib": ["es2020", "dom", "dom.iterable"],
+        // "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "strict": true,
+        "target": "es5",
+        "moduleResolution": "node"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}
