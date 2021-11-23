@@ -1,5 +1,9 @@
 import React from 'react'
 
-const App = () => <h1>Hahahahahahahaah!</h1>
+import './styles.css'
+
+const App = () => {
+    return <h1>Hahahahahahahaah!</h1>
+}
 
 export default App
