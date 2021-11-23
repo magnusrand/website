@@ -1,7 +1,5 @@
 # Velkommen
 
-Dette repoet inneholder all kode brukt i nettsiden min **magnusrand.com**. Ikke alt er _skapt_ av meg, dvs. noe er kodet fra tutorials på nettsteder som YouTube.
-
 # empty-project
 
 Empty project.
