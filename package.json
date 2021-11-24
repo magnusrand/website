@@ -9,6 +9,7 @@
     "scripts": {
         "clean": "rm -rf dist/",
         "eslint": "eslint src --ext 'js,jsx,ts,tsx'",
+        "stylelint": "stylelint \"src/**/*.css\"",
         "start": "webpack serve",
         "build-dev": "webpack --mode development",
         "build-prod": "npm run clean && webpack --mode production"
@@ -41,6 +42,10 @@
         "postcss-preset-env": "^7.0.1",
         "prettier": "^2.4.1",
         "style-loader": "^3.3.1",
+        "stylelint": "^14.1.0",
+        "stylelint-config-prettier": "^9.0.3",
+        "stylelint-config-standard": "^24.0.0",
+        "stylelint-webpack-plugin": "^3.1.0",
         "ts-loader": "^9.2.6",
         "typescript": "^4.5.2",
         "webpack": "^5.64.2",

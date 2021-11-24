@@ -1,6 +1,7 @@
 // const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const StylelintPlugin = require('stylelint-webpack-plugin')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
@@ -40,6 +41,7 @@ const config = (env, args) => ({
                 '</title></head><body><div id="app"></div></body></html>',
             filename: 'index.html',
         }),
+        new StylelintPlugin(options),
     ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js', 'jsx'],
