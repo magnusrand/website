@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+}
+
+.app {
+    position: relative;
+}
+
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+}
+
+.type-garamond-regular {
+    font-family: 'EB Garamond', 'serif';
+    font-weight: 400;
+}
+
+.type-garamond-bold {
+    font-family: 'EB Garamond', 'serif';
+    font-family: 800;
+}
+
+.font-size-medium {
+    font-size: 2.25rem;
+}
+
+.visual-background-grid {
+    z-index: -1;
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+
+    .column-container {
+        position: absolute;
+        width: 100vw;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: stretch;
+        gap: 1.5vw;
+
+        .column {
+            background-color: rgba(255, 0, 0, 0.05);
+            width: 100%;
+            height: 100vh;
+        }
+    }
+
+    .row-container {
+        position: absolute;
+        overflow: hidden;
+        margin-top: 4.125rem;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: stretch;
+        gap: 2.5rem;
+
+        .row {
+            background-color: rgba(255, 0, 0, 5%);
+            width: 100vw;
+            height: 8rem;
+        }
+    }
+}
+
+.main-grid {
+    position: relative;
+    padding-top: 4.125rem;
+
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 8rem);
+    column-gap: 1.25rem;
+    row-gap: 2.5rem;
+
+    .main-content {
+        grid-column-start: 1;
+        grid-column-end: 7;
+        grid-row-start: 2;
+        grid-row-end: -1;
+
+        overflow: hidden;
+        border: 1rem;
+        /*border-style: solid;
+        border-color: blue;*/
+    }
+
+    .horizontal-bar1 {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 3;
+        grid-row-end: 4;
+
+        background-color: rgba(234, 226, 183, 0.8);
+    }
+
+    .horizontal-bar2 {
+        grid-column-start: 2;
+        grid-column-end: 7;
+        grid-row-start: 4;
+        grid-row-end: 5;
+
+        background-color: rgba(252, 191, 73, 0.8);
+    }
+
+    .horizontal-bar3 {
+        grid-column-start: 3;
+        grid-column-end: 7;
+        grid-row-start: 5;
+        grid-row-end: 6;
+
+        background-color: rgba(251, 133, 0, 0.8);
+    }
+}

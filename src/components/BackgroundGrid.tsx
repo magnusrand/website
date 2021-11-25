@@ -1,11 +1,24 @@
 import React from 'react'
 
-export const VisualBackgroundGrid = () => {
-    const columnItems = Array.from({ length: 6 }, (v, index) => index)
-    const rowItems = Array.from({ length: 12 }, (v, index) => index)
+interface Props {
+    visible?: boolean
+    numberOfRows?: number
+    numberOfColumns?: number
+}
 
-    return (
-        <div className="background-grid">
+export const VisualBackgroundGrid = ({
+    visible = true,
+    numberOfRows = 8,
+    numberOfColumns = 6,
+}: Props) => {
+    const columnItems = Array.from(
+        { length: numberOfColumns },
+        (v, index) => index,
+    )
+    const rowItems = Array.from({ length: numberOfRows }, (v, index) => index)
+
+    return visible ? (
+        <div className="visual-background-grid">
             <div className="container">
                 <div className="column-container">
                     {columnItems.map((item) => (
@@ -19,6 +32,8 @@ export const VisualBackgroundGrid = () => {
                 </div>
             </div>
         </div>
+    ) : (
+        <></>
     )
 }
 
