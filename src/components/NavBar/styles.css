@@ -4,10 +4,8 @@
     grid-row-start: 1;
     grid-row-end: 2;
 
-    /*background-color: red;*/
-
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     grid-template-rows: 8rem;
     column-gap: 1.25rem;
 
@@ -19,23 +17,58 @@
     .navitem {
         position: relative;
         right: 1.25rem;
-        height: 3.25rem;
+        height: 3rem;
         padding-left: 1.25rem;
+        padding-top: 0.5rem;
+        white-space: nowrap;
+        min-width: min-content;
 
         transition: all ease 0.5s;
 
         &:hover {
-            background-color: teal;
+            background-color: var(--nav-item-color);
             color: white;
-        }
-
-        .item-text {
         }
 
         .expand-icon {
             font-size: 1.2rem !important;
             margin-left: 0.5rem;
             transform: rotate(180deg);
+            transition: transform ease 0.5s;
+
+            &.open {
+                transform: rotate(0deg);
+            }
+        }
+
+        .dropdown {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--nav-item-color);
+            margin-top: 0.7rem;
+
+            position: absolute;
+            right: 0;
+            width: 100%;
+
+            .dropdown-item {
+                padding-left: 1.25rem;
+                padding-top: 0.25rem;
+                padding-bottom: 0.5rem;
+
+                &:first-child {
+                    margin-top: 0.25rem;
+                    padding-top: -1rem;
+                }
+
+                &:last-child {
+                    padding-bottom: 1rem;
+                }
+
+                &:hover {
+                    background-color: rgba(256, 256, 256, 0.2);
+                }
+            }
         }
     }
 }
