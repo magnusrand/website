@@ -32,9 +32,16 @@ export const LandingPage = () => {
                 </NavItem>
             </NavBar>
             <div className="main-content"></div>
-            <div className="horizontal-bar1"></div>
-            <div className="horizontal-bar2"></div>
-            <div className="horizontal-bar3"></div>
+
+            <div className="horizontal-bar1" />
+            <div className="horizontal-bar2" />
+            <div className="horizontal-bar3" />
+            <div className="logo-horizontal type-garamond-bold font-size-extralarge">
+                MAGNUS
+            </div>
+            <div className="logo-vertical type-garamond-regular font-size-extralarge">
+                RA<span style={{ opacity: 0 }}>N</span>D
+            </div>
         </>
     )
 }

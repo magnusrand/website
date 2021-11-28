@@ -7,6 +7,9 @@
     --dark-color-3: #003049;
 
     --nav-item-color: var(--dark-color-1);
+
+    --margin-top-main: 2rem;
+    --row-height: 7rem;
 }
 
 body {
@@ -25,11 +28,12 @@ a {
 .type-garamond-regular {
     font-family: 'EB Garamond', serif;
     font-weight: 400;
+    font-style: normal;
 }
 
 .type-garamond-bold {
     font-family: 'EB Garamond', serif;
-    font-family: 800;
+    font-weight: 800;
 }
 
 .type-sourcesans-regular {
@@ -43,6 +47,10 @@ a {
 
 .font-size-medium {
     font-size: 2rem;
+}
+
+.font-size-extralarge {
+    font-size: 10.5rem;
 }
 
 .visual-background-grid {
@@ -72,7 +80,7 @@ a {
         position: absolute;
         width: 100%;
         overflow: hidden;
-        margin-top: 4.125rem;
+        margin-top: var(--margin-top-main);
 
         display: flex;
         flex-direction: column;
@@ -81,7 +89,7 @@ a {
         gap: 2.5rem;
 
         .row {
-            height: 8rem;
+            height: var(--row-height);
             background-color: rgba(255, 0, 0, 5%);
         }
     }
@@ -89,11 +97,11 @@ a {
 
 .main-grid {
     position: relative;
-    padding-top: 4.125rem;
+    padding-top: var(--margin-top-main);
 
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(6, 8rem);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(6, var(--row-height));
     column-gap: 1.25rem;
     row-gap: 2.5rem;
 
@@ -132,6 +140,28 @@ a {
         grid-row-end: 6;
 
         background-color: var(--light-color-3);
+    }
+
+    .logo-horizontal {
+        grid-column-start: 5;
+        grid-column-end: 7;
+        grid-row-start: 4;
+        grid-row-end: 5;
+
+        margin-top: -3.6rem;
+        margin-left: -24.8rem;
+    }
+
+    .logo-vertical {
+        grid-column-start: 5;
+        grid-column-end: 6;
+        grid-row-start: 2;
+        grid-row-end: 6;
+
+        margin-top: -1.4rem;
+        letter-spacing: 100%/6;
+        word-wrap: break-word;
+        line-height: 9.45rem;
     }
 }
 
