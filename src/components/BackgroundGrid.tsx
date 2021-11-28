@@ -19,17 +19,15 @@ export const VisualBackgroundGrid = ({
 
     return visible ? (
         <div className="visual-background-grid">
-            <div className="container">
-                <div className="column-container">
-                    {columnItems.map((item) => (
-                        <div key={item} className="column" />
-                    ))}
-                </div>
-                <div className="row-container">
-                    {rowItems.map((item) => (
-                        <div key={item} className="row" />
-                    ))}
-                </div>
+            <div className="column-container">
+                {columnItems.map((item) => (
+                    <div key={item} className="column" />
+                ))}
+            </div>
+            <div className="row-container">
+                {rowItems.map((item) => (
+                    <div key={item} className="row" />
+                ))}
             </div>
         </div>
     ) : (

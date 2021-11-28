@@ -25,6 +25,7 @@
 
         transition: all ease 0.5s;
 
+        &.hover,
         &:hover {
             background-color: var(--nav-item-color);
             color: white;
@@ -33,6 +34,7 @@
         .expand-icon {
             font-size: 1.2rem !important;
             margin-left: 0.5rem;
+            margin-right: 0.5rem;
             transform: rotate(180deg);
             transition: transform ease 0.5s;
 

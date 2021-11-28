@@ -10,6 +10,7 @@ const config = (env, args) => ({
     output: {
         path: OUTPUT_PATH,
         filename: 'bundle.js',
+        publicPath: '/',
     },
     module: {
         rules: [
@@ -31,6 +32,9 @@ const config = (env, args) => ({
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
         ],
+    },
+    devServer: {
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({

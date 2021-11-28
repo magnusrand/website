@@ -23,13 +23,18 @@ a {
 }
 
 .type-garamond-regular {
-    font-family: 'EB Garamond', 'serif';
+    font-family: 'EB Garamond', serif;
     font-weight: 400;
 }
 
 .type-garamond-bold {
-    font-family: 'EB Garamond', 'serif';
+    font-family: 'EB Garamond', serif;
     font-family: 800;
+}
+
+.type-sourcesans-regular {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
 }
 
 .font-size-small {
@@ -43,12 +48,13 @@ a {
 .visual-background-grid {
     z-index: -1;
     position: absolute;
-    width: 100vw;
+    width: 100%;
     height: 100%;
 
     .column-container {
         position: absolute;
-        width: 100vw;
+        height: 100%;
+        width: inherit;
 
         display: flex;
         flex-direction: row;
@@ -59,12 +65,12 @@ a {
         .column {
             background-color: rgba(255, 0, 0, 0.05);
             width: 100%;
-            height: 100vh;
         }
     }
 
     .row-container {
         position: absolute;
+        width: 100%;
         overflow: hidden;
         margin-top: 4.125rem;
 
@@ -75,9 +81,8 @@ a {
         gap: 2.5rem;
 
         .row {
-            background-color: rgba(255, 0, 0, 5%);
-            width: 100vw;
             height: 8rem;
+            background-color: rgba(255, 0, 0, 5%);
         }
     }
 }
@@ -127,5 +132,23 @@ a {
         grid-row-end: 6;
 
         background-color: var(--light-color-3);
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    body {
+        margin: 0 2rem 2rem 2rem;
+    }
+
+    .horizontal-bar1 {
+        margin-left: -2rem;
+    }
+
+    .horizontal-bar2 {
+        margin-right: -2rem;
+    }
+
+    .horizontal-bar3 {
+        margin-right: -2rem;
     }
 }

@@ -1,44 +1,35 @@
 import React from 'react'
+import { Route, BrowserRouter, Routes } from 'react-router-dom'
+
 import VisualBackgroundGrid from './components/BackgroundGrid'
-import {
-    Dropdown,
-    DropdownItem,
-    NavBar,
-    NavItem,
-} from './components/NavBar/NavBar'
 
 import './main-styles.css'
-import { Color } from './types'
+import { LandingPage } from './pages/LandingPage'
+import Redirect from './pages/Redirect'
 
 const App = () => {
     return (
-        <div className="app">
-            {/* <VisualBackgroundGrid
-                numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
-                visible={true}
-            /> */}
-            <div className="main-grid">
-                <NavBar>
-                    <NavItem title="Fotografi" color={Color.DARK1}>
-                        <Dropdown>
-                            <DropdownItem title={'item'} linkPath={'#'} />
-                            <DropdownItem title={'item2'} linkPath={'#'} />
-                            <DropdownItem title={'item3'} linkPath={'#'} />
-                        </Dropdown>
-                    </NavItem>
-                    <NavItem
-                        title="GitHub"
-                        color={Color.DARK2}
-                        expandIcon={false}
-                    />
-                    <NavItem title="Om meg" color={Color.DARK3} />
-                </NavBar>
-                <div className="main-content"></div>
-                <div className="horizontal-bar1"></div>
-                <div className="horizontal-bar2"></div>
-                <div className="horizontal-bar3"></div>
+        <BrowserRouter>
+            <div className="app">
+                <VisualBackgroundGrid
+                    numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
+                    visible={true}
+                />
+                <div className="main-grid">
+                    <Routes>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/dritt" element={<h1>hahahahaha</h1>} />
+                        <Route
+                            path="/github"
+                            element={
+                                <Redirect linkPath="https://github.com/magnusrand" />
+                            }
+                        />
+                        <Route path="*" element={<h1>404 – Not found </h1>} />
+                    </Routes>
+                </div>
             </div>
-        </div>
+        </BrowserRouter>
     )
 }
 
