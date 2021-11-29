@@ -1,0 +1,144 @@
+:root {
+    --light-color-1: rgba(234, 226, 183, 0.8);
+    --light-color-2: rgba(252, 191, 73, 0.8);
+    --light-color-3: rgba(251, 133, 0, 0.8);
+    --dark-color-1: #219ebc;
+    --dark-color-2: #116783;
+    --dark-color-3: #003049;
+
+    --nav-item-color: var(--dark-color-1);
+
+    --margin-top-main: 2rem;
+    --row-height: 7rem;
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-regular.woff2');
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-regular.woff');
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    font-style: normal;
+    font-weight: 800;
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-800.woff2');
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-800.woff');
+}
+
+body {
+    margin: 0;
+}
+
+.app {
+    position: relative;
+}
+
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+}
+
+.type-garamond-regular {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.type-garamond-bold {
+    font-family: 'EB Garamond', serif;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.type-sourcesans-regular {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+}
+
+.font-size-small {
+    font-size: 1.33rem;
+}
+
+.font-size-medium {
+    font-size: 2rem;
+}
+
+.font-size-extralarge {
+    font-size: 10.5rem;
+}
+
+.visual-background-grid {
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    .column-container {
+        position: absolute;
+        height: 100%;
+        width: inherit;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: stretch;
+        gap: 1.25rem;
+
+        .column {
+            background-color: rgba(255, 0, 0, 0.05);
+            width: 100%;
+        }
+    }
+
+    .row-container {
+        position: absolute;
+        width: 100%;
+        overflow: hidden;
+        margin-top: var(--margin-top-main);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: stretch;
+        gap: 2.5rem;
+
+        .row {
+            height: var(--row-height);
+            background-color: rgba(255, 0, 0, 5%);
+        }
+    }
+}
+
+.main-grid {
+    position: relative;
+    padding-top: var(--margin-top-main);
+
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(6, var(--row-height));
+    column-gap: 1.25rem;
+    row-gap: 2.5rem;
+}
+
+@media only screen and (max-width: 1080px) {
+    :root {
+        --row-height: 5rem;
+    }
+
+    .font-size-extralarge {
+        font-size: 7.5rem;
+    }
+
+    .visual-background-grid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        width: calc(100% - 4rem);
+
+        .row-container {
+            width: calc(100% - 4rem);
+        }
+    }
+}
