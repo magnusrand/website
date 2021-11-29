@@ -121,70 +121,6 @@ a {
     grid-template-rows: repeat(6, var(--row-height));
     column-gap: 1.25rem;
     row-gap: 2.5rem;
-
-    .main-content {
-        grid-column-start: 1;
-        grid-column-end: 7;
-        grid-row-start: 2;
-        grid-row-end: -1;
-
-        overflow: hidden;
-        border: 1rem;
-    }
-
-    .horizontal-bar1 {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 3;
-        grid-row-end: 4;
-
-        background-color: var(--light-color-1);
-    }
-
-    .horizontal-bar2 {
-        grid-column-start: 2;
-        grid-column-end: 7;
-        grid-row-start: 4;
-        grid-row-end: 5;
-
-        background-color: var(--light-color-2);
-    }
-
-    .horizontal-bar3 {
-        grid-column-start: 3;
-        grid-column-end: 7;
-        grid-row-start: 5;
-        grid-row-end: 6;
-
-        background-color: var(--light-color-3);
-    }
-
-    .logo-horizontal {
-        grid-column-start: 5;
-        grid-column-end: 7;
-        grid-row-start: 4;
-        grid-row-end: 5;
-
-        margin-top: -3.6rem;
-        margin-left: -24.8rem;
-    }
-
-    .logo-vertical {
-        grid-column-start: 5;
-        grid-column-end: 6;
-        grid-row-start: 2;
-        grid-row-end: 6;
-
-        margin-top: -1.4rem;
-        letter-spacing: 17vw;
-        word-wrap: break-word;
-        line-height: 9.45rem;
-    }
-
-    .logo-overlapping-letter {
-        opacity: 0;
-        width: min-content;
-    }
 }
 
 @media only screen and (max-width: 1080px) {
@@ -192,37 +128,17 @@ a {
         --row-height: 5rem;
     }
 
-    body {
-        margin: 0 2rem 2rem 2rem;
-    }
-
     .font-size-extralarge {
         font-size: 7.5rem;
     }
 
-    .main-grid {
-        .logo-vertical {
-            margin-top: -1.4rem;
-            letter-spacing: 17vw;
-            word-wrap: break-word;
-            line-height: calc(var(--row-height) + 2.45rem);
+    .visual-background-grid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        width: calc(100% - 4rem);
+
+        .row-container {
+            width: calc(100% - 4rem);
         }
-
-        .logo-horizontal {
-            margin-top: -2.55rem;
-            margin-left: -17.6rem;
-        }
-    }
-
-    .horizontal-bar1 {
-        margin-left: -2rem;
-    }
-
-    .horizontal-bar2 {
-        margin-right: -2rem;
-    }
-
-    .horizontal-bar3 {
-        margin-right: -2rem;
     }
 }

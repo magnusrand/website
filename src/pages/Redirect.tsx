@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 interface Props {
     linkPath: string
@@ -7,7 +7,7 @@ interface Props {
 export const Redirect = ({ linkPath }: Props) => {
     useEffect(() => {
         window.location.replace(linkPath)
-    }, [])
+    }, [linkPath])
 
     return null
 }

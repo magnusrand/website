@@ -1,5 +1,5 @@
 import React from 'react'
-import VisualBackgroundGrid from '../components/BackgroundGrid'
+
 import {
     NavBar,
     NavItem,
@@ -8,14 +8,18 @@ import {
 } from '../components/NavBar/NavBar'
 import { Color } from '../types'
 
-export const LandingPage = () => {
-    return (
-        <>
+import '../main-styles.css'
+
+import '../components/NavBar/styles.css'
+
+export const LandingPage = () => (
+    <>
+        <div className="landing-page main-grid">
             <NavBar>
                 <NavItem title="Fotografi" color={Color.DARK1}>
                     <Dropdown>
-                        <DropdownItem title={'Utvalgte'} linkPath="dritt" />
-                        <DropdownItem title={'Alle bilder'} linkPath="" />
+                        <DropdownItem title="Utvalgte" linkPath="dritt" />
+                        <DropdownItem title="Alle bilder" linkPath="" />
                     </Dropdown>
                 </NavItem>
                 <NavItem
@@ -31,8 +35,8 @@ export const LandingPage = () => {
                     </Dropdown>
                 </NavItem>
             </NavBar>
-            <div className="main-content"></div>
 
+            <div className="background-letter type-garamond-regular">R</div>
             <div className="horizontal-bar1" />
             <div className="horizontal-bar2" />
             <div className="horizontal-bar3" />
@@ -42,6 +46,6 @@ export const LandingPage = () => {
             <div className="logo-vertical type-garamond-regular font-size-extralarge">
                 RA<span className="logo-overlapping-letter">N</span>D
             </div>
-        </>
-    )
-}
+        </div>
+    </>
+)

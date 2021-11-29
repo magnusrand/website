@@ -10,6 +10,9 @@
         "clean": "rm -rf dist/",
         "eslint": "eslint src --ext 'js,jsx,ts,tsx'",
         "stylelint": "stylelint \"src/**/*.css\"",
+        "format": "prettier . --write",
+        "format:check": "prettier . --check",
+        "lint": "npm run eslint && npm run stylelint && npm run format:check",
         "start": "webpack serve",
         "build-dev": "webpack --mode development",
         "build-prod": "npm run clean && webpack --mode production"

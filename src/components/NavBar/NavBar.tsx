@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
+
+import { Link } from 'react-router-dom'
+
 import debounce from 'lodash.debounce'
 import { IoTriangleSharp } from 'react-icons/io5'
 
-import { Color } from '../../types'
+import type { Color } from '../../types'
 
 import '../../main-styles.css'
+
 import './styles.css'
-import { Link } from 'react-router-dom'
 
 interface NavBarProps {
     children?: React.ReactNode
@@ -35,37 +38,27 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
 
     const debounceMouseLeave = debounce(() => setOpen(false), 300)
 
-    const LinkElement = props.linkPath ? (
-        <Link to={props.linkPath}>
-            {props.title}
-            {expandIcon && (
-                <IoTriangleSharp
-                    className={`expand-icon ${open ? 'open' : ''}`}
-                />
-            )}
-        </Link>
-    ) : (
-        <a href="#">
-            {props.title}
-            {expandIcon && (
-                <IoTriangleSharp
-                    className={`expand-icon ${open ? 'open' : ''}`}
-                />
-            )}
-        </a>
-    )
-
     return (
         <div
             className={`navitem ${open ? 'hover' : ''}`}
             style={{
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ['--nav-item-color' as any]: `var(${props.color})`,
             }}
             onMouseEnter={() => debounceMouseLeave.cancel()}
             onMouseLeave={debounceMouseLeave}
-            onClick={!props.linkPath ? onClick : () => {}}
+            onClick={() => {
+                if (!props.linkPath) onClick()
+            }}
         >
-            {LinkElement}
+            <Link to={props.linkPath ?? ''}>
+                {props.title}
+                {expandIcon && (
+                    <IoTriangleSharp
+                        className={`expand-icon ${open ? 'open' : ''}`}
+                    />
+                )}
+            </Link>
             {open && props.children}
         </div>
     )
@@ -75,22 +68,20 @@ interface DropdownProps {
     children?: React.ReactNode
 }
 
-export const Dropdown = (props: DropdownProps) => {
-    return <div className="dropdown font-size-small">{props.children}</div>
-}
+export const Dropdown = (props: DropdownProps) => (
+    <div className="dropdown font-size-small">{props.children}</div>
+)
 
 interface DropdownItemsProps {
     title: string
     linkPath: string
 }
 
-export const DropdownItem = (props: DropdownItemsProps) => {
-    return (
-        <Link
-            to={'/' + props.linkPath}
-            className="dropdown-item type-sourcesans-regular"
-        >
-            {props.title}
-        </Link>
-    )
-}
+export const DropdownItem = (props: DropdownItemsProps) => (
+    <Link
+        to={'/' + props.linkPath}
+        className="dropdown-item type-sourcesans-regular"
+    >
+        {props.title}
+    </Link>
+)
