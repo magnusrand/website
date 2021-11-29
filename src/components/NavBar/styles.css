@@ -24,6 +24,7 @@
         min-width: min-content;
 
         transition: all ease 0.5s;
+        cursor: pointer;
 
         &.hover,
         &:hover {

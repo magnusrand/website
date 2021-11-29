@@ -12,6 +12,22 @@
     --row-height: 7rem;
 }
 
+@font-face {
+    font-family: 'EB Garamond';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-regular.woff2');
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-regular.woff');
+}
+
+@font-face {
+    font-family: 'EB Garamond';
+    font-style: normal;
+    font-weight: 800;
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-800.woff2');
+    src: url('./assets/fonts/eb-garamond-v19-latin-ext_latin-800.woff');
+}
+
 body {
     margin: 0;
 }
@@ -34,6 +50,7 @@ a {
 .type-garamond-bold {
     font-family: 'EB Garamond', serif;
     font-weight: 800;
+    font-style: normal;
 }
 
 .type-sourcesans-regular {
@@ -159,15 +176,42 @@ a {
         grid-row-end: 6;
 
         margin-top: -1.4rem;
-        letter-spacing: 100%/6;
+        letter-spacing: 17vw;
         word-wrap: break-word;
         line-height: 9.45rem;
     }
+
+    .logo-overlapping-letter {
+        opacity: 0;
+        width: min-content;
+    }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1080px) {
+    :root {
+        --row-height: 5rem;
+    }
+
     body {
         margin: 0 2rem 2rem 2rem;
+    }
+
+    .font-size-extralarge {
+        font-size: 7.5rem;
+    }
+
+    .main-grid {
+        .logo-vertical {
+            margin-top: -1.4rem;
+            letter-spacing: 17vw;
+            word-wrap: break-word;
+            line-height: calc(var(--row-height) + 2.45rem);
+        }
+
+        .logo-horizontal {
+            margin-top: -2.55rem;
+            margin-left: -17.6rem;
+        }
     }
 
     .horizontal-bar1 {

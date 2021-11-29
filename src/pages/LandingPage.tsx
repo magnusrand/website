@@ -40,7 +40,7 @@ export const LandingPage = () => {
                 MAGNUS
             </div>
             <div className="logo-vertical type-garamond-regular font-size-extralarge">
-                RA<span style={{ opacity: 0 }}>N</span>D
+                RA<span className="logo-overlapping-letter">N</span>D
             </div>
         </>
     )

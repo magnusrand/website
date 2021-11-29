@@ -45,7 +45,7 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
             )}
         </Link>
     ) : (
-        <a href="#" onClick={onClick}>
+        <a href="#">
             {props.title}
             {expandIcon && (
                 <IoTriangleSharp
@@ -63,6 +63,7 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
             }}
             onMouseEnter={() => debounceMouseLeave.cancel()}
             onMouseLeave={debounceMouseLeave}
+            onClick={!props.linkPath ? onClick : () => {}}
         >
             {LinkElement}
             {open && props.children}

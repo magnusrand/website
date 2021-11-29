@@ -1,4 +1,3 @@
-// const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -30,6 +29,12 @@ const config = (env, args) => ({
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
+            },
+            {
+                test: /\.(woff|woff2)$/,
+                use: {
+                    loader: 'url-loader',
+                },
             },
         ],
     },
