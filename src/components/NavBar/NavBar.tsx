@@ -9,16 +9,18 @@ import type { Color } from '../../types'
 
 import '../../main-styles.css'
 
-import './styles.css'
+import './navbar-styles.css'
 
 interface NavBarProps {
     children?: React.ReactNode
 }
 
 export const NavBar = (props: NavBarProps) => (
-    <nav className="header type-garamond-regular font-size-medium">
-        {props.children}
-    </nav>
+    <div className="header">
+        <nav className="navbar type-garamond-regular font-size-medium">
+            {props.children}
+        </nav>
+    </div>
 )
 
 interface NavItemProps {

@@ -1,0 +1,209 @@
+@import '../../main-styles.css';
+
+.landing-page.main-grid {
+    height: calc(var(--row-height) * 8);
+    overflow: hidden;
+
+    .horizontal-bar1 {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 3;
+        grid-row-end: 4;
+
+        background-color: var(--light-color-1);
+
+        animation: right-left 10s ease-in-out infinite;
+    }
+
+    .horizontal-bar2 {
+        grid-column-start: 2;
+        grid-column-end: 7;
+        grid-row-start: 4;
+        grid-row-end: 5;
+
+        background-color: var(--light-color-2);
+    }
+
+    .horizontal-bar3 {
+        grid-column-start: 3;
+        grid-column-end: 7;
+        grid-row-start: 5;
+        grid-row-end: 6;
+
+        background-color: var(--light-color-3);
+
+        animation: left-right 5s ease-in-out infinite;
+    }
+
+    .logo-horizontal {
+        transition: font-size ease 0.5s;
+        width: 31.25rem;
+
+        &.position-primary {
+            grid-column-start: 5;
+            grid-column-end: 6;
+            grid-row-start: 4;
+            grid-row-end: 5;
+            z-index: 3;
+        }
+        &.position-secondary {
+            grid-column-start: 3;
+            grid-column-end: 5;
+            grid-row-start: 4;
+            grid-row-end: 5;
+            z-index: 3;
+
+            margin-left: -9.5rem;
+        }
+
+        margin-top: -3.6rem;
+        margin-left: -24.8rem;
+    }
+
+    .logo-vertical {
+        transition: font-size ease 0.5s;
+        &.position-primary {
+            grid-column-start: 5;
+            grid-column-end: 6;
+            grid-row-start: 2;
+            grid-row-end: 6;
+            z-index: 3;
+
+            .logo-overlapping-letter-A {
+                opacity: 1;
+            }
+
+            .logo-overlapping-letter-N {
+                opacity: 0;
+            }
+        }
+
+        &.position-secondary {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 3;
+            grid-row-end: 7;
+            z-index: 3;
+
+            .logo-overlapping-letter-A {
+                opacity: 0;
+            }
+
+            .logo-overlapping-letter-N {
+                opacity: 1;
+            }
+        }
+
+        [class^='logo-overlapping-letter-'] {
+            transition: all ease-out 0.5s;
+        }
+
+        margin-top: -1.4rem;
+        letter-spacing: 17vw;
+        word-wrap: break-word;
+        line-height: 9.45rem;
+    }
+
+    .background-letter {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        z-index: -1;
+
+        font-size: 150rem;
+        margin-top: -72rem;
+        margin-left: -20.5rem;
+        color: var(--light-color-1);
+        opacity: 0.4125;
+
+        animation: color-cycle 20s linear infinite;
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .landing-page.main-grid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        height: calc(100vh - 2rem);
+        min-height: calc(var(--row-height) * 8);
+
+        .logo-vertical {
+            margin-top: -1.4rem;
+            letter-spacing: 17vw;
+            word-wrap: break-word;
+            line-height: calc(var(--row-height) + 2.45rem);
+        }
+
+        .logo-horizontal {
+            &.position-secondary {
+                margin-left: -6.7rem;
+            }
+            margin-top: -2.55rem;
+            margin-left: -17.6rem;
+        }
+
+        .background-letter {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 2;
+
+            margin-top: -72rem;
+            margin-left: -21.5rem;
+        }
+
+        .horizontal-bar1 {
+            margin-left: -2rem;
+        }
+
+        .horizontal-bar2 {
+            margin-right: -2rem;
+        }
+
+        .horizontal-bar3 {
+            margin-right: -2rem;
+        }
+    }
+}
+
+@keyframes left-right {
+    from {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(5%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes right-left {
+    from {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(-5%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes color-cycle {
+    from {
+        color: var(--light-color-1);
+    }
+    33% {
+        color: var(--dark-color-1);
+    }
+    66% {
+        color: var(--light-color-2);
+    }
+    to {
+        color: var(--light-color-1);
+    }
+}

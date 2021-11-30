@@ -3,7 +3,7 @@ import { Route, BrowserRouter, Routes } from 'react-router-dom'
 
 import VisualBackgroundGrid from './components/BackgroundGrid'
 
-import { LandingPage } from './pages/LandingPage'
+import { LandingPage } from './pages/LandingPage/LandingPage'
 import Redirect from './pages/Redirect'
 
 import './main-styles.css'
