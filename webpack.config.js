@@ -31,9 +31,10 @@ const config = (env, args) => ({
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
-                test: /\.(woff|woff2)$/,
-                use: {
-                    loader: 'url-loader',
+                test: /\.(woff2?)$/,
+                type: 'asset',
+                generator: {
+                    filename: 'assets/fonts/[hash][ext][query]',
                 },
             },
         ],
@@ -43,10 +44,7 @@ const config = (env, args) => ({
     },
     plugins: [
         new HtmlWebpackPlugin({
-            templateContent: ({ htmlWebpackPlugin }) =>
-                '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' +
-                htmlWebpackPlugin.options.title +
-                '</title></head><body><div id="app"></div></body></html>',
+            template: 'src/index.html',
             filename: 'index.html',
         }),
     ],
