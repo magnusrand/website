@@ -153,6 +153,8 @@
         margin-left: -20.5rem;
         color: var(--light-color-1);
         opacity: 0.4125;
+
+        animation: color-cycle 20s linear infinite;
     }
 }
 
@@ -231,5 +233,20 @@
 
     to {
         transform: translateX(0%);
+    }
+}
+
+@keyframes color-cycle {
+    from {
+        color: var(--light-color-1);
+    }
+    33% {
+        color: var(--dark-color-1);
+    }
+    66% {
+        color: var(--light-color-2);
+    }
+    to {
+        color: var(--light-color-1);
     }
 }
