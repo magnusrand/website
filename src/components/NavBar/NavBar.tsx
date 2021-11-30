@@ -9,7 +9,7 @@ import type { Color } from '../../types'
 
 import '../../main-styles.css'
 
-import './styles.css'
+import './navbar-styles.css'
 
 interface NavBarProps {
     children?: React.ReactNode

@@ -7,12 +7,10 @@ import {
     NavItem,
     Dropdown,
     DropdownItem,
-} from '../components/NavBar/NavBar'
-import { Color } from '../types'
+} from '../../components/NavBar/NavBar'
+import { Color } from '../../types'
 
-import '../main-styles.css'
-
-import '../components/NavBar/styles.css'
+import './landingpage-styles.css'
 
 export const LandingPage = () => {
     const [logoPosition, setLogoPosition] = useState<string>('primary')
