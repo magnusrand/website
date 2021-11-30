@@ -16,9 +16,11 @@ interface NavBarProps {
 }
 
 export const NavBar = (props: NavBarProps) => (
-    <nav className="header type-garamond-regular font-size-medium">
-        {props.children}
-    </nav>
+    <div className="header">
+        <nav className="navbar type-garamond-regular font-size-medium">
+            {props.children}
+        </nav>
+    </div>
 )
 
 interface NavItemProps {

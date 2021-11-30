@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
+
+import { wrapGrid } from 'animate-css-grid'
 
 import {
     NavBar,
@@ -12,9 +14,24 @@ import '../main-styles.css'
 
 import '../components/NavBar/styles.css'
 
-export const LandingPage = () => (
-    <>
-        <div className="landing-page main-grid">
+export const LandingPage = () => {
+    const [logoPosition, setLogoPosition] = useState<string>('primary')
+    const gridRef = useRef<HTMLDivElement>(null)
+
+    useLayoutEffect(() => {
+        if (gridRef.current)
+            wrapGrid(gridRef.current, {
+                easing: 'backInOut',
+                stagger: 10,
+                duration: 400,
+            })
+    }, [gridRef])
+
+    const onClickLogo = () =>
+        setLogoPosition(logoPosition === 'primary' ? 'secondary' : 'primary')
+
+    return (
+        <div ref={gridRef} className="landing-page main-grid">
             <NavBar>
                 <NavItem title="Fotografi" color={Color.DARK1}>
                     <Dropdown>
@@ -40,12 +57,21 @@ export const LandingPage = () => (
             <div className="horizontal-bar1" />
             <div className="horizontal-bar2" />
             <div className="horizontal-bar3" />
-            <div className="logo-horizontal type-garamond-bold font-size-extralarge">
+            <div
+                className={`logo-horizontal position-${logoPosition} type-garamond-bold font-size-extralarge`}
+                onClick={onClickLogo}
+            >
                 MAGNUS
             </div>
-            <div className="logo-vertical type-garamond-regular font-size-extralarge">
-                RA<span className="logo-overlapping-letter">N</span>D
+            <div
+                className={`logo-vertical position-${logoPosition} type-garamond-regular font-size-extralarge`}
+                onClick={onClickLogo}
+            >
+                <div>
+                    R<span className="logo-overlapping-letter-A">A</span>
+                    <span className="logo-overlapping-letter-N">N</span>D
+                </div>
             </div>
         </div>
-    </>
-)
+    )
+}
