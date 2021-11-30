@@ -69,7 +69,9 @@ interface DropdownProps {
 }
 
 export const Dropdown = (props: DropdownProps) => (
-    <div className="dropdown font-size-small">{props.children}</div>
+    <div className="dropdown type-sourcesans-regular font-size-small">
+        {props.children}
+    </div>
 )
 
 interface DropdownItemsProps {
@@ -78,10 +80,7 @@ interface DropdownItemsProps {
 }
 
 export const DropdownItem = (props: DropdownItemsProps) => (
-    <Link
-        to={'/' + props.linkPath}
-        className="dropdown-item type-sourcesans-regular"
-    >
+    <Link to={'/' + props.linkPath} className="dropdown-item">
         {props.title}
     </Link>
 )
