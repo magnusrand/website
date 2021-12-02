@@ -26,6 +26,8 @@
 
     --margin-top-main: 2rem;
     --row-height: 7rem;
+    --row-gap: 2.5rem;
+    --column-gap: 1.25rem;
 }
 
 body {
@@ -85,7 +87,7 @@ a {
         flex-direction: row;
         justify-content: space-evenly;
         align-items: stretch;
-        gap: 1.25rem;
+        gap: var(--column-gap);
 
         .column {
             background-color: rgba(255, 0, 0, 0.05);
@@ -103,7 +105,7 @@ a {
         flex-direction: column;
         justify-content: space-evenly;
         align-items: stretch;
-        gap: 2.5rem;
+        gap: var(--row-gap);
 
         .row {
             height: var(--row-height);
@@ -119,8 +121,8 @@ a {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     grid-template-rows: repeat(6, var(--row-height));
-    column-gap: 1.25rem;
-    row-gap: 2.5rem;
+    column-gap: var(--column-gap);
+    row-gap: var(--row-gap);
 }
 
 @media only screen and (max-width: 1080px) {
@@ -130,6 +132,32 @@ a {
 
     .font-size-extralarge {
         font-size: 7.5rem;
+    }
+
+    .visual-background-grid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        width: calc(100% - 4rem);
+
+        .row-container {
+            width: calc(100% - 4rem);
+        }
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    :root {
+        --row-height: calc((100vw - 4rem) * 0.155);
+        --row-gap: 1.875rem;
+        --font-size-extralarge: calc(var(--row-height) * 1.49);
+    }
+
+    .font-size-medium {
+        font-size: 1.33rem;
+    }
+
+    .font-size-extralarge {
+        font-size: var(--font-size-extralarge);
     }
 
     .visual-background-grid {

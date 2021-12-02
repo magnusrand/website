@@ -30,8 +30,9 @@ const config = (env, args) => ({
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
+
             {
-                test: /\.(woff2?)$/,
+                test: /\.(png|svg|woff2?)$/,
                 type: 'asset',
                 generator: {
                     filename: 'assets/fonts/[hash][ext][query]',
@@ -46,6 +47,7 @@ const config = (env, args) => ({
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             filename: 'index.html',
+            favicon: 'src/assets/images/favicon.png',
         }),
     ],
     resolve: {

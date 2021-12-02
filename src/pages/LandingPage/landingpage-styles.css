@@ -5,10 +5,8 @@
     overflow: hidden;
 
     .horizontal-bar1 {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 3;
-        grid-row-end: 4;
+        grid-column: 1 / 4;
+        grid-row: 3 / 4;
 
         background-color: var(--light-color-1);
 
@@ -16,19 +14,15 @@
     }
 
     .horizontal-bar2 {
-        grid-column-start: 2;
-        grid-column-end: 7;
-        grid-row-start: 4;
-        grid-row-end: 5;
+        grid-column: 2 / 7;
+        grid-row: 4 / 5;
 
         background-color: var(--light-color-2);
     }
 
     .horizontal-bar3 {
-        grid-column-start: 3;
-        grid-column-end: 7;
-        grid-row-start: 5;
-        grid-row-end: 6;
+        grid-column: 3 / 7;
+        grid-row: 5 / 6;
 
         background-color: var(--light-color-3);
 
@@ -40,17 +34,13 @@
         width: 31.25rem;
 
         &.position-primary {
-            grid-column-start: 5;
-            grid-column-end: 6;
-            grid-row-start: 4;
-            grid-row-end: 5;
+            grid-column: 5 / 6;
+            grid-row: 4 / 5;
             z-index: 3;
         }
         &.position-secondary {
-            grid-column-start: 3;
-            grid-column-end: 5;
-            grid-row-start: 4;
-            grid-row-end: 5;
+            grid-column: 3 / 5;
+            grid-row: 4 / 5;
             z-index: 3;
 
             margin-left: -9.5rem;
@@ -63,10 +53,8 @@
     .logo-vertical {
         transition: font-size ease 0.5s;
         &.position-primary {
-            grid-column-start: 5;
-            grid-column-end: 6;
-            grid-row-start: 2;
-            grid-row-end: 6;
+            grid-column: 5 / 6;
+            grid-row: 2 / 6;
             z-index: 3;
 
             .logo-overlapping-letter-A {
@@ -79,10 +67,8 @@
         }
 
         &.position-secondary {
-            grid-column-start: 3;
-            grid-column-end: 4;
-            grid-row-start: 3;
-            grid-row-end: 7;
+            grid-column: 3 / 4;
+            grid-row: 3 / 7;
             z-index: 3;
 
             .logo-overlapping-letter-A {
@@ -105,10 +91,8 @@
     }
 
     .background-letter {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 1;
-        grid-row-end: 2;
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
         z-index: -1;
 
         font-size: 150rem;
@@ -163,6 +147,86 @@
 
         .horizontal-bar3 {
             margin-right: -2rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .landing-page.main-grid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        height: calc(100vh - 2rem);
+        min-height: calc(var(--row-height) * 8);
+
+        .logo-vertical {
+            margin-top: calc(0);
+            letter-spacing: 17vw;
+            word-wrap: break-word;
+
+            &.position-primary {
+                grid-column: 4 / 6;
+                grid-row: 3 / 7;
+
+                margin-left: calc(16.67vw * 0.15);
+            }
+
+            &.position-secondary {
+                grid-column: 2 / 4;
+                grid-row: 4 / 8;
+
+                margin-left: calc(16.67vw * 0.2);
+            }
+
+            .logo-vertical-type-container {
+                height: calc(var(--row-height) * 4 + var(--row-gap) * 3);
+
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: space-between;
+
+                div {
+                    max-height: var(--row-height);
+                    align-self: flex-start;
+                }
+            }
+        }
+
+        .logo-horizontal {
+            &.position-primary,
+            &.position-secondary {
+                grid-column: 1 / -1;
+                grid-row: 5 / 6;
+
+                margin-top: calc((100vw - 4rem) * -0.08);
+                margin-left: 0rem;
+            }
+        }
+
+        .background-letter {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+
+            margin-top: -72rem;
+            margin-left: -21.5rem;
+        }
+
+        .horizontal-bar1 {
+            margin-left: -2rem;
+            grid-column: 1 / 5;
+            grid-row: 4 / 5;
+        }
+
+        .horizontal-bar2 {
+            margin: 0 -2rem;
+            grid-column: 1 / -1;
+            grid-row: 5 / 6;
+        }
+
+        .horizontal-bar3 {
+            margin-right: -2rem;
+            grid-column: 3 / -1;
+            grid-row: 6 / 7;
         }
     }
 }

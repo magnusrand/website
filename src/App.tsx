@@ -13,7 +13,8 @@ const App = () => (
         <div className="app">
             <VisualBackgroundGrid
                 numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
-                visible={false}
+                numberOfColumns={3}
+                visible={true}
             />
 
             <Routes>

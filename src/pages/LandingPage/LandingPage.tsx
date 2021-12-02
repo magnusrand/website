@@ -65,9 +65,11 @@ export const LandingPage = () => {
                 className={`logo-vertical position-${logoPosition} type-garamond-regular font-size-extralarge`}
                 onClick={onClickLogo}
             >
-                <div>
-                    R<span className="logo-overlapping-letter-A">A</span>
-                    <span className="logo-overlapping-letter-N">N</span>D
+                <div className="logo-vertical-type-container">
+                    <div>R</div>
+                    <div className="logo-overlapping-letter-A">A</div>
+                    <div className="logo-overlapping-letter-N">N</div>
+                    <div>D</div>
                 </div>
             </div>
         </div>
