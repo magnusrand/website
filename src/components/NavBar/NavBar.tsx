@@ -7,8 +7,6 @@ import { IoTriangleSharp } from 'react-icons/io5'
 
 import type { Color } from '../../types'
 
-import '../../main-styles.css'
-
 import './navbar-styles.css'
 
 interface NavBarProps {
