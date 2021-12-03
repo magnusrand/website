@@ -14,7 +14,7 @@ const App = () => (
             <VisualBackgroundGrid
                 numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
                 numberOfColumns={3}
-                visible={true}
+                visible={false}
             />
 
             <Routes>

@@ -22,6 +22,10 @@
     --dark-color-2: #116783;
     --dark-color-3: #003049;
 
+    --font-size-small: 1.33rem;
+    --font-size-medium: 2rem;
+    --font-size-extralarge: 10.5rem;
+
     --nav-item-color: var(--dark-color-1);
 
     --margin-top-main: 2rem;
@@ -61,15 +65,15 @@ a {
 }
 
 .font-size-small {
-    font-size: 1.33rem;
+    font-size: var(--font-size-small);
 }
 
 .font-size-medium {
-    font-size: 2rem;
+    font-size: var(--font-size-medium);
 }
 
 .font-size-extralarge {
-    font-size: 10.5rem;
+    font-size: var(--font-size-extralarge);
 }
 
 .visual-background-grid {
@@ -128,10 +132,7 @@ a {
 @media only screen and (max-width: 1080px) {
     :root {
         --row-height: 5rem;
-    }
-
-    .font-size-extralarge {
-        font-size: 7.5rem;
+        --font-size-extralarge: 7.5rem;
     }
 
     .visual-background-grid {
@@ -149,15 +150,9 @@ a {
     :root {
         --row-height: calc((100vw - 4rem) * 0.155);
         --row-gap: 1.875rem;
+        --font-size-medium: calc(var(--row-height) * 0.4);
         --font-size-extralarge: calc(var(--row-height) * 1.49);
-    }
-
-    .font-size-medium {
-        font-size: 1.33rem;
-    }
-
-    .font-size-extralarge {
-        font-size: var(--font-size-extralarge);
+        --font-size-small: calc(var(--font-size-medium) * 0.665);
     }
 
     .visual-background-grid {
