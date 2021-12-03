@@ -7,6 +7,7 @@ import { LandingPage } from './pages/LandingPage/LandingPage'
 import Redirect from './pages/Redirect'
 
 import './main-styles.css'
+import SelectedPhotosPage from './pages/Photography/SelectedPhotosPage'
 
 const App = () => (
     <BrowserRouter>
@@ -14,12 +15,12 @@ const App = () => (
             <VisualBackgroundGrid
                 numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
                 numberOfColumns={3}
-                visible={false}
+                visible={true}
             />
 
             <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/dritt" element={<h1>hahahahaha</h1>} />
+                <Route path="/dritt" element={<SelectedPhotosPage />} />
                 <Route
                     path="/github"
                     element={

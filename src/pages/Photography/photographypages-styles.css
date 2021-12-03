@@ -1,0 +1,5 @@
+.main-grid {
+    &.selected-photos-page {
+        height: 100vh;
+    }
+}

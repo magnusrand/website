@@ -29,6 +29,8 @@
     --nav-item-color: var(--dark-color-1);
 
     --margin-top-main: 2rem;
+    --padding-sides-small-screen: 2rem;
+
     --row-height: 7rem;
     --row-gap: 2.5rem;
     --column-gap: 1.25rem;
@@ -121,6 +123,8 @@ a {
 .main-grid {
     position: relative;
     padding-top: var(--margin-top-main);
+    padding-left: var(--padding-sides-small-screen);
+    padding-right: var(--padding-sides-small-screen);
 
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
