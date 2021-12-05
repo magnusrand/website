@@ -8,6 +8,7 @@ import Redirect from './pages/Redirect'
 
 import './main-styles.css'
 import SelectedPhotosPage from './pages/Photography/SelectedPhotosPage'
+import AddPhotos from './pages/Photography/AddPhotos'
 
 const App = () => (
     <BrowserRouter>
@@ -15,7 +16,7 @@ const App = () => (
             <VisualBackgroundGrid
                 numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
                 numberOfColumns={3}
-                visible={false}
+                visible={true}
             />
 
             <Routes>
@@ -27,6 +28,7 @@ const App = () => (
                         <Redirect linkPath="https://github.com/magnusrand" />
                     }
                 />
+                <Route path="/add-photos" element={<AddPhotos />} />
                 <Route path="*" element={<h1>404 – Not found </h1>} />
             </Routes>
         </div>

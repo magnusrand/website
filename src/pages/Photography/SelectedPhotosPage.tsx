@@ -41,8 +41,14 @@ export const SelectedPhotosPage = () => {
                     </Dropdown>
                 </NavItem>
             </NavBar>
-            <h1>{photoLink}</h1>
-            <img src={photoLink + '=w500'} />
+            {/* <h1>{photoLink}</h1> */}
+            <img src={photoLink + '=w500'} width={'100%'} />
+            <img src={photoLink + '=w500'} width={'100%'} />
+            <img src={photoLink + '=w500'} width={'100%'} />
+            <img src={photoLink + '=w500'} width={'100%'} />
+            <img src={photoLink + '=w500'} width={'100%'} />
+            <img src={photoLink + '=w500'} width={'100%'} />
+            <img src={photoLink + '=w500'} width={'100%'} />
         </div>
     )
 }
