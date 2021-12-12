@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createPhotoInAlbum, getPhotosInAlbum } from '../../firebase/firebase'
+import { createPhotosInAlbum, getPhotosInAlbum } from '../../firebase/firebase'
 import { PhotoData } from '../../types'
 
 import './photographypages-styles.css'

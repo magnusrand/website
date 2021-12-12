@@ -49,7 +49,7 @@ export const getPhotosInAlbum = async (album: string) => {
 
 const photoLinkRegex = /gl\/(.*)/
 
-export const createPhotoInAlbum = async (
+export const createPhotosInAlbum = async (
     link: string,
     album: string,
     name: string,

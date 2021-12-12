@@ -6,17 +6,17 @@ import {
     Dropdown,
     DropdownItem,
 } from '../../components/NavBar/NavBar'
-import { getPhoto } from '../../firebase/firebase'
-import { Color } from '../../types'
+import { getPhoto, getPhotosInAlbum } from '../../firebase/firebase'
+import { Color, PhotoData } from '../../types'
 
 export const SelectedPhotosPage = () => {
-    const [photoLink, setPhotoLink] = useState<string>('')
+    const [photoLinks, setPhotoLinks] = useState<PhotoData[]>()
     useEffect(() => {
-        const getPhotoLink = async () => {
-            const photoLinkData = await getPhoto()
-            setPhotoLink(photoLinkData)
+        const getPhotosLink = async () => {
+            const photoLinkData = await getPhotosInAlbum('Utvalgte')
+            setPhotoLinks(photoLinkData ?? [])
         }
-        getPhotoLink()
+        getPhotosLink()
     }, [])
 
     return (
@@ -41,14 +41,9 @@ export const SelectedPhotosPage = () => {
                     </Dropdown>
                 </NavItem>
             </NavBar>
-            {/* <h1>{photoLink}</h1> */}
-            <img src={photoLink + '=w500'} width={'100%'} />
-            <img src={photoLink + '=w500'} width={'100%'} />
-            <img src={photoLink + '=w500'} width={'100%'} />
-            <img src={photoLink + '=w500'} width={'100%'} />
-            <img src={photoLink + '=w500'} width={'100%'} />
-            <img src={photoLink + '=w500'} width={'100%'} />
-            <img src={photoLink + '=w500'} width={'100%'} />
+            {photoLinks?.map((photo) => (
+                <img src={photo.link + '=w1000'} width={'100%'} />
+            ))}
         </div>
     )
 }

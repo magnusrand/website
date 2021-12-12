@@ -14,6 +14,7 @@
         "format:check": "prettier . --check",
         "lint": "npm run eslint && npm run stylelint && npm run format:check",
         "start": "webpack serve",
+        "local": "webpack serve --env development",
         "build-dev": "webpack --mode development",
         "build-prod": "npm run clean && webpack --mode production"
     },
