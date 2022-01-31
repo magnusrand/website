@@ -29,7 +29,7 @@
     --nav-item-color: var(--dark-color-1);
 
     --margin-top-main: 2rem;
-    --padding-sides-small-screen: 2rem;
+    --padding-sides: 0;
 
     --row-height: 7rem;
     --row-gap: 2.5rem;
@@ -123,8 +123,8 @@ a {
 .main-grid {
     position: relative;
     padding-top: var(--margin-top-main);
-    padding-left: var(--padding-sides-small-screen);
-    padding-right: var(--padding-sides-small-screen);
+    padding-left: var(--padding-sides);
+    padding-right: var(--padding-sides);
 
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -137,6 +137,7 @@ a {
     :root {
         --row-height: 5rem;
         --font-size-extralarge: 7.5rem;
+        --padding-sides: 2rem;
     }
 
     .visual-background-grid {
@@ -147,6 +148,11 @@ a {
         .row-container {
             width: calc(100% - 4rem);
         }
+    }
+
+    .main-grid {
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
 }
 

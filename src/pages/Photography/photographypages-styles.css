@@ -1,13 +1,151 @@
 .main-grid {
+    --row-gap: 1.25rem;
+
     &.selected-photos-page {
+        align-items: center;
+        grid-template-rows: auto;
         height: 100vh;
 
         img {
             width: 100px;
         }
+
+        .photo-element {
+            transition: all ease-out 0.1s;
+            &--1 {
+                grid-column-start: 2;
+                grid-column-end: 6;
+                &1 {
+                    grid-column-start: 3;
+                    grid-column-end: 5;
+                }
+            }
+            &--2 {
+                grid-column-start: 2;
+                grid-column-end: 4;
+            }
+            &--3 {
+                grid-column-start: 4;
+                grid-column-end: 6;
+            }
+
+            &__image {
+                width: 100%;
+            }
+        }
+
+        .text-divider-wrapper {
+            --divider-color: var(--light-color-2);
+            overflow-x: hidden;
+
+            position: relative;
+            grid-column: span 6;
+            margin: 4rem -2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .text-divider__background {
+                &--left {
+                    padding-left: 50vw;
+                    margin-right: 50vw;
+                    margin-top: calc(var(--row-height) / 8);
+                    margin-bottom: calc(var(--row-height) / 8);
+
+                    background-color: var(--divider-color);
+                }
+                &--right {
+                    padding-right: 50vw;
+                    margin-left: 50vw;
+                    margin-top: calc(var(--row-height) / 8);
+                    margin-bottom: calc(var(--row-height) / 8);
+
+                    background-color: var(--divider-color);
+                }
+            }
+
+            .text-divider__text {
+                margin: 0 1rem;
+                color: white;
+                margin-bottom: 0.5rem;
+                white-space: nowrap;
+                text-align: center;
+
+                &--left {
+                    &::before {
+                        background: white;
+                        left: -8rem;
+                    }
+                    &::after {
+                        background: var(--divider-color);
+                        left: 10rem;
+                    }
+                }
+
+                &--right {
+                    &::before {
+                        background: var(--divider-color);
+                        left: -10rem;
+                    }
+                    &::after {
+                        background: white;
+                        left: 8rem;
+                    }
+                }
+
+                &::before {
+                    content: '';
+                    display: block;
+                    width: 2rem;
+                    height: 2px;
+                    padding: 0 3rem;
+                    top: 1.1rem;
+                    position: relative;
+                }
+                &::after {
+                    content: '';
+                    display: block;
+                    width: 2rem;
+                    height: 2px;
+                    padding: 0 3rem;
+                    top: -0.7rem;
+                    position: relative;
+                }
+            }
+        }
     }
 
     &.add-photos {
         height: 100vh;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .main-grid {
+        &.selected-photos-page {
+            .photo-element {
+                transition: all ease-out 0.1s;
+                &--1 {
+                    grid-column-start: 1;
+                    grid-column-end: 7;
+                    &1 {
+                        grid-column-start: 2;
+                        grid-column-end: 6;
+                    }
+                }
+                &--2 {
+                    grid-column-start: 1;
+                    grid-column-end: 4;
+                }
+                &--3 {
+                    grid-column-start: 4;
+                    grid-column-end: 7;
+                }
+
+                &__image {
+                    width: 100%;
+                }
+            }
+        }
     }
 }

@@ -10,5 +10,11 @@ export enum Color {
 export interface PhotoData {
     link: string
     name: string
-    meta?: {}
+    meta?: metaData
+}
+
+interface metaData {
+    height: number
+    width: number
+    orientation: 'portrait' | 'landscape'
 }

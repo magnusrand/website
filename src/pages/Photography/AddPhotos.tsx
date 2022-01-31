@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { wrapGrid } from 'animate-css-grid'
 import { createPhotosInAlbum, getPhotosInAlbum } from '../../firebase/firebase'
 import { PhotoData } from '../../types'
 
@@ -10,10 +11,12 @@ export const AddPhotos = () => {
     const [nameValue, setNameValue] = useState('')
     const [photos, setPhotos] = useState<PhotoData[]>()
 
-    const handleClick = () => {
+    const handleClickAddPhotos = () => {
+        console.log('click')
+
         // alert(`The name you entered was: ${inputValue}`)
-        // createPhotoInAlbum(linkValue, albumValue, nameValue)
-        getPhotos()
+        createPhotosInAlbum(linkValue, albumValue, nameValue)
+        //getPhotos()
     }
 
     const getPhotos = async () => {
@@ -26,31 +29,37 @@ export const AddPhotos = () => {
         <div className="main-grid add-photos">
             <h1>{albumValue}</h1>
 
-            <label>
-                Navn på album: {albumValue}
-                <input
-                    type="text"
-                    value={albumValue}
-                    onChange={(e) => setAlbumValue(e.target.value)}
-                />
-            </label>
-            <label>
-                Link til bilde: {linkValue}
-                <input
-                    type="text"
-                    value={linkValue}
-                    onChange={(e) => setLinkValue(e.target.value)}
-                />
-            </label>
-            <label>
-                Navn på bilde: {nameValue}
-                <input
-                    type="text"
-                    value={nameValue}
-                    onChange={(e) => setNameValue(e.target.value)}
-                />
-            </label>
-            <button onClick={handleClick}>Tyrkk</button>
+            <div>
+                <label>
+                    Navn på album: {albumValue}
+                    <input
+                        type="text"
+                        value={albumValue}
+                        onChange={(e) => setAlbumValue(e.target.value)}
+                    />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Link til bilde: {linkValue}
+                    <input
+                        type="text"
+                        value={linkValue}
+                        onChange={(e) => setLinkValue(e.target.value)}
+                    />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Navn på bilde: {nameValue}
+                    <input
+                        type="text"
+                        value={nameValue}
+                        onChange={(e) => setNameValue(e.target.value)}
+                    />
+                </label>
+            </div>
+            <button onClick={handleClickAddPhotos}>Tyrkk</button>
 
             {photos?.map((photo) => (
                 <img src={photo.link} width={'100%'} />

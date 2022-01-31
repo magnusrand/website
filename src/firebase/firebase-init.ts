@@ -17,6 +17,6 @@ const emulatorConfig = {}
 export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const analytics = getAnalytics(app)
-if (process.env.args == 'development') {
-    connectFirestoreEmulator(db, 'localhost', 8080)
+if (location.hostname === 'localhost') {
+    connectFirestoreEmulator(db, 'localhost', 8081)
 }
