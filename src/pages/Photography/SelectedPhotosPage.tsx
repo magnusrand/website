@@ -1,5 +1,5 @@
-import { wrapGrid } from 'animate-css-grid'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+// import { wrapGrid } from 'animate-css-grid'
 import { TextDivider } from '../../components/TextDivider'
 import { getPhotosInAlbum } from '../../firebase/firebase'
 import { PhotoData } from '../../types'
@@ -81,18 +81,23 @@ export const SelectedPhotosPage = () => {
         return layoutArray
     }
 
-    const handleChangePhotoGrid = () => {
-        console.log('change photo grid')
-        setGridStyle((gridStyle % 2) + 1)
-    }
-
-    useEffect(() => {
-        console.log(gridStyle)
-    }, [gridStyle])
+    // const handleChangePhotoGrid = () => {
+    //     console.log('change photo grid')
+    //     setGridStyle((gridStyle % 2) + 1)
+    // }
 
     return (
         <div ref={gridRef} className="main-grid selected-photos-page">
             <MainNavBar />
+            <div className="horizontal-bar-top" />
+            <div className="horizontal-bar-top__text type-garamond-bold font-size-extralarge">
+                Fotografi
+            </div>
+            <div className="horizontal-bar-bottom" />
+            <div className="horizontal-bar-bottom__text type-garamond-regular font-size-extralarge">
+                – utvalgte
+            </div>
+            <div className="divider-box" />
             {/* <button
                 className="photo-element--1"
                 onClick={handleChangePhotoGrid}

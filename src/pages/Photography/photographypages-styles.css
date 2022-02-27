@@ -10,23 +10,72 @@
             width: 100px;
         }
 
+        .horizontal-bar {
+            &-top {
+                grid-column: 3 / 7;
+                grid-row: 2 / 3;
+
+                height: var(--row-height);
+
+                background-color: var(--light-color-1);
+
+                &__text {
+                    grid-column: 3 / 7;
+                    grid-row: 2 / 3;
+
+                    position: relative;
+                    bottom: calc(var(--row-height) / 1.95);
+                    height: var(--row-height);
+                }
+            }
+            &-bottom {
+                grid-column: 1 / 6;
+                grid-row: 3 / 4;
+
+                height: var(--row-height);
+
+                background-color: var(--light-color-2);
+
+                &__text {
+                    grid-column: 2 / 6;
+                    grid-row: 3 / 4;
+
+                    position: relative;
+                    bottom: calc(var(--row-height) / 1.95);
+                    height: var(--row-height);
+
+                    color: white;
+                }
+            }
+        }
+
+        .divider-box {
+            grid-column: 1 / 7;
+            grid-row: 4 / 5;
+            height: var(--row-height);
+        }
+
         .photo-element {
             transition: all ease-out 0.1s;
             &--1 {
                 grid-column-start: 2;
                 grid-column-end: 6;
+                margin: 0 -5rem;
                 &1 {
                     grid-column-start: 3;
                     grid-column-end: 5;
+                    margin: 0 -5rem;
                 }
             }
             &--2 {
                 grid-column-start: 2;
                 grid-column-end: 4;
+                margin-left: -5rem;
             }
             &--3 {
                 grid-column-start: 4;
                 grid-column-end: 6;
+                margin-right: -5rem;
             }
 
             &__image {
@@ -134,22 +183,41 @@
                 &--1 {
                     grid-column-start: 1;
                     grid-column-end: 7;
+                    margin: 0;
                     &1 {
-                        grid-column-start: 2;
-                        grid-column-end: 6;
+                        grid-column-start: 1;
+                        grid-column-end: 7;
+                        margin: 0;
                     }
                 }
                 &--2 {
                     grid-column-start: 1;
                     grid-column-end: 4;
+                    margin: 0;
                 }
                 &--3 {
                     grid-column-start: 4;
                     grid-column-end: 7;
+                    margin: 0;
                 }
 
                 &__image {
                     width: 100%;
+                }
+            }
+
+            .horizontal-bar {
+                &-top {
+                    grid-column: 1 / 7;
+                    &__text {
+                        grid-column: 1 / 7;
+                    }
+                }
+                &-bottom {
+                    grid-column: 1 / 7;
+                    &__text {
+                        grid-column: 1 / 7;
+                    }
                 }
             }
         }
