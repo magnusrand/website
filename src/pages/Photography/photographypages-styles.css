@@ -1,7 +1,7 @@
 .main-grid {
-    --row-gap: 1.25rem;
-
     &.selected-photos-page {
+        --row-gap: 1.25rem;
+
         align-items: center;
         grid-template-rows: auto;
         height: 100vh;
