@@ -32,13 +32,16 @@ const config = (env, args) => ({
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
-
             {
-                test: /\.(png|svg|woff2?)$/,
+                test: /\.(png|woff2?)$/,
                 type: 'asset',
                 generator: {
                     filename: 'assets/fonts/[hash][ext][query]',
                 },
+            },
+            {
+                test: /\.svg/,
+                use: ['@svgr/webpack'],
             },
         ],
     },

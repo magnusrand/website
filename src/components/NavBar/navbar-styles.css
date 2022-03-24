@@ -81,6 +81,15 @@
     }
 }
 
+.home-logo {
+    grid-column: -2 / -1;
+    grid-row: 1 / 2;
+    width: min(100%, 7rem);
+    justify-self: end;
+    align-self: flex-start;
+    margin-right: 2rem;
+}
+
 @media only screen and (max-width: 1080px) {
     .header {
         .navbar {

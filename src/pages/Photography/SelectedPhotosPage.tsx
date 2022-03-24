@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { HomeLogo } from '../../components/NavBar/HomeLogo'
 // import { wrapGrid } from 'animate-css-grid'
 import { TextDivider } from '../../components/TextDivider'
 import { getPhotosInAlbum } from '../../firebase/firebase'
@@ -89,6 +90,7 @@ export const SelectedPhotosPage = () => {
     return (
         <div ref={gridRef} className="main-grid selected-photos-page">
             <MainNavBar />
+            <HomeLogo />
             <div className="horizontal-bar-top" />
             <div className="horizontal-bar-top__text type-garamond-bold font-size-extralarge">
                 Fotografi
