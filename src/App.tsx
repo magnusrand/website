@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, BrowserRouter, Routes } from 'react-router-dom'
+import { Route, BrowserRouter, Routes, Link } from 'react-router-dom'
 
 import VisualBackgroundGrid from './components/BackgroundGrid'
 
@@ -8,6 +8,7 @@ import Redirect from './pages/Redirect'
 
 import './main-styles.css'
 import SelectedPhotosPage from './pages/Photography/SelectedPhotosPage'
+import AddPhotos from './pages/Photography/AddPhotos'
 
 const App = () => (
     <BrowserRouter>
@@ -20,14 +21,26 @@ const App = () => (
 
             <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/dritt" element={<SelectedPhotosPage />} />
+                <Route path="/foto/utvalgte" element={<SelectedPhotosPage />} />
                 <Route
                     path="/github"
                     element={
                         <Redirect linkPath="https://github.com/magnusrand" />
                     }
                 />
-                <Route path="*" element={<h1>404 – Not found </h1>} />
+                <Route path="/add-photos" element={<AddPhotos />} />
+                <Route
+                    path="*"
+                    element={
+                        <div>
+                            <h1>404 – Not found </h1>
+                            <img src="https://c.tenor.com/_BiwWBWhYucAAAAd/what-huh.gif" />
+                            <Link to="/">
+                                <a>Ta meg til startsiden</a>
+                            </Link>
+                        </div>
+                    }
+                />
             </Routes>
         </div>
     </BrowserRouter>

@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
@@ -6,6 +7,7 @@ const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 const config = (env, args) => ({
     mode: args.mode === 'production' ? 'production' : 'development',
     entry: './src/index.tsx',
+    devtool: args.mode === 'production' ? false : 'inline-source-map',
     output: {
         path: OUTPUT_PATH,
         filename: 'bundle.js',
@@ -30,18 +32,24 @@ const config = (env, args) => ({
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
-
             {
-                test: /\.(png|svg|woff2?)$/,
+                test: /\.(png|woff2?)$/,
                 type: 'asset',
                 generator: {
                     filename: 'assets/fonts/[hash][ext][query]',
                 },
             },
+            {
+                test: /\.svg/,
+                use: ['@svgr/webpack'],
+            },
         ],
     },
     devServer: {
         historyApiFallback: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
     },
     plugins: [
         new HtmlWebpackPlugin({

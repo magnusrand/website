@@ -14,11 +14,13 @@
         "format:check": "prettier . --check",
         "lint": "npm run eslint && npm run stylelint && npm run format:check",
         "start": "webpack serve",
+        "local": "webpack serve --env development",
         "build-dev": "webpack --mode development",
         "build-prod": "npm run clean && webpack --mode production"
     },
     "dependencies": {
         "animate-css-grid": "^1.4.3",
+        "axios": "^0.24.0",
         "firebase": "^9.9.4",
         "lodash.debounce": "^4.0.8",
         "react": "^17.0.2",
@@ -30,6 +32,7 @@
         "@babel/core": "^7.16.0",
         "@babel/preset-env": "^7.16.4",
         "@babel/preset-react": "^7.16.0",
+        "@svgr/webpack": "^6.2.1",
         "@types/lodash.debounce": "^4.0.6",
         "@types/react": "^17.0.36",
         "@types/react-dom": "^17.0.11",
