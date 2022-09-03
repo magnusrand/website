@@ -2,6 +2,7 @@
     &.selected-photos-page {
         --row-gap: 1.25rem;
 
+        position: relative;
         align-items: center;
         grid-template-rows: auto;
         height: 100vh;

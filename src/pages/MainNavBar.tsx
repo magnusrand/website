@@ -11,7 +11,7 @@ export const MainNavBar = (): JSX.Element => (
     <NavBar>
         <NavItem title="Fotografi" color={Color.DARK1}>
             <Dropdown>
-                <DropdownItem title="Utvalgte" linkPath="dritt" />
+                <DropdownItem title="Utvalgte" linkPath="foto/utvalgte" />
                 <DropdownItem title="Alle bilder" linkPath="" />
             </Dropdown>
         </NavItem>

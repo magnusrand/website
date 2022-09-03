@@ -4,10 +4,8 @@ import HomeLogoSvg from '../../assets/images/magnusrand.svg'
 
 import './navbar-styles.css'
 
-export const HomeLogo = () => {
-    return (
-        <Link to="/" className="home-logo">
-            <HomeLogoSvg />
-        </Link>
-    )
-}
+export const HomeLogo = () => (
+    <Link to="/" className="home-logo">
+        <HomeLogoSvg />
+    </Link>
+)

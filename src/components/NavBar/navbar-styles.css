@@ -88,6 +88,7 @@
     justify-self: end;
     align-self: flex-start;
     margin-right: 2rem;
+    z-index: 11;
 }
 
 @media only screen and (max-width: 1080px) {
@@ -123,5 +124,8 @@
                 }
             }
         }
+    }
+    .home-logo {
+        display: none;
     }
 }

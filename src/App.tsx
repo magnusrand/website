@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, BrowserRouter, Routes } from 'react-router-dom'
+import { Route, BrowserRouter, Routes, Link } from 'react-router-dom'
 
 import VisualBackgroundGrid from './components/BackgroundGrid'
 
@@ -16,7 +16,7 @@ const App = () => (
             <VisualBackgroundGrid
                 numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
                 numberOfColumns={3}
-                visible={true}
+                visible={false}
             />
 
             <Routes>
@@ -35,6 +35,9 @@ const App = () => (
                         <div>
                             <h1>404 – Not found </h1>
                             <img src="https://c.tenor.com/_BiwWBWhYucAAAAd/what-huh.gif" />
+                            <Link to="/">
+                                <a>Ta meg til startsiden</a>
+                            </Link>
                         </div>
                     }
                 />
