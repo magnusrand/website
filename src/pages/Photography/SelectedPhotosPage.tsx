@@ -22,7 +22,7 @@ export const SelectedPhotosPage = () => {
 
     useEffect(() => {
         const getPhotosLink = async () => {
-            const photoLinkData = await getPhotosInAlbum('pixel')
+            const photoLinkData = await getPhotosInAlbum('utvalgte')
             setPhotoLinks(photoLinkData ?? [])
         }
         getPhotosLink()
@@ -103,11 +103,17 @@ export const SelectedPhotosPage = () => {
                 <>
                     <div
                         key={index}
-                        className={`photo-element--${photoLayout[index]} test`}
+                        className={`photo-element photo-element--${photoLayout[index]} test`}
+                        style={{
+                            backgroundImage: `url(${photo.link + '=w1500'})`,
+                            backgroundSize: 'cover',
+                            backgroundRepeat: 'no-repeat',
+                        }}
                     >
                         <img
-                            className="photo-element photo-element__image"
+                            className="photo-element__image"
                             src={photo.link + '=w1500'}
+                            style={{ visibility: 'hidden' }}
                         />
                     </div>
                     {[1, 11, 3].includes(photoLayout[index]) &&

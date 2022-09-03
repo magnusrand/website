@@ -32,6 +32,12 @@
             &__image {
                 width: 100%;
             }
+
+            &:hover {
+                box-shadow: -8px -8px 24px 0 #fff,
+                    8px 8px 24px 0 rgb(174 174 192 / 70%);
+                scale: 1.01;
+            }
         }
 
         .text-divider-wrapper {

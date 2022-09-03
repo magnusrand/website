@@ -16,12 +16,12 @@ const App = () => (
             <VisualBackgroundGrid
                 numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
                 numberOfColumns={3}
-                visible={true}
+                visible={false}
             />
 
             <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/dritt" element={<SelectedPhotosPage />} />
+                <Route path="/foto/utvalgte" element={<SelectedPhotosPage />} />
                 <Route
                     path="/github"
                     element={
@@ -29,7 +29,15 @@ const App = () => (
                     }
                 />
                 <Route path="/add-photos" element={<AddPhotos />} />
-                <Route path="*" element={<h1>404 – Not found </h1>} />
+                <Route
+                    path="*"
+                    element={
+                        <div>
+                            <h1>404 – Not found </h1>
+                            <img src="https://c.tenor.com/_BiwWBWhYucAAAAd/what-huh.gif" />
+                        </div>
+                    }
+                />
             </Routes>
         </div>
     </BrowserRouter>
