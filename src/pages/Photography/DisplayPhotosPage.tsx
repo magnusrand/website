@@ -1,16 +1,21 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { HomeLogo } from '../../components/NavBar/HomeLogo'
 // import { wrapGrid } from 'animate-css-grid'
+import { useParams } from 'react-router-dom'
+
+import { HomeLogo } from '../../components/NavBar/HomeLogo'
 import { TextDivider } from '../../components/TextDivider'
 import { getPhotosInAlbum } from '../../firebase/firebase'
 import { PhotoData } from '../../types'
 import MainNavBar from '../MainNavBar'
 
-export const SelectedPhotosPage = () => {
+export const DisplayPhotosPage = () => {
     const [photoLinks, setPhotoLinks] = useState<PhotoData[]>([])
     const [gridStyle, setGridStyle] = useState<number>(1)
     const [photoLayout, setPhotoLayout] = useState<number[]>([])
     const gridRef = useRef<HTMLDivElement>(null)
+    const params = useParams()
+
+    const albumName = params.albumName?.toLowerCase()
 
     // useLayoutEffect(() => {
     //     if (gridRef.current)
@@ -21,13 +26,18 @@ export const SelectedPhotosPage = () => {
     //         })
     // }, [gridRef])
 
+    // const handleChangePhotoGrid = () => {
+    //     console.log('change photo grid')
+    //     setGridStyle((gridStyle % 2) + 1)
+    // }
+
     useEffect(() => {
         const getPhotosLink = async () => {
-            const photoLinkData = await getPhotosInAlbum('utvalgte')
+            const photoLinkData = await getPhotosInAlbum(albumName)
             setPhotoLinks(photoLinkData ?? [])
         }
         getPhotosLink()
-    }, [])
+    }, [albumName])
 
     useEffect(() => {
         switch (gridStyle) {
@@ -82,10 +92,14 @@ export const SelectedPhotosPage = () => {
         return layoutArray
     }
 
-    // const handleChangePhotoGrid = () => {
-    //     console.log('change photo grid')
-    //     setGridStyle((gridStyle % 2) + 1)
-    // }
+    const displayedAlbumName = () => {
+        if (!albumName) return 'feil  🥶'
+        const nameWithoutUnderscore = albumName.replace('_', ' ')
+        const newNameCapitalized =
+            nameWithoutUnderscore.charAt(0).toUpperCase() +
+            nameWithoutUnderscore.slice(1)
+        return newNameCapitalized
+    }
 
     return (
         <div ref={gridRef} className="main-grid selected-photos-page">
@@ -97,7 +111,7 @@ export const SelectedPhotosPage = () => {
             </div>
             <div className="horizontal-bar-bottom" />
             <div className="horizontal-bar-bottom__text type-garamond-regular font-size-extralarge">
-                – utvalgte
+                {`– ${displayedAlbumName()}`}
             </div>
             <div className="divider-box" />
             {/* <button
@@ -109,7 +123,7 @@ export const SelectedPhotosPage = () => {
             {photoLinks?.map((photo, index) => (
                 <>
                     <div
-                        key={index}
+                        key={photo.link + 'div'}
                         className={`photo-element photo-element--${photoLayout[index]} test`}
                         style={{
                             backgroundImage: `url(${photo.link + '=w1500'})`,
@@ -118,6 +132,7 @@ export const SelectedPhotosPage = () => {
                         }}
                     >
                         <img
+                            key={photo.link + 'img'}
                             className="photo-element__image"
                             src={photo.link + '=w1500'}
                             style={{ visibility: 'hidden' }}
@@ -125,7 +140,11 @@ export const SelectedPhotosPage = () => {
                     </div>
                     {[1, 11, 3].includes(photoLayout[index]) &&
                         Math.random() * 8 > 7 && (
-                            <TextDivider index={index} text="Utvalgte" />
+                            <TextDivider
+                                key={photo.link + 'textDivider'}
+                                index={index}
+                                text={displayedAlbumName()}
+                            />
                         )}
                 </>
             ))}
@@ -133,4 +152,4 @@ export const SelectedPhotosPage = () => {
     )
 }
 
-export default SelectedPhotosPage
+export default DisplayPhotosPage

@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
     NavBar,
     NavItem,
@@ -12,7 +13,7 @@ export const MainNavBar = (): JSX.Element => (
         <NavItem title="Fotografi" color={Color.DARK1}>
             <Dropdown>
                 <DropdownItem title="Utvalgte" linkPath="foto/utvalgte" />
-                <DropdownItem title="Alle bilder" linkPath="" />
+                <DropdownItem title="Alle album" linkPath="foto" />
             </Dropdown>
         </NavItem>
         <NavItem

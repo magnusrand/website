@@ -7,8 +7,8 @@ import { LandingPage } from './pages/LandingPage/LandingPage'
 import Redirect from './pages/Redirect'
 
 import './main-styles.css'
-import SelectedPhotosPage from './pages/Photography/SelectedPhotosPage'
 import AddPhotos from './pages/Photography/AddPhotos'
+import DisplayPhotosPage from './pages/Photography/DisplayPhotosPage'
 
 const App = () => (
     <BrowserRouter>
@@ -21,14 +21,15 @@ const App = () => (
 
             <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/foto/utvalgte" element={<SelectedPhotosPage />} />
+                <Route path="foto" element={<h1>Under construction</h1>} />
+                <Route path="foto/:albumName" element={<DisplayPhotosPage />} />
                 <Route
                     path="/github"
                     element={
                         <Redirect linkPath="https://github.com/magnusrand" />
                     }
                 />
-                <Route path="/add-photos" element={<AddPhotos />} />
+                <Route path="add-photos" element={<AddPhotos />} />
                 <Route
                     path="*"
                     element={

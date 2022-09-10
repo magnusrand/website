@@ -25,7 +25,7 @@ export const getPhoto = async (): Promise<string> => {
     return photoLink ?? ''
 }
 
-export const getPhotosInAlbum = async (album: string) => {
+export const getPhotosInAlbum = async (album: string | undefined) => {
     const albumQuery = query(
         collection(db, ALBUM_COLLECTION),
         where('name', '==', album),
@@ -43,7 +43,7 @@ export const getPhotosInAlbum = async (album: string) => {
         ) as PhotoData[]
         return photosData
     } catch (e) {
-        console.log(e)
+        return Promise.reject('Could not fetch photos')
     }
 }
 
