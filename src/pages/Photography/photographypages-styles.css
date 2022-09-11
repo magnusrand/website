@@ -1,5 +1,5 @@
 .main-grid {
-    &.selected-photos-page {
+    &.displayed-photos-page {
         --row-gap: 1.25rem;
 
         position: relative;
@@ -218,7 +218,7 @@
 
 @media only screen and (max-width: 800px) {
     .main-grid {
-        &.selected-photos-page {
+        &.displayed-photos-page {
             .photo-element {
                 transition: all ease-out 0.1s;
                 &--1 {
@@ -260,6 +260,11 @@
                         grid-column: 1 / 7;
                     }
                 }
+            }
+
+            .text-divider-wrapper {
+                margin-top: 2rem;
+                margin-bottom: 2rem;
             }
         }
     }

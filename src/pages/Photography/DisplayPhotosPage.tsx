@@ -60,7 +60,7 @@ export const DisplayPhotosPage = () => {
 
     const photoGrid1 = useMemo(() => {
         const layoutArray = []
-        let dividerArray = new Array(photoLinks.length)
+        const dividerArray = new Array(photoLinks.length)
             .fill(1)
             .map(() => (Math.random() >= 0.8 ? 1 : 0))
         let counter = 0
@@ -74,11 +74,8 @@ export const DisplayPhotosPage = () => {
             } else if (
                 photoLinks[counter + 1].meta?.orientation === 'portrait'
             ) {
-                if (dividerArray[counter] === 1) {
-                    dividerArray = dividerArray.map((value, index) =>
-                        index === counter ? 0 : value,
-                    )
-                }
+                if (dividerArray[counter] === 1)
+                    dividerArray.splice(counter, 1, 0)
                 layoutArray.push(2, 3)
                 counter += 2
             } else {
@@ -122,7 +119,7 @@ export const DisplayPhotosPage = () => {
     }
 
     return (
-        <div ref={gridRef} className="main-grid selected-photos-page">
+        <div ref={gridRef} className="main-grid displayed-photos-page">
             <MainNavBar />
             <HomeLogo />
             <div className="horizontal-bar-top" />
@@ -135,9 +132,8 @@ export const DisplayPhotosPage = () => {
             </div>
             <div className="divider-box" />
             {photoLinks?.map((photo, index) => (
-                <>
+                <React.Fragment key={photo.link}>
                     <div
-                        key={photo.link + 'div'}
                         className={`photo-element photo-element--${
                             photoLayout[index]
                         } test ${
@@ -152,7 +148,6 @@ export const DisplayPhotosPage = () => {
                         }}
                     >
                         <img
-                            key={photo.link + 'img'}
                             className="photo-element__image"
                             src={photo.link + '=w1500'}
                             tabIndex={currentFullscreen ? -1 : 0}
@@ -167,7 +162,6 @@ export const DisplayPhotosPage = () => {
                         onClick={() => handleClickImage('')}
                     >
                         <img
-                            key={photo.link + 'img'}
                             className="photo-element__image__fullscreen"
                             src={photo.link + '=w1500'}
                             tabIndex={currentFullscreen ? 0 : -1}
@@ -175,12 +169,11 @@ export const DisplayPhotosPage = () => {
                     </div>
                     {photoGrid1.dividerArray[index] === 1 && (
                         <TextDivider
-                            key={photo.link + 'textDivider'}
                             index={index}
                             text={displayedAlbumName()}
                         />
                     )}
-                </>
+                </React.Fragment>
             ))}
         </div>
     )
