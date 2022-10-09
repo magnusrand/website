@@ -1,27 +1,43 @@
 import React, { useState } from 'react'
+import { useAuth } from '../../firebase/firebase-auth'
 
-// import { wrapGrid } from 'animate-css-grid'
-import { createPhotosInAlbum, getPhotosInAlbum } from '../../firebase/firebase'
+import { createPhotosInAlbum } from '../../firebase/firebase-firestore'
 
-import './photographypages-styles.css'
+import './styles.css'
 
 export const AddPhotos = () => {
     const [albumValue, setAlbumValue] = useState('')
     const [linkValue, setLinkValue] = useState('')
     const [nameValue, setNameValue] = useState('')
+    const [loadingPhotos, setLoadingPhotos] = useState(false)
 
-    const handleClickAddPhotos = () => {
-        console.log('click')
+    const user = useAuth()
 
-        // alert(`The name you entered was: ${inputValue}`)
-        createPhotosInAlbum(linkValue, albumValue, nameValue)
-        //getPhotos()
+    const handleClickAddPhotos = async () => {
+        try {
+            setLoadingPhotos(true)
+            const numberOfPhotosAdded = await createPhotosInAlbum(
+                linkValue,
+                albumValue,
+                nameValue,
+            )
+            setLoadingPhotos(false)
+            alert(
+                `${
+                    numberOfPhotosAdded > 0 ? numberOfPhotosAdded : 'Ingen'
+                } bilder ble lagt til i albumet ${albumValue} i firestore!`,
+            )
+            setAlbumValue('')
+            setLinkValue('')
+            setNameValue('')
+        } catch {
+            alert(`Noe gikk galt, sjekk konsollen`)
+        }
     }
 
     return (
         <div className="main-grid add-photos">
-            <h1>{albumValue}</h1>
-
+            <p>Logged in as: {user ? user.email : 'Not logged in'}</p>
             <div>
                 <label>
                     Navn på album: {albumValue}
@@ -52,7 +68,9 @@ export const AddPhotos = () => {
                     />
                 </label>
             </div>
-            <button onClick={handleClickAddPhotos}>Tyrkk</button>
+            <button onClick={handleClickAddPhotos} disabled={loadingPhotos}>
+                {loadingPhotos ? 'Laster …' : 'Legg til'}
+            </button>
         </div>
     )
 }

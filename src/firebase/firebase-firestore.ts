@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import axios from 'axios'
 import {
     addDoc,
@@ -8,7 +10,8 @@ import {
     doc,
     where,
 } from 'firebase/firestore'
-import { PhotoData } from '../types'
+
+import type { PhotoData } from '../types'
 
 import { db } from './firebase-init'
 
@@ -53,12 +56,11 @@ export const createPhotosInAlbum = async (
     link: string,
     album: string,
     name: string,
-): Promise<void> => {
+): Promise<number> => {
     const photoLinkId = link.match(photoLinkRegex)
     if (!photoLinkId) {
-        console.log('Wrong link format')
-
-        return
+        console.error('Wrong link format')
+        return 0
     }
 
     const albumQuery = query(
@@ -66,7 +68,7 @@ export const createPhotosInAlbum = async (
         where('name', '==', album),
     )
 
-    console.log('here')
+    console.info('✓ Correct link format')
 
     try {
         const response = await axios.get(
@@ -74,7 +76,7 @@ export const createPhotosInAlbum = async (
         )
 
         const albumSnapshot = await getDocs(albumQuery)
-        console.log('here2')
+        console.info('✓ Data and firestore snapshot fetched')
 
         let docId = ''
 
@@ -88,7 +90,7 @@ export const createPhotosInAlbum = async (
         } else {
             docId = albumSnapshot.docs[0].id
         }
-        console.log('here3')
+        console.info('✓ New album created in firestore')
 
         response.data.forEach(async (photoLink: string): Promise<void> => {
             // const metadata = await urlMetadata(photoLink)
@@ -108,16 +110,18 @@ export const createPhotosInAlbum = async (
                 },
             })
         })
+        console.info('✓ Photo links added to firestore')
+        return response.data.length
     } catch (e) {
-        console.error('number two', e)
+        console.error('Something went wrong when fetching data', e)
+        return 0
     }
 }
 
-const getMeta = (url: string): Promise<any> => {
-    return new Promise((resolve, reject) => {
+const getMeta = (url: string): Promise<any> =>
+    new Promise((resolve, reject) => {
         let img = new Image()
         img.onload = () => resolve(img)
         img.onerror = () => reject()
         img.src = url
     })
-}

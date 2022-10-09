@@ -7,8 +7,9 @@ import { LandingPage } from './pages/LandingPage/LandingPage'
 import Redirect from './pages/Redirect'
 
 import './main-styles.css'
-import AddPhotos from './pages/Photography/AddPhotos'
+import AddPhotos from './pages/LoginAndAdmin/AddPhotos'
 import DisplayPhotosPage from './pages/Photography/DisplayPhotosPage'
+import { LogIn } from './pages/LoginAndAdmin/LogIn'
 
 const App = () => (
     <BrowserRouter>
@@ -30,6 +31,7 @@ const App = () => (
                     }
                 />
                 <Route path="add-photos" element={<AddPhotos />} />
+                <Route path="login" element={<LogIn />} />
                 <Route
                     path="*"
                     element={

@@ -1,0 +1,5 @@
+.main-grid {
+    &.add-photos {
+        height: 100vh;
+    }
+}
