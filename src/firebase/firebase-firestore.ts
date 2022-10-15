@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import axios from 'axios'
+import EXIF from 'exif-js'
 import {
     addDoc,
     collection,
@@ -9,6 +10,7 @@ import {
     query,
     doc,
     where,
+    orderBy,
 } from 'firebase/firestore'
 
 import type { PhotoData } from '../types'
@@ -38,6 +40,10 @@ export const getPhotosInAlbum = async (album: string | undefined) => {
         if (albumSnapshot.empty) return []
         const albumId = albumSnapshot.docs[0].id
 
+        // const docQuery = query(
+        //     collection(db, ALBUM_COLLECTION, albumId, 'photos'),
+        //     orderBy(),
+        // )
         const docSnap = await getDocs(
             collection(db, ALBUM_COLLECTION, albumId, 'photos'),
         )
@@ -95,6 +101,14 @@ export const createPhotosInAlbum = async (
         response.data.forEach(async (photoLink: string): Promise<void> => {
             // const metadata = await urlMetadata(photoLink)
             const img = await getMeta(photoLink)
+            console.log(
+                'image meta',
+                EXIF.getData(img, () => {
+                    console.log('model', EXIF.getTag(this, 'Model'))
+                    console.log('Everything', EXIF.getAllTags(this))
+                }),
+            )
+
             addDoc(collection(db, ALBUM_COLLECTION, docId, 'photos'), {
                 link: photoLink,
                 name: name ? name : 'not-named',

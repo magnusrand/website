@@ -1,7 +1,7 @@
 {
-    "name": "empty-project",
+    "name": "magnusrand-website",
     "version": "1.0.0",
-    "description": "",
+    "description": "The portefolio website for Magnus Rand",
     "main": "index.js",
     "keywords": [],
     "author": "",
@@ -22,6 +22,7 @@
         "animate-css-grid": "^1.4.3",
         "axios": "^0.24.0",
         "classnames": "^2.3.1",
+        "exif-js": "^2.3.0",
         "firebase": "^9.9.4",
         "lodash.debounce": "^4.0.8",
         "react": "^17.0.2",
