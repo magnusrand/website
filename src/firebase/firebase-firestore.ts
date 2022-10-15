@@ -78,7 +78,7 @@ export const createPhotosInAlbum = async (
 
     try {
         const response = await axios.get(
-            ` https://google-photos-album-demo2.glitch.me/${photoLinkId[1]}`,
+            `https://google-photos-album-demo2.glitch.me/${photoLinkId[1]}`,
         )
 
         const albumSnapshot = await getDocs(albumQuery)
@@ -101,13 +101,17 @@ export const createPhotosInAlbum = async (
         response.data.forEach(async (photoLink: string): Promise<void> => {
             // const metadata = await urlMetadata(photoLink)
             const img = await getMeta(photoLink)
-            console.log(
-                'image meta',
-                EXIF.getData(img, () => {
-                    console.log('model', EXIF.getTag(this, 'Model'))
-                    console.log('Everything', EXIF.getAllTags(this))
-                }),
-            )
+            fetch(`https://secure-thicket-78132.herokuapp.com/${photoLink}`)
+                .then((response1) => response1.text())
+                .then((data) => console.log('data', data))
+
+            // console.log(
+            //     'image meta',
+            //     EXIF.getData(img, () => {
+            //         console.log('model', EXIF.getTag(this, 'Model'))
+            //         console.log('Everything', EXIF.getAllTags(this))
+            //     }),
+            // )
 
             addDoc(collection(db, ALBUM_COLLECTION, docId, 'photos'), {
                 link: photoLink,
