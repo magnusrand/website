@@ -1,7 +1,7 @@
 @import '../../main-styles.css';
 
 .landing-page.main-grid {
-    height: calc(var(--row-height) * 8);
+    height: calc(100vh - 2rem);
     overflow: hidden;
 
     .horizontal-bar1 {
