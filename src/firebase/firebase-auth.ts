@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react'
 
 import {
     GoogleAuthProvider,
+    OAuthCredential,
     onAuthStateChanged,
     signInWithPopup,
     signOut,
 } from 'firebase/auth'
 
 import type { User } from 'firebase/auth'
+
+import { google } from 'googleapis'
 
 import { auth, provider } from './firebase-init'
 
@@ -48,3 +51,10 @@ export const useAuth = () => {
 
     return currentUser
 }
+
+
+// export const oauth2Client = new google.auth.OAuth2(
+//     OAuthCredential YOUR_CLIENT_ID,
+//     YOUR_CLIENT_SECRET,
+//     YOUR_REDIRECT_URL
+//   );
