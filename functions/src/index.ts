@@ -1,5 +1,6 @@
-import { https, logger } from 'firebase-functions'
+import { https, storage, logger } from 'firebase-functions'
 import { initializeApp } from 'firebase-admin/app'
+import { getStorage as getStorageAdmin } from 'firebase-admin/storage'
 // import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
 import * as cors from 'cors'
@@ -27,190 +28,37 @@ function extractPhotoLinksFromContent(content: string): string[] {
     return Array.from(links)
 }
 
-export const createPhotosInAlbum = https.onRequest(
-    // @ts-ignore
-    async (request, response) => {
-        cors({ origin: true })(request, response, async () => {
-            const parameters = request.query
-            const link = parameters.link as string
-            const collectionName = parameters.album as string | undefined
-            const name = parameters.name as string | undefined
+export const createAlbum = storage.object().onFinalize(async (object) => {
+    const filePath = object.name
+    const fileBucket = object.bucket
 
-            let rejectedPhotos = 0
+    const albumName = filePath?.includes('/')
+        ? filePath?.split('/')[0]
+        : 'unknown'
 
-            const photoLinkRegex = /gl\/(.*)/
+    console.log('filePath is', filePath)
 
-            const albumId = link?.match(photoLinkRegex)?.[1]
-            if (!albumId) {
-                logger.error('Wrong link format')
-            }
+    // Check if the uploaded file is an image
+    if (!filePath?.match(/\.(jpg|jpeg|png|gif)$/)) {
+        console.log('File is not an image')
+        return null
+    }
 
-            try {
-                const content = await axios.get<string>(
-                    // `https://photos.app.goo.gl/${albumId}`,
-                    link,
-                )
-                // const content = await fetchResponse.text()
-                const links = extractPhotoLinksFromContent(content.data)
-                logger.info('Following links found', links)
+    // Get the download URL for the uploaded file
+    const bucket = getStorageAdmin().bucket(fileBucket)
+    const file = bucket.file(filePath)
+    const url = await file.publicUrl()
 
-                const albumSnapshot = await getFirestore()
-                    .collection(ALBUM_COLLECTION)
-                    .where('name', '==', collectionName)
-                    .get()
+    // Create a new document in Firestore with the image URL
+    // TODO check if album with albumName exists
+    const albumRef = getFirestore().collection('albums').doc()
 
-                logger.info('✓ Data and firestore snapshot fetched')
+    const photoRef = albumRef.collection('photos').doc()
 
-                let docId = ''
+    await albumRef.set({ name: albumName })
+    await photoRef.set({ imageUrl: url })
 
-                if (albumSnapshot.empty) {
-                    const docRef = await getFirestore()
-                        .collection(ALBUM_COLLECTION)
-                        .add({
-                            name: collectionName,
-                            numberOfPhotos: 'unknown',
-                            coverPhoto: 'unknown',
-                        })
+    console.log('Album created with URL:', url)
 
-                    docId = docRef.id
-                } else {
-                    docId = albumSnapshot.docs[0].id
-                }
-
-                logger.info('✓ New album created in firestore')
-
-                links.forEach(async function (
-                    photoLink: string,
-                ): Promise<void> {
-                    const response = await axios.get(photoLink, {
-                        responseType: 'arraybuffer',
-                    })
-                    const buffer = Buffer.from(response.data, 'utf-8')
-
-                    new ExifImage({ image: buffer }, async function (
-                        error: any,
-                        exifData: any,
-                    ) {
-                        if (error) logger.info('Error: ' + error.message)
-                        else {
-                            const artist =
-                                (exifData.image.Artist as string) ?? 'unknown'
-                            if (artist !== 'Magnus Rand') {
-                                rejectedPhotos += 1
-                                logger.debug(
-                                    'photo was rejected, atrist was',
-                                    artist,
-                                )
-                                return
-                            }
-
-                            const imageWidth: number | 'unknown' =
-                                (exifData.exif.ExifImageWidth as number) ??
-                                'unknown'
-                            const imageHeight: number | 'unknown' =
-                                (exifData.exif.ExifImageHeight as number) ??
-                                'unknown'
-
-                            const imageOrientation:
-                                | 'unknown'
-                                | 'portrait'
-                                | 'landscape' =
-                                imageHeight >= imageWidth
-                                    ? 'portrait'
-                                    : 'landscape'
-                            const aspectRatio: number = imageWidth / imageHeight
-
-                            // logger.debug('exif', exifData) // Do something with your data!
-
-                            const photoFileNameRegex =
-                                /"(([a-åA-Å0-9\-_]*)\(([0-9]*)\))/
-
-                            const photoFileName = (
-                                response.headers[
-                                    'content-disposition'
-                                ] as string
-                            ).match(photoFileNameRegex)
-
-                            const photoName: string | undefined =
-                                photoFileName?.[2]
-                            const photoDate: number = parseInt(
-                                photoFileName?.[3] ?? '-1',
-                            )
-
-                            // const photWidth: number = response.headers;
-                            // @ts-ignore
-                            await getFirestore()
-                                .collection(
-                                    `${ALBUM_COLLECTION}/${docId}/photos`,
-                                )
-                                .add({
-                                    link: photoLink,
-                                    name: photoName ?? name ?? 'unknown',
-                                    photoDate: photoDate,
-                                    meta: {
-                                        aspectRatio: aspectRatio,
-                                        orientation: imageOrientation,
-                                    },
-                                })
-                        }
-                    })
-                })
-
-                logger.info('✓ Photo links added to firestore')
-                response
-                    .status(200)
-                    .send(
-                        `Success! ${
-                            links.length
-                        } photos added to album "${collectionName}". ${
-                            rejectedPhotos > 0
-                                ? rejectedPhotos + ' photos were rejected.'
-                                : ''
-                        }`,
-                    )
-            } catch (e) {
-                logger.error('FEIL!', e)
-                response
-                    .status(500)
-                    .send('An error occurred while adding the photos')
-            }
-        })
-    },
-)
-
-
-/* FRA CHATGPT3 MED GOOGLE API
-
-// Load the Google Photos API client library
-gapi.load('client:auth2', function() {
-  gapi.auth2.init({
-    // Initialize the Google Photos API with your API key and client ID
-    apiKey: 'YOUR_API_KEY',
-    clientId: 'YOUR_CLIENT_ID',
-    scope: 'https://www.googleapis.com/auth/photoslibrary.readonly'
-  }).then(function() {
-    // Authenticate the user and fetch the list of photos in the album
-    return gapi.auth2.getAuthInstance().signIn();
-  }).then(function() {
-    // Replace 'ABC1234567890' with the album ID
-    return gapi.client.photoslibrary.mediaItems.search({
-      albumId: 'ABC1234567890',
-      pageSize: 100
-    });
-  }).then(function(response) {
-    // Loop through each photo and fetch the photo URL and EXIF metadata
-    response.result.mediaItems.forEach(function(mediaItem) {
-      var photoUrl = mediaItem.baseUrl;
-      var photoMetadata = gapi.client.photoslibrary.mediaItems.get({
-        mediaItemId: mediaItem.id,
-        fields: 'id,mediaMetadata'
-      });
-      // Do something with the photo URL and metadata
-      console.log(photoUrl, photoMetadata);
-    });
-  });
-});
-
-
-
-*/
+    return null
+})
