@@ -1,64 +1,73 @@
-import { https, storage, logger } from 'firebase-functions'
+import { storage } from 'firebase-functions'
 import { initializeApp } from 'firebase-admin/app'
 import { getStorage as getStorageAdmin } from 'firebase-admin/storage'
-// import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
-import * as cors from 'cors'
-import axios from 'axios'
-
-const ExifImage = require('exif').ExifImage
-// import fetch from 'node-fetch'
-
-/* eslint-disable no-console */
 
 initializeApp()
 
-// const db = admin.getDatabase
+const ALBUM_COLLECTION = 'albums'
+const PHOTOS_COLLECTION = 'photos'
 
-const ALBUM_COLLECTION = 'album'
+export const createDocumentForUploadedPhotoInAlbum = storage
+    .object()
+    .onFinalize(;async (object) => {
+        const filePath = object.name
+        const fileBucket = object.bucket
 
-function extractPhotoLinksFromContent(content: string): string[] {
-    const regex =
-        /src="(https:\/\/lh3\.googleusercontent\.com\/pw\/[a-zA-Z0-9\-_]*)=[a-zA-Z0-9\-_]*"/g
-    const links = new Set<string>()
-    let match
-    while ((match = regex.exec(content))) {
-        links.add(match[1])
-    }
-    return Array.from(links)
-}
+        const albumName = filePath?.includes('/')
+            ? filePath?.split('/')[0]
+            : 'none'
 
-export const createAlbum = storage.object().onFinalize(async (object) => {
-    const filePath = object.name
-    const fileBucket = object.bucket
+        console.log('filePath is', filePath)
 
-    const albumName = filePath?.includes('/')
-        ? filePath?.split('/')[0]
-        : 'unknown'
+        // Check if the uploaded file is an image
+        if (!filePath?.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            console.log('File is not an image')
+            return null
+        }
 
-    console.log('filePath is', filePath)
+        // Get the download URL for the uploaded file
+        const bucket = getStorageAdmin().bucket(fileBucket)
+        const file = bucket.file(filePath)
+        const publicUrl = await file.publicUrl()
 
-    // Check if the uploaded file is an image
-    if (!filePath?.match(/\.(jpg|jpeg|png|gif)$/)) {
-        console.log('File is not an image')
+        const newPhotoData = {
+            imageUrl: publicUrl,
+            fileName: filePath?.includes('/')
+                ? filePath?.split('/')[1]
+                : filePath,
+        }
+
+        const albumQuery = getFirestore()
+            .collection(ALBUM_COLLECTION)
+            .where('name', '==', albumName)
+        const querySnapshot = await albumQuery.get()
+        const albumAlreadyExists = !querySnapshot.empty
+
+        if (albumAlreadyExists) {
+            // Update the existing album with the new image
+            const albumRef = querySnapshot.docs[0].ref
+            albumRef.collection(PHOTOS_COLLECTION).add(newPhotoData)
+
+            const numberOfPhotosInAlbum =
+                (await albumRef.collection(PHOTOS_COLLECTION).count().get()).data()
+                    .count + 1
+
+            await albumRef.update({
+                numberOfPhotos: numberOfPhotosInAlbum,
+            })
+
+            console.log('Album', albumName, 'updated with URL:', publicUrl)
+        } else {
+            // Create a new document with the image
+            const albumRef = getFirestore().collection(ALBUM_COLLECTION).doc()
+            await albumRef.set({ name: albumName, numberOfPhotos: 1 })
+
+            const photoRef = albumRef.collection(PHOTOS_COLLECTION).doc()
+            await photoRef.set(newPhotoData)
+
+            console.log('Album', albumName, 'created with URL:', publicUrl)
+        }
+
         return null
-    }
-
-    // Get the download URL for the uploaded file
-    const bucket = getStorageAdmin().bucket(fileBucket)
-    const file = bucket.file(filePath)
-    const url = await file.publicUrl()
-
-    // Create a new document in Firestore with the image URL
-    // TODO check if album with albumName exists
-    const albumRef = getFirestore().collection('albums').doc()
-
-    const photoRef = albumRef.collection('photos').doc()
-
-    await albumRef.set({ name: albumName })
-    await photoRef.set({ imageUrl: url })
-
-    console.log('Album created with URL:', url)
-
-    return null
-})
+    })
