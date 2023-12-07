@@ -14,7 +14,7 @@ const firebaseConfig = {
     measurementId: 'G-F342E12DWZ',
 }
 
-const emulatorConfig = {}
+// const emulatorConfig = {}
 
 export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
