@@ -2,8 +2,11 @@ import { storage } from 'firebase-functions'
 import { initializeApp } from 'firebase-admin/app'
 import { getStorage as getStorageAdmin } from 'firebase-admin/storage'
 import { getFirestore } from 'firebase-admin/firestore'
+import { log } from 'firebase-functions/logger'
 
 import * as exifr from 'exifr'
+
+import { META_DATA_FIELDS } from './utils'
 
 initializeApp()
 
@@ -23,11 +26,11 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             ? filePath?.split('/')[0]
             : 'none'
 
-        console.log('filePath is', filePath)
+        log('filePath is', filePath)
 
         // Check if the uploaded file is an image
         if (!filePath?.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/i)) {
-            console.log('File is not an image')
+            log('File is not an image')
             return null
         }
 
@@ -40,7 +43,7 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             .parse(_file, META_DATA_FIELDS)
             .then((output) => output)
             .catch((e) => {
-                console.log('Error parsing EXIF data:', e)
+                log('Error parsing EXIF data:', e)
                 return {}
             })
 
@@ -72,7 +75,7 @@ export const createDocumentForUploadedPhotoInAlbum = storage
                 numberOfPhotos: numberOfPhotosInAlbum,
             })
 
-            console.log('Album', albumName, 'updated with URL:', publicUrl)
+            log('Album', albumName, 'updated with URL:', publicUrl)
         } else {
             // Create a new document with the image
             const albumRef = getFirestore().collection(ALBUM_COLLECTION).doc()
@@ -81,53 +84,44 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             const photoRef = albumRef.collection(PHOTOS_COLLECTION).doc()
             await photoRef.set(newPhotoData)
 
-            console.log('Album', albumName, 'created with URL:', publicUrl)
+            log('Album', albumName, 'created with URL:', publicUrl)
         }
 
         return null
     })
 
-const META_DATA_FIELDS = [
-    'Make',
-    'Model',
-    'XResolution',
-    'YResolution',
-    'ResolutionUnit',
-    'Software',
-    'ModifyDate',
-    'Artist',
-    'ExposureTime',
-    'FNumber',
-    'ExposureProgram',
-    'ISO',
-    'SensitivityType',
-    'RecommendedExposureIndex',
-    'ExifVersion',
-    'DateTimeOriginal',
-    'CreateDate',
-    'OffsetTime',
-    'ShutterSpeedValue',
-    'ApertureValue',
-    'ExposureCompensation',
-    'MaxApertureValue',
-    'MeteringMode',
-    'Flash',
-    'FocalLength',
-    'SubSecTimeOriginal',
-    'SubSecTimeDigitized',
-    'ColorSpace',
-    'ExifImageWidth',
-    'ExifImageHeight',
-    'FocalPlaneXResolution',
-    'FocalPlaneYResolution',
-    'FocalPlaneResolutionUnit',
-    'CustomRendered',
-    'ExposureMode',
-    'WhiteBalance',
-    'SceneCaptureType',
-    'ImageUniqueID',
-    'SerialNumber',
-    'LensInfo',
-    'LensModel',
-    'LensSerialNumber',
-]
+export const removeDocumentsForDeletedPhoto = storage
+    .object()
+    .onDelete(async (object) => {
+        const filePath = object.name as string
+        const fileName = filePath?.includes('/')
+            ? filePath?.split('/')[1]
+            : filePath
+        const albumName = filePath?.includes('/')
+            ? filePath?.split('/')[0]
+            : 'none'
+
+        if (albumName === 'none') {
+            log('Photo not part of an album! Exiting delete process.')
+            return null
+        }
+
+        // get album-document with the name of the folder the photo was in
+        const albumWithPhotoSnapshot = await getFirestore()
+            .collection(ALBUM_COLLECTION)
+            .where('name', '==', albumName)
+            .get()
+
+        // find all documents within the album with the same fileName as the deleted photo
+        const photosWithFileNameSnapshot =
+            await albumWithPhotoSnapshot.docs[0].ref
+                .collection(PHOTOS_COLLECTION)
+                .where('fileName', '==', fileName)
+                .get()
+
+        photosWithFileNameSnapshot.forEach((doc) => {
+            doc.ref.delete()
+            log('Successfully deleted photo document:', doc.id)
+        })
+        return true
+    })
