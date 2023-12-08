@@ -85,6 +85,7 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             imageUrl: publicUrl,
             thumbnailUrl: _thumbnailPublicUrl,
             fileName: fileName,
+            priority: 1,
             metaData: meta,
         }
 
@@ -96,7 +97,7 @@ export const createDocumentForUploadedPhotoInAlbum = storage
 
         if (albumAlreadyExists) {
             // Update the existing album with the new image
-            const albumRef = querySnapshot.docs[0].ref
+            const albumRef = querySnapshot.docs?.[0]?.ref
             albumRef.collection(PHOTOS_COLLECTION).add(newPhotoData)
 
             const numberOfPhotosInAlbum =
@@ -116,10 +117,15 @@ export const createDocumentForUploadedPhotoInAlbum = storage
                 'and URL:',
                 publicUrl,
             )
+            log('Number of photos in album is now:', numberOfPhotosInAlbum)
         } else {
             // Create a new document with the image
             const albumRef = getFirestore().collection(ALBUM_COLLECTION).doc()
-            await albumRef.set({ name: albumName, numberOfPhotos: 1 })
+            await albumRef.set({
+                name: albumName,
+                numberOfPhotos: 1,
+                coverPhotoUrl: publicUrl,
+            })
 
             const photoRef = albumRef.collection(PHOTOS_COLLECTION).doc()
             await photoRef.set(newPhotoData)
@@ -166,14 +172,31 @@ export const removeDocumentsForDeletedPhoto = storage
 
         // find all documents within the album with the same fileName as the deleted photo
         const photosWithFileNameSnapshot =
-            await albumWithPhotoSnapshot.docs[0].ref
+            await albumWithPhotoSnapshot.docs?.[0]?.ref
                 .collection(PHOTOS_COLLECTION)
                 .where('fileName', '==', fileName)
                 .get()
 
-        photosWithFileNameSnapshot.forEach((doc) => {
-            doc.ref.delete()
+        photosWithFileNameSnapshot.forEach(async (doc) => {
+            doc?.ref?.delete()
             log('Successfully deleted photo document:', doc.id)
+
+            // update the album's numberOfPhotos
+            const updatedNumberOfPhotosInAlbum = (
+                await albumWithPhotoSnapshot.docs?.[0]?.ref
+                    .collection(PHOTOS_COLLECTION)
+                    .count()
+                    .get()
+            ).data().count
+            albumWithPhotoSnapshot.docs?.[0]?.ref.update({
+                numberOfPhotos: updatedNumberOfPhotosInAlbum,
+            })
+            log(
+                'Successfully updated number of photos in:',
+                albumName,
+                'to:',
+                updatedNumberOfPhotosInAlbum,
+            )
         })
 
         // delete the thumbnail
