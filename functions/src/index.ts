@@ -27,8 +27,6 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             : filePath
         const fileBucket = object.bucket
 
-        const albumName = filePath?.includes('/') ? splitFilePath[0] : 'none'
-
         log('filePath is', filePath)
 
         // Check if the uploaded file is an image
@@ -42,6 +40,13 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             log('File is a thumbnail. Gracefully exiting document createion.')
             return null
         }
+
+        if (splitFilePath[0] !== ALBUM_COLLECTION) {
+            log("Image not in 'albums'. Gracefully exiting document createion.")
+            return null
+        }
+
+        const albumName = splitFilePath[1]
 
         // Get the download URL for the uploaded file
         const bucket = getStorageAdmin().bucket(fileBucket)
@@ -65,7 +70,7 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             .toBuffer()
 
         const thumbnailFileName = `${THUMBNAIL_PREFIX}${fileName}`
-        const thumbnailFilePath = `${albumName}/${THUMBNAILS_FOLDER}/${thumbnailFileName}`
+        const thumbnailFilePath = `${ALBUM_COLLECTION}/${albumName}/${THUMBNAILS_FOLDER}/${thumbnailFileName}`
 
         await bucket.file(thumbnailFilePath).save(thumbnailBuffer)
         log('Thumbnail created and uploaded!')
@@ -136,15 +141,14 @@ export const removeDocumentsForDeletedPhoto = storage
     .object()
     .onDelete(async (object) => {
         const filePath = object.name as string
+        const splitFilePath = filePath?.split('/')
         const fileName = filePath?.includes('/')
-            ? filePath?.split('/')[1]
+            ? splitFilePath[splitFilePath.length - 1]
             : filePath
-        const albumName = filePath?.includes('/')
-            ? filePath?.split('/')[0]
-            : 'none'
+        const albumName = splitFilePath?.[1]
 
-        if (albumName === 'none') {
-            log('Photo not part of an album! Gracefull exiting delete process.')
+        if (splitFilePath?.[0] !== ALBUM_COLLECTION) {
+            log('Photo not part of albums! Gracefull exiting delete process.')
             return null
         }
 
@@ -171,5 +175,14 @@ export const removeDocumentsForDeletedPhoto = storage
             doc.ref.delete()
             log('Successfully deleted photo document:', doc.id)
         })
+
+        // delete the thumbnail
+        const thumbnailFileName = `${THUMBNAIL_PREFIX}${fileName}`
+        const thumbnailFilePath = `${ALBUM_COLLECTION}/${albumName}/${THUMBNAILS_FOLDER}/${thumbnailFileName}`
+        const thumbnailFile = getStorageAdmin()
+            .bucket(object.bucket)
+            .file(thumbnailFilePath)
+        thumbnailFile.delete()
+        log('Successfully deleted thumbnail:', thumbnailFileName)
         return true
     })
