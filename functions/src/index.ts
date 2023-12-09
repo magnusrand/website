@@ -86,7 +86,13 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             thumbnailUrl: _thumbnailPublicUrl,
             fileName: fileName,
             priority: 1,
-            metaData: meta,
+            metaData: {
+                ...meta,
+                orientation:
+                    meta.ExifImageHeight > meta.ExifImageWidth
+                        ? 'portrait'
+                        : 'landscape',
+            },
         }
 
         const albumQuery = getFirestore()

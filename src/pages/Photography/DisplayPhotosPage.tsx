@@ -15,7 +15,7 @@ import './photographypages-styles.css'
 export const DisplayPhotosPage = () => {
     const gridRef = useRef<HTMLDivElement>(null)
     const params = useParams()
-    const [photoLinks, setPhotoLinks] = useState<PhotoData[]>([])
+    const [photos, setPhotos] = useState<PhotoData[]>([])
     const [gridStyle] = useState<number>(1)
     const [photoLayout, setPhotoLayout] = useState<number[]>([])
     const [currentFullscreen, setCurrentFullscreen] = useState('')
@@ -53,28 +53,29 @@ export const DisplayPhotosPage = () => {
     }*/
 
     useEffect(() => {
-        const getPhotosLink = async () => {
-            const photoLinkData = await getPhotosInAlbum(albumName)
-            setPhotoLinks(photoLinkData ?? [])
+        const getPhotosForCurrentPage = async () => {
+            console.log('get photos for current page')
+            const photoData = await getPhotosInAlbum(albumName)
+            setPhotos(photoData ?? [])
         }
-        getPhotosLink()
+        getPhotosForCurrentPage()
     }, [albumName])
 
     const photoGrid1 = useMemo(() => {
         const layoutArray = []
-        const dividerArray = new Array(photoLinks.length)
+        const dividerArray = new Array(photos.length)
             .fill(1)
             .map(() => (Math.random() >= 0.8 ? 1 : 0))
         let counter = 0
-        while (counter < photoLinks?.length) {
-            if (counter + 1 === photoLinks?.length) {
+        while (counter < photos?.length) {
+            if (counter + 1 === photos?.length) {
                 layoutArray.push(1)
                 counter++
-            } else if (photoLinks[counter].meta?.orientation === 'landscape') {
+            } else if (photos[counter].metaData?.orientation === 'landscape') {
                 layoutArray.push(1)
                 counter++
             } else if (
-                photoLinks[counter + 1].meta?.orientation === 'portrait'
+                photos[counter + 1].metaData?.orientation === 'portrait'
             ) {
                 if (dividerArray[counter] === 1)
                     dividerArray.splice(counter, 1, 0)
@@ -86,7 +87,7 @@ export const DisplayPhotosPage = () => {
             }
         }
         return { layoutArray, dividerArray }
-    }, [photoLinks])
+    }, [photos])
 
     useEffect(() => {
         switch (gridStyle) {
@@ -99,7 +100,7 @@ export const DisplayPhotosPage = () => {
             default:
                 setPhotoLayout(photoGrid1.layoutArray)
         }
-    }, [photoLinks, gridStyle, photoGrid1])
+    }, [photos, gridStyle, photoGrid1])
 
     const handleClickImage = (imageId: string) => {
         if (imageId !== '') {
@@ -133,39 +134,39 @@ export const DisplayPhotosPage = () => {
                 {`– ${displayedAlbumName()}`}
             </div>
             <div className="divider-box" />
-            {photoLinks?.map((photo, index) => (
-                <React.Fragment key={photo.link}>
+            {photos?.map((photo, index) => (
+                <React.Fragment key={photo.imageUrl}>
                     <div
                         className={`photo-element photo-element--${
                             photoLayout[index]
                         } test ${
-                            currentFullscreen === photo.link
+                            currentFullscreen === photo.imageUrl
                                 ? 'photo-element--active'
                                 : ''
                         }`}
                         style={{
-                            backgroundImage: `url(${photo.link + '=w1500'})`,
+                            backgroundImage: `url('${photo.imageUrl}')`,
                             backgroundSize: 'cover',
                             backgroundRepeat: 'no-repeat',
                         }}
                     >
                         <img
                             className="photo-element__image"
-                            src={photo.link + '=w1500'}
+                            src={photo.imageUrl}
                             tabIndex={currentFullscreen ? -1 : 0}
-                            onClick={() => handleClickImage(photo.link)}
+                            onClick={() => handleClickImage(photo.imageUrl)}
                         />
                     </div>
                     <div
                         className={classNames('fullscreen__overlay', {
                             'fullscreen__overlay--active':
-                                currentFullscreen === photo.link,
+                                currentFullscreen === photo.imageUrl,
                         })}
                         onClick={() => handleClickImage('')}
                     >
                         <img
                             className="photo-element__image__fullscreen"
-                            src={photo.link + '=w1500'}
+                            src={photo.imageUrl}
                             tabIndex={currentFullscreen ? 0 : -1}
                         />
                     </div>
