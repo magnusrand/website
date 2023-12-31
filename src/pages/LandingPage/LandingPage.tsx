@@ -2,16 +2,9 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import { wrapGrid } from 'animate-css-grid'
 
-import {
-    NavBar,
-    NavItem,
-    Dropdown,
-    DropdownItem,
-} from '../../components/NavBar/NavBar'
-import { Color } from '../../types'
+import MainNavBar from '../MainNavBar'
 
 import './landingpage-styles.css'
-import MainNavBar from '../MainNavBar'
 
 export const LandingPage = () => {
     const [logoPosition, setLogoPosition] = useState<string>('primary')

@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getAnalytics } from 'firebase/analytics'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCNunJy-lSja8KBdfmHejyITir4e_qO7es',
@@ -13,12 +14,13 @@ const firebaseConfig = {
     measurementId: 'G-F342E12DWZ',
 }
 
-const emulatorConfig = {}
+// const emulatorConfig = {}
 
 export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const analytics = getAnalytics(app)
 export const auth = getAuth(app)
+export const storage = getStorage(app)
 auth.useDeviceLanguage()
 export const provider = new GoogleAuthProvider()
 if (location.hostname === 'localhost') {
