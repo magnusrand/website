@@ -12,6 +12,7 @@ export interface PhotoData {
     description?: string
     fileName: string
     imageUrl: string
+    downloadUrl: string
     priority: number
     thumbnailUrl: string
     metaData?: metaData

@@ -1,6 +1,9 @@
 import { storage } from 'firebase-functions'
 import { initializeApp } from 'firebase-admin/app'
-import { getStorage as getStorageAdmin } from 'firebase-admin/storage'
+import {
+    getStorage as getStorageAdmin,
+    getDownloadURL,
+} from 'firebase-admin/storage'
 import { getFirestore } from 'firebase-admin/firestore'
 import { log } from 'firebase-functions/logger'
 
@@ -13,6 +16,8 @@ initializeApp()
 
 const ALBUM_COLLECTION = 'albums'
 const PHOTOS_COLLECTION = 'photos'
+const DISPLAY_PREFIX = 'disp_'
+const DISPLAYS_FOLDER = 'displays'
 const THUMBNAILS_FOLDER = 'thumbnails'
 const THUMBNAIL_PREFIX = 'thumb_'
 const THUMBNAIL_HEIGHT = 100
@@ -35,9 +40,14 @@ export const createDocumentForUploadedPhotoInAlbum = storage
             return null
         }
 
-        // check if the uploaded file is a thumbnail
-        if (fileName?.startsWith(THUMBNAIL_PREFIX)) {
-            log('File is a thumbnail. Gracefully exiting document createion.')
+        // check if the uploaded file is a thumbnail or display version
+        if (
+            fileName?.startsWith(THUMBNAIL_PREFIX) ||
+            fileName?.startsWith(DISPLAY_PREFIX)
+        ) {
+            log(
+                'File is a thumbnail or display version. Gracefully exiting document createion.',
+            )
             return null
         }
 
@@ -52,7 +62,7 @@ export const createDocumentForUploadedPhotoInAlbum = storage
         const bucket = getStorageAdmin().bucket(fileBucket)
         const file = bucket.file(filePath)
         const _file = await file.download().then((data) => data[0])
-        const publicUrl = await file.publicUrl()
+        const publicUrl = await getDownloadURL(file)
         const meta = await exifr
             .parse(_file, META_DATA_FIELDS)
             .then((output) => output)
@@ -60,6 +70,30 @@ export const createDocumentForUploadedPhotoInAlbum = storage
                 log('Error parsing EXIF data:', e)
                 return {}
             })
+
+        // Generate web display version
+        const webDisplayBuffer = await sharp(_file)
+            .resize({
+                width: 1600,
+                withoutEnlargement: true,
+            })
+            // .toFormat('webp')
+            .webp({
+                quality: 100,
+            })
+            .toBuffer()
+
+        const displayImageFileName = `${DISPLAY_PREFIX}${
+            fileName.match(/^(.*)(?=\.)/)?.[0] ?? fileName
+        }.webp`
+        const displayImageFilePath = `${ALBUM_COLLECTION}/${albumName}/${DISPLAYS_FOLDER}/${displayImageFileName}`
+
+        await bucket.file(displayImageFilePath).save(webDisplayBuffer)
+        log('Display version created and uploaded!')
+
+        const _displayFileBucket = bucket.file(displayImageFilePath)
+        const _displayPublicUrl = await getDownloadURL(_displayFileBucket)
+        log('Display version url generated')
 
         // Generate a thumbnail
         const thumbnailBuffer = await sharp(_file)
@@ -76,13 +110,14 @@ export const createDocumentForUploadedPhotoInAlbum = storage
         log('Thumbnail created and uploaded!')
 
         const _thumbnailFileBucket = bucket.file(thumbnailFilePath)
-        const _thumbnailPublicUrl = await _thumbnailFileBucket.publicUrl()
-        log('Thumbnail url added to document')
+        const _thumbnailPublicUrl = await getDownloadURL(_thumbnailFileBucket)
+        log('Thumbnail url generated')
 
         const newPhotoData = {
             title: '',
             description: '',
-            imageUrl: publicUrl,
+            imageUrl: _displayPublicUrl,
+            downloadUrl: publicUrl,
             thumbnailUrl: _thumbnailPublicUrl,
             fileName: fileName,
             priority: 1,
@@ -164,9 +199,14 @@ export const removeDocumentsForDeletedPhoto = storage
             return null
         }
 
-        // check if the deleted file is a thumbnail
-        if (fileName?.startsWith(THUMBNAIL_PREFIX)) {
-            log('File is a thumbnail. Gracefully exiting delete process.')
+        // check if the deleted file is a thumbnail or display version
+        if (
+            fileName?.startsWith(THUMBNAIL_PREFIX) ||
+            fileName?.startsWith(DISPLAY_PREFIX)
+        ) {
+            log(
+                'File is a thumbnail or display version. Gracefully exiting delete process.',
+            )
             return null
         }
 
@@ -204,6 +244,17 @@ export const removeDocumentsForDeletedPhoto = storage
                 updatedNumberOfPhotosInAlbum,
             )
         })
+
+        // delete the diplay version
+        const displayFileName = `${DISPLAY_PREFIX}${
+            fileName.match(/(.*)(?=\.)/)?.[0] ?? fileName
+        }.webp`
+        const displayFilePath = `${ALBUM_COLLECTION}/${albumName}/${DISPLAYS_FOLDER}/${displayFileName}`
+        const displayFile = getStorageAdmin()
+            .bucket(object.bucket)
+            .file(displayFilePath)
+        displayFile.delete()
+        log('Successfully deleted display version:', displayFileName)
 
         // delete the thumbnail
         const thumbnailFileName = `${THUMBNAIL_PREFIX}${fileName}`

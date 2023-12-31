@@ -6,7 +6,6 @@ import type { PhotoData } from '../types'
 
 import { db } from './firebase-init'
 
-const OLD_ALBUM_COLLECTION = 'album'
 const ALBUM_COLLECTION = 'albums'
 const PHOTOS_COLLECTION = 'photos'
 // const THUMBNAILS_FOLDER = 'thumbnails'
