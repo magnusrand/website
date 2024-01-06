@@ -1,0 +1,30 @@
+.main-grid {
+    &.featured-photos-page {
+        --frame-width: 1.5%;
+        --row-gap: 1.25rem;
+
+        .divider-box {
+            grid-column: 1 / 7;
+            grid-row: 4 / 5;
+
+            height: var(--row-height);
+        }
+
+        .featured-photos-page__photo-wrapper {
+            grid-column-start: 2;
+            grid-column-end: 6;
+            margin-bottom: 15rem;
+            
+            .featured-photos-page__photo-wrapper__image-frame {
+                background-color: orange;
+                margin: calc(-1 * var(--frame-width));
+                padding: var(--frame-width);
+
+            }
+
+            .featured-photos-page__photo-wrapper__image {
+                width: 100%;
+            }
+        }
+    }
+}

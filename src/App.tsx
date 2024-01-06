@@ -4,12 +4,13 @@ import { Route, BrowserRouter, Routes, Link } from 'react-router-dom'
 import VisualBackgroundGrid from './components/BackgroundGrid'
 
 import { LandingPage } from './pages/LandingPage/LandingPage'
-import Redirect from './pages/Redirect'
+import Redirect from './components/Redirect'
 
 import './main-styles.css'
 import AddPhotos from './pages/LoginAndAdmin/AddPhotos'
 import DisplayPhotosPage from './pages/Photography/DisplayPhotosPage'
 import { LogIn } from './pages/LoginAndAdmin/LogIn'
+import FeaturedPhotosPage from './pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
 
 const App = () => (
     <BrowserRouter>
@@ -23,6 +24,7 @@ const App = () => (
             <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="foto" element={<h1>Under construction</h1>} />
+                <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
                 <Route path="foto/:albumName" element={<DisplayPhotosPage />} />
                 <Route
                     path="/github"

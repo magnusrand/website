@@ -1,12 +1,8 @@
 import React from 'react'
 
-import {
-    NavBar,
-    NavItem,
-    Dropdown,
-    DropdownItem,
-} from '../components/NavBar/NavBar'
-import { Color } from '../types'
+import { Color } from '../../types'
+
+import { NavBar, NavItem, Dropdown, DropdownItem } from './NavBar'
 
 export const MainNavBar = (): JSX.Element => (
     <NavBar>

@@ -128,7 +128,7 @@ a {
 
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-template-rows: repeat(6, var(--row-height));
+    grid-template-rows: repeat(auto-fill, var(--row-height));
     column-gap: var(--column-gap);
     row-gap: var(--row-gap);
 }

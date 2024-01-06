@@ -9,7 +9,11 @@
         "sourceMap": true,
         "strict": true,
         "target": "es5",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "paths": {
+            "~components/*": ["./src/components/*"]
+        }
     },
     "include": ["src"],
     "exclude": ["node_modules"]
