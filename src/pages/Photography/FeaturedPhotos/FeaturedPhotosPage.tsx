@@ -51,8 +51,15 @@ export const DisplayPhotosPage = () => {
                             alt={photo.fileName}
                         />
                     </div>
-                    <div>
-                        <p>Beskrivelse –</p>av bildet
+                    <div className="featured-photos-page__photo-wrapper__caption">
+                        {photo.title ? (
+                            <span className="featured-photos-page__photo-wrapper__caption__heading type-garamond-bold ">
+                                {photo.title} –
+                            </span>
+                        ) : (
+                            <></>
+                        )}
+                        {` ${photo.description ?? ''}`}
                     </div>
                 </div>
             ))}

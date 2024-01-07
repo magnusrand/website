@@ -38,6 +38,12 @@
 
 body {
     margin: 0;
+
+    /*  setting default font */
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+
+    background-color: #fffff2;
 }
 
 .app {
@@ -129,8 +135,12 @@ a {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     grid-template-rows: repeat(auto-fill, var(--row-height));
+    /* grid-template-rows: 25vh repeat(2, var(--row-height)); */
+    /* grid-auto-rows: auto; */
     column-gap: var(--column-gap);
     row-gap: var(--row-gap);
+
+    /* background-color: #fffff2; */
 }
 
 @media only screen and (max-width: 1080px) {
