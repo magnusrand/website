@@ -5,6 +5,7 @@
 .main-grid {
     &.featured-photos-page {
         --frame-width: 1.5%;
+        --row-height: 5rem;
         --row-gap: 1.25rem;
         --image-gap: 70vh;
 
@@ -29,6 +30,34 @@
             height: var(--row-height);
         }
 
+        .featured-photos-page__scroll-indicator {
+            grid-column: 3 / 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* this makes scroll indicator the size of the remaining viewport height 
+               height: calc(100vh - size-of-horizontal-texts - size-of-gaps - size-of-navbar); */
+            height: calc(100vh - (var(--row-height) * 2) - (var(--row-gap) * 3) - 25vh);
+            margin: auto;
+
+            cursor: pointer;
+
+            #arrow1, #arrow2, #arrow3 {
+                stroke: var(--dark-color-3);
+                opacity: 0;
+            }
+            #arrow1 {
+                animation: blinking 3s ease 0s infinite;
+            }
+            #arrow2 {
+                animation: blinking 3s ease 1s infinite;
+            }
+            #arrow3 {
+                animation: blinking 3s ease 2s infinite;
+            }
+        }
+
         .featured-photos-page__photo-wrapper {
             grid-column-start: 2;
             grid-column-end: 6;
@@ -41,7 +70,7 @@
             scroll-snap-align: center;
             
             .featured-photos-page__photo-wrapper__image-frame {
-                background-color: orange;
+                background-color: var(--light-color-3);
                 margin: calc(-1 * var(--frame-width));
                 padding: var(--frame-width);
 
@@ -62,6 +91,41 @@
 
         .featured-photos-page__photo-wrapper:last-child {
             margin-bottom: var(--image-gap);
+        }
+    }
+
+    @media only screen and (max-width: 1080px) {
+        &.featured-photos-page {
+            .featured-photos-page__photo-wrapper {
+                grid-column-start: 1;
+                grid-column-end: 7;
+                padding: 0 2rem;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 800px) {
+        &.featured-photos-page {
+            --row-height: inherit;
+
+            .featured-photos-page__photo-wrapper {
+                padding: unset;
+            }
+        }
+    }
+
+    @keyframes blinking {
+        0% {
+            opacity: 0;
+        }
+        25% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
         }
     }
 }

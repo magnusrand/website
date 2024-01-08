@@ -1,6 +1,6 @@
 .horizontal-bar {
     &-top {
-        grid-column: 3 / 7;
+        grid-column: 3 / 6;
         grid-row: 2 / 3;
 
         height: var(--row-height);
@@ -12,12 +12,15 @@
             grid-row: 2 / 3;
 
             position: relative;
+            z-index: 1;
             bottom: calc(var(--row-height) / 1.95);
             height: var(--row-height);
+
+            font-size: calc(var(--row-height) * 1.5);
         }
     }
     &-bottom {
-        grid-column: 1 / 6;
+        grid-column: 2 / 6;
         grid-row: 3 / 4;
 
         height: var(--row-height);
@@ -33,7 +36,26 @@
             height: var(--row-height);
 
             color: white;
+            font-size: calc(var(--row-height) * 1.5);
         }
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .horizontal-bar {
+        &-top {
+            grid-column: 2 / 6;
+            &__text {
+                grid-column: 2 / 6;
+                justify-self: flex-end;
+            }
+        }
+        /* &-bottom {
+            grid-column: 1 / 7;
+            &__text {
+                grid-column: 1 / 7;
+            }
+        } */
     }
 }
 

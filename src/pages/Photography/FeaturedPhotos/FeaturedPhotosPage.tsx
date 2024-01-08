@@ -9,17 +9,16 @@ import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
 import { PhotoData } from '../../../types'
 import MainNavBar from '../../../components/NavBar/MainNavBar'
 
+import Arrows from '../../../assets/images/arrows.svg'
+
 import './featuredPhotos.css'
 
 export const DisplayPhotosPage = () => {
     const gridRef = useRef<HTMLDivElement>(null)
-    const params = useParams()
     const [photos, setPhotos] = useState<PhotoData[]>([])
-    const [gridStyle] = useState<number>(1)
-    const [photoLayout, setPhotoLayout] = useState<number[]>([])
-    const [currentFullscreen, setCurrentFullscreen] = useState('')
 
     const ALBUM_NAME = 'featured'
+    const PAGE_TITLE = 'Utvalgte'
 
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
@@ -35,8 +34,21 @@ export const DisplayPhotosPage = () => {
         <div ref={gridRef} className="main-grid featured-photos-page">
             <MainNavBar />
             <HomeLogo />
-            <SiteHeading siteName={ALBUM_NAME} />
-            <div className="divider-box" />
+            <SiteHeading siteName={PAGE_TITLE} />
+            <div
+                className="featured-photos-page__scroll-indicator"
+                onMouseUp={() => {
+                    const firstPhoto = document.getElementsByClassName(
+                        'featured-photos-page__photo-wrapper',
+                    )?.[0]
+                    if (firstPhoto) {
+                        firstPhoto.scrollIntoView({ behavior: 'smooth' })
+                    }
+                }}
+            >
+                <p>Skroll ned</p>
+                <Arrows />
+            </div>
             {photos.map((photo) => (
                 <div
                     key={photo.fileName}
