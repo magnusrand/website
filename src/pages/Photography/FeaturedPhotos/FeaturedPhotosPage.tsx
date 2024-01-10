@@ -8,6 +8,7 @@ import { SiteHeading } from '../../../components/SiteHeading'
 import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
 import { PhotoData } from '../../../types'
 import MainNavBar from '../../../components/NavBar/MainNavBar'
+import { SimpleWithFrame } from '../../../components/PhotoFrames/SimpleWithFrame'
 
 import Arrows from '../../../assets/images/arrows.svg'
 
@@ -50,30 +51,7 @@ export const DisplayPhotosPage = () => {
                 <Arrows />
             </div>
             {photos.map((photo) => (
-                <div
-                    key={photo.fileName}
-                    className={classNames(
-                        'featured-photos-page__photo-wrapper',
-                    )}
-                >
-                    <div className="featured-photos-page__photo-wrapper__image-frame">
-                        <img
-                            className="featured-photos-page__photo-wrapper__image"
-                            src={photo.imageUrl}
-                            alt={photo.fileName}
-                        />
-                    </div>
-                    <div className="featured-photos-page__photo-wrapper__caption">
-                        {photo.title ? (
-                            <span className="featured-photos-page__photo-wrapper__caption__heading type-garamond-bold ">
-                                {photo.title} –
-                            </span>
-                        ) : (
-                            <></>
-                        )}
-                        {` ${photo.description ?? ''}`}
-                    </div>
-                </div>
+                <SimpleWithFrame photo={photo} key={photo.fileName} />
             ))}
         </div>
     )
