@@ -1,0 +1,35 @@
+.icon-button--primary {
+    --button-color: var(--dark-color-1);
+}
+
+.icon-button--secondary {
+    --button-color: var(--light-color-3);
+}
+
+.icon-button {
+    all: unset;
+    padding: 0.75rem;
+    position: relative;
+    top: 0.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+    height: 1.5rem;
+    width: 1.5rem;
+
+    color: var(--button-color);
+    
+    svg {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+}
+
+.icon-button:hover {
+    background-color: var(--button-color);
+    color: var(--white);
+}
+
+.icon-button:focus-visible {
+    outline: var(--dark-color-3) solid 2px;
+}

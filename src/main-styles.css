@@ -22,6 +22,9 @@
     --dark-color-2: #116783;
     --dark-color-3: #003049;
 
+    --white: #fffff2;
+    --black: #161515;
+
     --font-size-small: 1.33rem;
     --font-size-medium: 2rem;
     --font-size-extralarge: 10.5rem;
@@ -43,7 +46,8 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
 
-    background-color: #fffff2;
+    background-color: var(--white);
+    color: var(--black);
 }
 
 .app {
@@ -70,6 +74,12 @@ a {
 .type-sourcesans-regular {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
+}
+
+.type-sourcesans-italic {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .font-size-small {

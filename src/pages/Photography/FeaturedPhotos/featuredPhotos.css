@@ -7,7 +7,7 @@
         --frame-width: 1.5%;
         --row-height: 5rem;
         --row-gap: 1.25rem;
-        --image-gap: 70vh;
+        --image-gap: max(70vh, 50rem);
 
         grid-template-rows: 25vh repeat(2, var(--row-height));
 
@@ -31,6 +31,9 @@
         }
 
         .featured-photos-page__scroll-indicator {
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+
             grid-column: 3 / 5;
             display: flex;
             flex-direction: column;
@@ -42,6 +45,7 @@
             margin: auto;
 
             cursor: pointer;
+            white-space: nowrap;
 
             #arrow1, #arrow2, #arrow3 {
                 stroke: var(--dark-color-3);
@@ -56,6 +60,9 @@
             #arrow3 {
                 animation: blinking 3s ease 2s infinite;
             }
+        }
+        .featured-photos-page__scroll-indicator--show {
+            opacity: 1;
         }
 
     }

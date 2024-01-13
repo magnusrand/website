@@ -37,11 +37,16 @@ export const DisplayPhotosPage = () => {
             <HomeLogo />
             <SiteHeading siteName={PAGE_TITLE} />
             <div
-                className="featured-photos-page__scroll-indicator"
+                className={classNames(
+                    'featured-photos-page__scroll-indicator',
+                    {
+                        'featured-photos-page__scroll-indicator--show':
+                            photos.length > 0,
+                    },
+                )}
                 onMouseUp={() => {
-                    const firstPhoto = document.getElementsByClassName(
-                        'featured-photos-page__photo-wrapper',
-                    )?.[0]
+                    const firstPhoto =
+                        document.getElementsByClassName('photo')?.[0]
                     if (firstPhoto) {
                         firstPhoto.scrollIntoView({ behavior: 'smooth' })
                     }

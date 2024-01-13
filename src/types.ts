@@ -19,47 +19,47 @@ export interface PhotoData {
 }
 
 interface metaData {
-    Make?: string | number
-    Model?: string | number
-    XResolution?: string | number
-    YResolution?: string | number
+    Make?: string
+    Model?: string
+    XResolution?: number
+    YResolution?: number
     ResolutionUnit?: string | number
-    Software?: string | number
-    ModifyDate?: string | number
-    Artist?: string | number
-    ExposureTime?: string | number
-    FNumber?: string | number
-    ExposureProgram?: string | number
-    ISO?: string | number
-    SensitivityType?: string | number
-    RecommendedExposureIndex?: string | number
-    ExifVersion?: string | number
-    DateTimeOriginal?: string | number
-    CreateDate?: string | number
-    OffsetTime?: string | number
-    ShutterSpeedValue?: string | number
-    ApertureValue?: string | number
-    ExposureCompensation?: string | number
-    MaxApertureValue?: string | number
-    MeteringMode?: string | number
-    Flash?: string | number
-    FocalLength?: string | number
-    SubSecTimeOriginal?: string | number
-    SubSecTimeDigitized?: string | number
-    ColorSpace?: string | number
-    ExifImageWidth?: string | number
-    ExifImageHeight?: string | number
-    FocalPlaneXResolution?: string | number
-    FocalPlaneYResolution?: string | number
-    FocalPlaneResolutionUnit?: string | number
-    CustomRendered?: string | number
-    ExposureMode?: string | number
-    WhiteBalance?: string | number
-    SceneCaptureType?: string | number
-    ImageUniqueID?: string | number
-    SerialNumber?: string | number
-    LensInfo?: string | number
-    LensModel?: string | number
-    LensSerialNumber?: string | number
+    Software?: string
+    ModifyDate?: Date
+    Artist?: string
+    ExposureTime?: number
+    FNumber?: number
+    ExposureProgram?: string
+    ISO?: number
+    SensitivityType?: number
+    RecommendedExposureIndex?: number
+    ExifVersion?: string
+    DateTimeOriginal?: Date
+    CreateDate?: Date
+    OffsetTime?: string
+    ShutterSpeedValue?: number
+    ApertureValue?: number
+    ExposureCompensation?: number
+    MaxApertureValue?: number
+    MeteringMode?: string
+    Flash?: string
+    FocalLength?: number
+    SubSecTimeOriginal?: string
+    SubSecTimeDigitized?: string
+    ColorSpace?: number
+    ExifImageWidth?: number
+    ExifImageHeight?: number
+    FocalPlaneXResolution?: number
+    FocalPlaneYResolution?: number
+    FocalPlaneResolutionUnit?: string
+    CustomRendered?: string
+    ExposureMode?: string
+    WhiteBalance?: string
+    SceneCaptureType?: string
+    ImageUniqueID?: string
+    SerialNumber?: string
+    LensInfo?: Array<Record<number, number>>
+    LensModel?: string
+    LensSerialNumber?: string
     orientation?: string
 }
