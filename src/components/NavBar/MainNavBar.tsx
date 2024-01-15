@@ -1,5 +1,7 @@
 import React from 'react'
 
+import classNames from 'classnames'
+
 import { Color } from '../../types'
 
 import { NavBar, NavItem, Dropdown, DropdownItem } from './NavBar'
@@ -7,43 +9,91 @@ import { NavBar, NavItem, Dropdown, DropdownItem } from './NavBar'
 import './mainNavBar.css'
 
 export const MainNavBar = (): JSX.Element => {
+    const [scrolled, setScrolled] = React.useState(false)
+    const [showCollapsed, setShowCollapsed] = React.useState(false)
+    const [forceShowNavBar, setForceShowNavBar] = React.useState(false)
+
     React.useEffect(() => {
-        // const handleScroll = () => {
-        // const navBar = document.getElementById('navbar')
-        // if (navBar) {
-        //     if (mainGrid && mainGrid.scrollTop > 0) {
-        //         navBar.classList.add('navbar--scrolled')
-        //     } else {
-        //         navBar.classList.remove('navbar--scrolled')
-        //     }
-        // }
-        // }
+        console.log(scrolled)
+
         const mainGrid = document.querySelector('.main-grid')
-        console.log('mainGrid', mainGrid)
+        const handleNavbarCollapse = () => {
+            const header = document.querySelector('.header')
+            if (header) {
+                if (mainGrid && mainGrid.scrollTop > 0) {
+                    if (scrolled) return
+                    const timer = setTimeout(() => {
+                        setShowCollapsed(true)
+                    }, 500)
+                    return () => clearTimeout(timer)
+                } else {
+                    if (!scrolled) return
+                    const timer = setTimeout(() => {
+                        setShowCollapsed(false)
+                    }, 500)
+                    return () => clearTimeout(timer)
+                }
+            }
+        }
 
         if (mainGrid) {
-            mainGrid.addEventListener('scroll', (event) => {
-                const navBar = document.querySelector('.navbar')
-                if (navBar) {
-                    if (mainGrid && mainGrid.scrollTop > 0) {
-                        navBar.classList.add('navbar--scrolled')
-                    } else {
-                        navBar.classList.remove('navbar--scrolled')
-                    }
-                }
-            })
+            mainGrid.addEventListener('scroll', handleNavbarCollapse)
         }
         return () => {
             if (mainGrid) {
-                mainGrid.removeEventListener('scroll', (event) =>
-                    console.log('scroll fired'),
-                )
+                mainGrid.removeEventListener('scroll', handleNavbarCollapse)
+            }
+        }
+    }, [scrolled])
+
+    React.useEffect(() => {
+        const mainGrid = document.querySelector('.main-grid')
+        const handleScrollState = () => {
+            if (mainGrid && mainGrid.scrollTop > 0) {
+                setScrolled(true)
+            } else {
+                setScrolled(false)
+            }
+        }
+        if (mainGrid) {
+            mainGrid.addEventListener('scroll', handleScrollState)
+        }
+        return () => {
+            if (mainGrid) {
+                mainGrid.removeEventListener('scroll', handleScrollState)
             }
         }
     }, [])
 
+    if (showCollapsed && !forceShowNavBar)
+        return (
+            <NavBar
+                className={classNames('fade-in', {
+                    'fade-out': !scrolled,
+                })}
+            >
+                <div
+                    className={classNames('main-navbar--collapsed', {
+                        'main-navbar--collapsed--opened': !scrolled,
+                    })}
+                >
+                    <button
+                        className="main-navbar--collapsed__button"
+                        onClick={() => {
+                            setScrolled(false)
+                            setTimeout(() => {
+                                setShowCollapsed(false)
+                            }, 500)
+                        }}
+                    >
+                        Meny
+                    </button>
+                </div>
+            </NavBar>
+        )
+
     return (
-        <NavBar>
+        <NavBar className={classNames('fade-in', { 'fade-out': scrolled })}>
             <NavItem title="Fotografi" color={Color.DARK1}>
                 <Dropdown>
                     <DropdownItem title="Utvalgte" linkPath="foto/utvalgte" />

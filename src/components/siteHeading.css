@@ -1,4 +1,4 @@
-.horizontal-bar {
+.site-heading__horizontal-bar {
     &-top {
         grid-column: 3 / 6;
         grid-row: 2 / 3;
@@ -42,7 +42,7 @@
 }
 
 @media only screen and (max-width: 1080px) {
-    .horizontal-bar {
+    .site-heading__horizontal-bar {
         &-top {
             grid-column: 2 / 6;
             &__text {
@@ -60,7 +60,7 @@
 }
 
 @media only screen and (max-width: 800px) {
-    .horizontal-bar {
+    .site-heading__horizontal-bar {
         &-top {
             grid-column: 1 / 7;
             &__text {

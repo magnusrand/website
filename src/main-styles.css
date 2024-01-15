@@ -37,6 +37,8 @@
     --row-height: 7rem;
     --row-gap: 2.5rem;
     --column-gap: 1.25rem;
+
+    --theme-color: var(--light-color-3);
 }
 
 body {

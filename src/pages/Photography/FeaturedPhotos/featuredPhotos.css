@@ -18,9 +18,12 @@
         scroll-snap-type: y mandatory;
 
         .header {
-            scroll-snap-align: start;
-            scroll-margin-top: var(--margin-top-main);
             height: 25vh;
+        }
+
+        .site-heading__horizontal-bar-top {
+            scroll-snap-align: center;
+            scroll-margin-top: var(--margin-top-main);
         }
 
         .divider-box {

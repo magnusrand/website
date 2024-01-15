@@ -13,9 +13,9 @@ import { MdIso } from 'react-icons/md'
 import { PhotoData } from '../../types'
 
 import { getAperture, getISO, getShutterSpeedFraction } from '../utils'
+import { IconButton } from '../Buttons/IconButton'
 
 import './simpleWithFrame.css'
-import { IconButton } from '../Buttons/IconButton'
 
 export const SimpleWithFrame = ({ photo }: { photo: PhotoData }) => {
     const [showMeta, setShowMeta] = React.useState(false)
@@ -28,13 +28,11 @@ export const SimpleWithFrame = ({ photo }: { photo: PhotoData }) => {
                 'simple-with-frame__photo-wrapper',
             ])}
         >
-            <div className="simple-with-frame__photo-wrapper__image-frame">
-                <img
-                    className="simple-with-frame__photo-wrapper__image"
-                    src={photo.imageUrl}
-                    alt={photo.fileName}
-                />
-            </div>
+            <img
+                className="simple-with-frame__photo-wrapper__image"
+                src={photo.imageUrl}
+                alt={photo.fileName}
+            />
             <div className="simple-with-frame__photo-wrapper__caption">
                 <p className="simple-with-frame__photo-wrapper__caption__description">
                     {photo.title ? (

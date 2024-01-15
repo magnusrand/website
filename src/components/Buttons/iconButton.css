@@ -1,5 +1,5 @@
 .icon-button--primary {
-    --button-color: var(--dark-color-1);
+    --button-color: var(--theme-color);
 }
 
 .icon-button--secondary {

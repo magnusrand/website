@@ -1,3 +1,75 @@
-.navbar--scrolled {
-    position: fixed;
+.header {
+    position: sticky;
+    top: 0;
+}
+
+.main-navbar--collapsed {
+    --line-width: 6vw;
+
+    grid-column: 3 / 5;
+    margin-inline: auto;
+    display: flex;
+    height: fit-content;
+    
+    transition: all 0.5s ease-in-out;
+
+    &:has(.main-navbar--collapsed__button:hover) {
+        --line-width: 4vw;
+    }
+
+    &--opened {
+        --line-width: 0vw;
+    }
+
+    .main-navbar--collapsed__button {
+        all: unset;
+        cursor: pointer;
+        margin-inline: 2rem;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+    }
+    &::after, &::before {
+        content: '';
+        display: block;
+        width: var(--line-width);
+        height: 2px;
+        background-color: black;
+        margin-block: auto;
+        transition: all 0.2s ease-in-out;
+    }
+}
+
+.fade-in {
+    animation: fade-in 0.6s ease-in-out;
+}
+
+.fade-out {
+    animation: fade-out 0.6s ease-in-out;
+}
+
+@media screen and (max-width: 1080px) {
+    .main-navbar--collapsed {
+        grid-column: 2;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
