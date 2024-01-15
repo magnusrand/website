@@ -10,6 +10,7 @@
         --image-gap: max(70vh, 50rem);
 
         grid-template-rows: 25vh repeat(2, var(--row-height));
+        scroll-padding-top: 25vh;
 
 
         height: calc(100% - 2rem);
