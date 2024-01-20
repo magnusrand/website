@@ -10,8 +10,6 @@
         --image-gap: max(70vh, 50rem);
 
         grid-template-rows: 25vh repeat(2, var(--row-height));
-        scroll-padding-top: 25vh;
-
 
         height: calc(100% - 2rem);
 
@@ -35,6 +33,8 @@
         }
 
         .featured-photos-page__scroll-indicator {
+            all: unset;
+
             opacity: 0;
             transition: opacity 0.2s ease-in-out;
 
@@ -60,9 +60,13 @@
             }
             #arrow2 {
                 animation: blinking 3s ease 1s infinite;
-            }
+            }   
             #arrow3 {
                 animation: blinking 3s ease 2s infinite;
+            }
+
+            &:focus-visible {
+                outline: solid;
             }
         }
         .featured-photos-page__scroll-indicator--show {

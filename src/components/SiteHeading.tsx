@@ -5,12 +5,12 @@ import './siteHeading.css'
 export const SiteHeading = (props: { siteName: string }) => (
     <>
         <div className="site-heading__horizontal-bar-top" />
-        <div className="site-heading__horizontal-bar-top__text type-garamond-bold font-size-extralarge">
+        <h1 className="site-heading__horizontal-bar-top__text type-garamond-bold font-size-extralarge">
             Fotografi
-        </div>
+        </h1>
         <div className="site-heading__horizontal-bar-bottom" />
-        <div className="site-heading__horizontal-bar-bottom__text type-garamond-regular font-size-extralarge">
+        <h2 className="site-heading__horizontal-bar-bottom__text type-garamond-regular font-size-extralarge">
             {`– ${props.siteName}`}
-        </div>
+        </h2>
     </>
 )

@@ -5,17 +5,15 @@ import classNames from 'classnames'
 import { Color } from '../../types'
 
 import { NavBar, NavItem, Dropdown, DropdownItem } from './NavBar'
+import { HomeLogo } from './HomeLogo'
 
 import './mainNavBar.css'
 
-export const MainNavBar = (): JSX.Element => {
+export const MainNavBar = ({ hideHomeLogo = false }): JSX.Element => {
     const [scrolled, setScrolled] = React.useState(false)
     const [showCollapsed, setShowCollapsed] = React.useState(false)
-    const [forceShowNavBar, setForceShowNavBar] = React.useState(false)
 
     React.useEffect(() => {
-        console.log(scrolled)
-
         const mainGrid = document.querySelector('.main-grid')
         const handleNavbarCollapse = () => {
             const header = document.querySelector('.header')
@@ -65,7 +63,7 @@ export const MainNavBar = (): JSX.Element => {
         }
     }, [])
 
-    if (showCollapsed && !forceShowNavBar)
+    if (showCollapsed)
         return (
             <NavBar
                 className={classNames('fade-in', {
@@ -73,9 +71,12 @@ export const MainNavBar = (): JSX.Element => {
                 })}
             >
                 <div
-                    className={classNames('main-navbar--collapsed', {
-                        'main-navbar--collapsed--opened': !scrolled,
-                    })}
+                    className={classNames(
+                        'main-navbar--collapsed font-size-small',
+                        {
+                            'main-navbar--collapsed--opened': !scrolled,
+                        },
+                    )}
                 >
                     <button
                         className="main-navbar--collapsed__button"
@@ -112,6 +113,7 @@ export const MainNavBar = (): JSX.Element => {
                     <DropdownItem title="Kontakt meg" linkPath="" />
                 </Dropdown>
             </NavItem>
+            {!hideHomeLogo && <HomeLogo />}
         </NavBar>
     )
 }

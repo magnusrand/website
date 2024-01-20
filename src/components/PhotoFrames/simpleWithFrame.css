@@ -10,6 +10,7 @@
     width: fit-content;
 
     scroll-snap-align: center;
+    scroll-margin-block-start: 3rem;
 
     .simple-with-frame__photo-wrapper__image {
         max-width: 100%;

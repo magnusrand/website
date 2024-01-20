@@ -145,6 +145,7 @@ a {
     padding-right: var(--padding-sides);
 
     display: grid;
+    /* TODO change to 12 columns */
     grid-template-columns: repeat(6, minmax(0, 1fr));
     grid-template-rows: repeat(auto-fill, var(--row-height));
     /* grid-template-rows: 25vh repeat(2, var(--row-height)); */

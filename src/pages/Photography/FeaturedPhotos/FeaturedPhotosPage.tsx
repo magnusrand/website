@@ -1,9 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
-import { HomeLogo } from '../../../components/NavBar/HomeLogo'
 import { SiteHeading } from '../../../components/SiteHeading'
 import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
 import { PhotoData } from '../../../types'
@@ -34,9 +32,8 @@ export const DisplayPhotosPage = () => {
     return (
         <div ref={gridRef} className="main-grid featured-photos-page">
             <MainNavBar />
-            <HomeLogo />
             <SiteHeading siteName={PAGE_TITLE} />
-            <div
+            <button
                 className={classNames(
                     'featured-photos-page__scroll-indicator',
                     {
@@ -44,7 +41,7 @@ export const DisplayPhotosPage = () => {
                             photos.length > 0,
                     },
                 )}
-                onMouseUp={() => {
+                onClick={() => {
                     const firstPhoto =
                         document.getElementsByClassName('photo')?.[0]
                     if (firstPhoto) {
@@ -54,7 +51,7 @@ export const DisplayPhotosPage = () => {
             >
                 <p>Skroll ned</p>
                 <Arrows />
-            </div>
+            </button>
             {photos.map((photo) => (
                 <SimpleWithFrame photo={photo} key={photo.fileName} />
             ))}

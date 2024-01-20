@@ -15,7 +15,7 @@
         column-gap: 1.25rem;
 
         .navitem:first-child {
-            grid-column-start: 2;
+            grid-column-start: 3;
             grid-column-end: 5;
         }
 
@@ -28,7 +28,7 @@
             padding-top: 2rem;
             white-space: nowrap;
             min-width: 8ch;
-            grid-column-start: span 3;
+            grid-column-start: span 2;
 
             transition: all ease 0.5s;
             cursor: pointer;
@@ -95,12 +95,8 @@
 @media only screen and (max-width: 1080px) {
     .header {
         .navbar {
-            /* grid-template-columns: repeat(3, minmax(0, 1fr)); */
-
+            .navitem,
             .navitem:first-child {
-                grid-column-start: 0 span 3;
-            }
-            .navitem {
                 grid-column-start: span 3;
             }
         }
@@ -110,6 +106,10 @@
 @media only screen and (max-width: 800px) {
     .header {
         .navbar {
+            .navitem,
+            .navitem:first-child {
+                grid-column-start: span 4;
+            }
             .navitem {
                 padding-bottom: 1.5rem;
                 width: calc((((100vw - 4rem) / 3) - (1.25rem / 2)) * 0.985);
