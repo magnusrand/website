@@ -12,7 +12,7 @@ import Arrows from '../../../assets/images/arrows.svg'
 
 import './featuredPhotos.css'
 
-export const DisplayPhotosPage = () => {
+export const FeaturedPhotosPage = () => {
     const gridRef = useRef<HTMLDivElement>(null)
     const [photos, setPhotos] = useState<PhotoData[]>([])
 
@@ -21,10 +21,8 @@ export const DisplayPhotosPage = () => {
 
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
-            console.log('get photos for current page')
             const photoData = await getPhotosInAlbum(ALBUM_NAME)
             setPhotos(photoData ?? [])
-            console.log(photoData.length, ' photos fetched')
         }
         getPhotosForCurrentPage()
     }, [ALBUM_NAME])
@@ -59,4 +57,4 @@ export const DisplayPhotosPage = () => {
     )
 }
 
-export default DisplayPhotosPage
+export default FeaturedPhotosPage

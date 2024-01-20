@@ -75,7 +75,6 @@ export const SimpleWithFrame = ({ photo }: { photo: PhotoData }) => {
                     <IconButton
                         onClick={() => setShowMeta(true)}
                         className="simple-with-frame__photo-wrapper__caption__show-meta-button"
-                        variant="secondary"
                     >
                         <IoMdInformationCircleOutline />
                     </IconButton>

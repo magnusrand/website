@@ -8,7 +8,7 @@
 }
 
 .main-navbar--collapsed {
-    --navbar-color: var(--dark-color-2);
+    --navbar-color: var(--theme-color-difference);
     --line-width: 6vw;
 
     grid-column: 5 / 9;

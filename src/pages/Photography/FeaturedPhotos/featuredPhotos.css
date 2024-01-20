@@ -4,6 +4,10 @@
 
 .main-grid {
     &.featured-photos-page {
+        --theme-color: var(--dark-color-2);
+        --theme-color-secondary: var(--dark-color-1);
+        --theme-color-difference: var(--light-color-2);
+
         --frame-width: 1.5%;
         --row-height: 5rem;
         --row-gap: 1.25rem;
