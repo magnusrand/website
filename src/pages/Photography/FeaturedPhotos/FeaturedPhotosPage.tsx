@@ -31,25 +31,27 @@ export const FeaturedPhotosPage = () => {
         <div ref={gridRef} className="main-grid featured-photos-page">
             <MainNavBar />
             <SiteHeading siteName={PAGE_TITLE} />
-            <button
-                className={classNames(
-                    'featured-photos-page__scroll-indicator',
-                    {
-                        'featured-photos-page__scroll-indicator--show':
-                            photos.length > 0,
-                    },
-                )}
-                onClick={() => {
-                    const firstPhoto =
-                        document.getElementsByClassName('photo')?.[0]
-                    if (firstPhoto) {
-                        firstPhoto.scrollIntoView({ behavior: 'smooth' })
-                    }
-                }}
-            >
-                <p>Skroll ned</p>
-                <Arrows />
-            </button>
+            {photos.length > 0 && (
+                <button
+                    className={classNames(
+                        'featured-photos-page__scroll-indicator',
+                        {
+                            'featured-photos-page__scroll-indicator--show':
+                                photos.length > 0,
+                        },
+                    )}
+                    onClick={() => {
+                        const firstPhoto =
+                            document.getElementsByClassName('photo')?.[0]
+                        if (firstPhoto) {
+                            firstPhoto.scrollIntoView({ behavior: 'smooth' })
+                        }
+                    }}
+                >
+                    <p>Skroll ned</p>
+                    <Arrows />
+                </button>
+            )}
             {photos.map((photo) => (
                 <SimpleWithFrame photo={photo} key={photo.fileName} />
             ))}

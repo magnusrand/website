@@ -1,6 +1,7 @@
 .header {
     position: sticky;
-    top: 0;
+    top: var(--margin-top-main);
+    margin-top: var(--margin-top-main);
     
     &:has(.main-navbar--collapsed) {
         mix-blend-mode: difference;
@@ -11,7 +12,7 @@
     --navbar-color: var(--theme-color-difference);
     --line-width: 6vw;
 
-    grid-column: 5 / 9;
+    grid-column: 4 / 10;
     margin-inline: auto;
     display: flex;
     height: fit-content;
