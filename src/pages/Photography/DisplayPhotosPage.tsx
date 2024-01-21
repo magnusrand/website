@@ -8,7 +8,7 @@ import { HomeLogo } from '../../components/NavBar/HomeLogo'
 import { TextDivider } from '../../components/TextDivider'
 import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
-import MainNavBar from '../MainNavBar'
+import MainNavBar from '../../components/NavBar/MainNavBar'
 
 import './photographypages-styles.css'
 

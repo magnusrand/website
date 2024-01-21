@@ -1,0 +1,100 @@
+.simple-with-frame__photo-wrapper {
+    grid-column-start: 2;
+    grid-column-end: 6;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: var(--image-gap);
+    max-height: 80vh;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+
+    scroll-snap-align: center;
+
+    .simple-with-frame__photo-wrapper__image {
+        max-width: 100%;
+        max-height: 100%;
+        border: 1vw solid var(--theme-color);
+        box-sizing: border-box;
+    }
+
+    .simple-with-frame__photo-wrapper__caption {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        min-height: 3rem;
+        
+        .simple-with-frame__photo-wrapper__caption__description {
+            max-width: 60%;
+            margin: 0;
+            flex: 1;
+   
+            .simple-with-frame__photo-wrapper__caption__description__heading {
+                font-weight: 1000;
+            }
+        }
+
+        .simple-with-frame__photo-wrapper__caption__show-meta-button {
+            margin-top: -1.2rem;
+        }
+
+        .simple-with-frame__photo-wrapper__caption__meta {
+            justify-self: flex-end;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin: 0;
+            width: fit-content;
+
+            color: var(--dark-color-1);
+            color: var(--black);
+            font-size: 12px;
+
+            animation: fade-in 0.2s ease-in-out;
+
+
+            .simple-with-frame__photo-wrapper__caption__meta__holy-triangle {
+                display: flex;
+                gap: 0.5rem;
+
+                svg {
+                    position: relative;
+                    top: 0.15rem;
+                    margin-right: 0.2rem;
+                }
+            }
+
+        }
+    }
+}
+
+.simple-with-frame__photo-wrapper:last-child {
+    margin-bottom: var(--image-gap);
+}
+
+
+@media only screen and (max-width: 1080px) {
+    .simple-with-frame__photo-wrapper {
+        grid-column-start: 1;
+        grid-column-end: 7;
+        padding: 0 2rem;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .simple-with-frame__photo-wrapper {
+        padding: unset;
+    }
+}
+
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

@@ -1,6 +1,14 @@
 /* eslint-disable no-console */
 
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+    FieldPath,
+    collection,
+    getDocs,
+    limit,
+    orderBy,
+    query,
+    where,
+} from 'firebase/firestore'
 
 import type { PhotoData } from '../types'
 
@@ -16,19 +24,17 @@ export const getPhotosInAlbum = async (album: string | undefined) => {
         collection(db, ALBUM_COLLECTION),
         where('name', '==', album),
     )
-    try {
-        const albumSnapshot = await getDocs(albumQuery)
-        if (albumSnapshot.empty) return []
-        const albumId = albumSnapshot.docs[0].id
 
-        const docSnap = await getDocs(
-            collection(db, ALBUM_COLLECTION, albumId, PHOTOS_COLLECTION),
-        )
-        const photosData = docSnap.docs.map((photo) =>
-            photo.data(),
-        ) as PhotoData[]
-        return photosData
-    } catch (e) {
-        return Promise.reject('Could not fetch photos')
-    }
+    const albumSnapshot = await getDocs(albumQuery)
+    if (albumSnapshot.empty) return []
+    const albumId = albumSnapshot.docs[0].id
+
+    const photosQuery = query(
+        collection(db, ALBUM_COLLECTION, albumId, PHOTOS_COLLECTION),
+        orderBy(new FieldPath('metaData', 'CreateDate'), 'desc'),
+        limit(50),
+    )
+    const docSnap = await getDocs(photosQuery)
+    const photosData = docSnap.docs.map((photo) => photo.data()) as PhotoData[]
+    return photosData
 }

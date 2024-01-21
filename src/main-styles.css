@@ -22,6 +22,9 @@
     --dark-color-2: #116783;
     --dark-color-3: #003049;
 
+    --white: #fffff2;
+    --black: #161515;
+
     --font-size-small: 1.33rem;
     --font-size-medium: 2rem;
     --font-size-extralarge: 10.5rem;
@@ -34,10 +37,21 @@
     --row-height: 7rem;
     --row-gap: 2.5rem;
     --column-gap: 1.25rem;
+
+    --theme-color: var(--light-color-2);
+    --theme-color-secondary: var(--light-color-1);
+    --theme-color-difference: var(--light-dark-2);
 }
 
 body {
     margin: 0;
+
+    /*  setting default font */
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+
+    background-color: var(--white);
+    color: var(--black);
 }
 
 .app {
@@ -64,6 +78,12 @@ a {
 .type-sourcesans-regular {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
+}
+
+.type-sourcesans-italic {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .font-size-small {
@@ -122,13 +142,13 @@ a {
 
 .main-grid {
     position: relative;
-    padding-top: var(--margin-top-main);
     padding-left: var(--padding-sides);
     padding-right: var(--padding-sides);
 
     display: grid;
+    /* TODO change to 12 columns */
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-template-rows: repeat(6, var(--row-height));
+    grid-template-rows: repeat(auto-fill, var(--row-height));
     column-gap: var(--column-gap);
     row-gap: var(--row-gap);
 }

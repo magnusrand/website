@@ -1,0 +1,88 @@
+.header {
+    position: sticky;
+    top: var(--margin-top-main);
+    margin-top: var(--margin-top-main);
+    
+    &:has(.main-navbar--collapsed) {
+        mix-blend-mode: difference;
+    }
+}
+
+.main-navbar--collapsed {
+    --navbar-color: var(--theme-color-difference);
+    --line-width: 6vw;
+
+    grid-column: 4 / 10;
+    margin-inline: auto;
+    display: flex;
+    height: fit-content;
+    
+    transition: all 0.5s ease-in-out;
+    animation: expand-lines 0.5s ease-in-out;
+
+    color: var(--navbar-color);
+    mix-blend-mode:difference;
+
+    &:has(.main-navbar--collapsed__button:hover) {
+        --line-width: 4vw;
+    }
+
+    &--opened {
+        --line-width: 0vw;
+    }
+
+    .main-navbar--collapsed__button {
+        all: unset;
+        cursor: pointer;
+        margin-inline: 2rem;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+    }
+    &::after, &::before {
+        content: '';
+        display: block;
+        width: var(--line-width);
+        height: 2px;
+        background-color: var(--navbar-color);;
+        margin-block: auto;
+        transition: all 0.2s ease-in-out;
+    }
+}
+
+.fade-in {
+    animation: fade-in 0.6s ease-in-out;
+}
+
+.fade-out {
+    animation: fade-out 0.6s ease-in-out;
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes expand-lines {
+    from {
+        --line-width: 0vw;
+    }
+    to {
+        --line-width: 6vw;
+    }
+}

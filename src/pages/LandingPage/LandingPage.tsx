@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import { wrapGrid } from 'animate-css-grid'
 
-import MainNavBar from '../MainNavBar'
+import MainNavBar from '../../components/NavBar/MainNavBar'
 
 import './landingpage-styles.css'
 
@@ -24,7 +24,7 @@ export const LandingPage = () => {
 
     return (
         <div ref={gridRef} className="landing-page main-grid">
-            <MainNavBar />
+            <MainNavBar hideHomeLogo />
 
             <div className="background-letter type-garamond-regular">R</div>
             <div className="horizontal-bar1" />

@@ -11,11 +11,14 @@ import './navbar-styles.css'
 
 interface NavBarProps {
     children?: React.ReactNode
+    className?: string
 }
 
 export const NavBar = (props: NavBarProps) => (
     <div className="header">
-        <nav className="navbar type-garamond-regular font-size-medium">
+        <nav
+            className={`navbar type-garamond-regular font-size-medium ${props.className}`}
+        >
             {props.children}
         </nav>
     </div>
