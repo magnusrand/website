@@ -20,6 +20,12 @@ import './simpleWithFrame.css'
 export const SimpleWithFrame = ({ photo }: { photo: PhotoData }) => {
     const [showMeta, setShowMeta] = React.useState(false)
 
+    const cameraName = ` ${
+        photo.metaData?.Make !== photo.metaData?.Model?.split(' ')[0]
+            ? `${photo.metaData?.Make} `
+            : ''
+    }${photo.metaData?.Model}`
+
     return (
         <div
             key={photo.fileName}
@@ -48,7 +54,9 @@ export const SimpleWithFrame = ({ photo }: { photo: PhotoData }) => {
                     <p className="simple-with-frame__photo-wrapper__caption__meta">
                         <span>
                             kamera:
-                            <span className="type-sourcesans-italic">{` ${photo.metaData?.Model}`}</span>
+                            <span className="type-sourcesans-italic">
+                                {cameraName}
+                            </span>
                         </span>
                         <span>
                             objektiv:
