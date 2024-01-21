@@ -79,6 +79,7 @@
             background-color: rgba(0, 0, 0, 0.9);
             position: fixed;
             height: 100vh;
+            height: 100dvh;
             width: 100vw;
             top: 0rem;
             left: 0rem;
@@ -174,6 +175,7 @@
 
     &.add-photos {
         height: 100vh;
+        height: 100dvh;
     }
 }
 

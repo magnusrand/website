@@ -2,6 +2,7 @@
 
 .landing-page.main-grid {
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
 
     .horizontal-bar1 {
@@ -115,6 +116,7 @@
         padding-left: 2rem;
         padding-right: 2rem;
         height: 100vh;
+        height: 100dvh;
         min-height: calc(var(--row-height) * 8);
 
         .logo-vertical {
@@ -162,6 +164,7 @@
         padding-left: 2rem;
         padding-right: 2rem;
         height: 100vh;
+        height: 100dvh;
         min-height: calc(var(--row-height) * 8);
 
         .logo-vertical {
