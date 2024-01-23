@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 // import { wrapGrid } from 'animate-css-grid'
 import classNames from 'classnames'
 
-import { HomeLogo } from '../../components/NavBar/HomeLogo'
+import { SiteHeading } from '../../components/SiteHeading'
 import { TextDivider } from '../../components/TextDivider'
 import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
@@ -124,15 +124,7 @@ export const DisplayPhotosPage = () => {
     return (
         <div ref={gridRef} className="main-grid displayed-photos-page">
             <MainNavBar />
-            <HomeLogo />
-            <div className="horizontal-bar-top" />
-            <div className="horizontal-bar-top__text type-garamond-bold font-size-extralarge">
-                Fotografi
-            </div>
-            <div className="horizontal-bar-bottom" />
-            <div className="horizontal-bar-bottom__text type-garamond-regular font-size-extralarge">
-                {`– ${displayedAlbumName()}`}
-            </div>
+            <SiteHeading siteName={displayedAlbumName()} />
             <div className="divider-box" />
             {photos?.map((photo, index) => (
                 <React.Fragment key={photo.imageUrl}>
