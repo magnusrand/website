@@ -2,6 +2,8 @@
     position: sticky;
     top: var(--margin-top-main);
     margin-top: var(--margin-top-main);
+
+    height: 25vh;
     
     &:has(.main-navbar--collapsed) {
         mix-blend-mode: difference;

@@ -1,10 +1,13 @@
 .main-grid {
     &.displayed-photos-page {
         --row-gap: 1.25rem;
+        
+        --row-height: 5rem;
+        --row-gap: 1.25rem;
 
         position: relative;
         align-items: center;
-        grid-template-rows: auto;
+        grid-template-rows: 25vh repeat(2, var(--row-height));
         height: 100%;
         margin-bottom: 4rem;
 
@@ -13,7 +16,7 @@
         }
 
         .divider-box {
-            grid-column: 1 / 7;
+            grid-column: 1 / -1;
             grid-row: 4 / 5;
 
             height: var(--row-height);
@@ -24,23 +27,19 @@
             z-index: 1;
 
             &--1 {
-                grid-column-start: 2;
-                grid-column-end: 6;
+                grid-column: 4 / 11;
                 margin: 0 -5rem;
                 &1 {
-                    grid-column-start: 3;
-                    grid-column-end: 5;
+                    grid-column: 5 / 9;
                     margin: 0 -5rem;
                 }
             }
             &--2 {
-                grid-column-start: 2;
-                grid-column-end: 4;
+                grid-column: 3 / 7;
                 margin-left: -5rem;
             }
             &--3 {
-                grid-column-start: 4;
-                grid-column-end: 6;
+                grid-column: 7 / 11;
                 margin-right: -5rem;
             }
 
@@ -94,7 +93,7 @@
         .text-divider-wrapper {
             --divider-color: var(--light-color-2);
 
-            grid-column: span 6;
+            grid-column: span 12;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -182,26 +181,24 @@
 @media only screen and (max-width: 800px) {
     .main-grid {
         &.displayed-photos-page {
+            --row-height: inherit;
+            
             .photo-element {
                 transition: all ease-out 0.1s;
                 &--1 {
-                    grid-column-start: 1;
-                    grid-column-end: 7;
+                    grid-column: 1 / -1;
                     margin: 0;
                     &1 {
-                        grid-column-start: 1;
-                        grid-column-end: 7;
+                        grid-column: 1 / -1;
                         margin: 0;
                     }
                 }
                 &--2 {
-                    grid-column-start: 1;
-                    grid-column-end: 4;
+                    grid-column: 1 / 7;
                     margin: 0;
                 }
                 &--3 {
-                    grid-column-start: 4;
-                    grid-column-end: 7;
+                    grid-column: 7 / -1;
                     margin: 0;
                 }
 
