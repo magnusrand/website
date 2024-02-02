@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
-import { SiteHeading } from '../../../components/SiteHeading'
+import { SiteHeading } from '../../../components/SiteHeading/SiteHeading'
 import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
 import { PhotoData } from '../../../types'
 import MainNavBar from '../../../components/NavBar/MainNavBar'

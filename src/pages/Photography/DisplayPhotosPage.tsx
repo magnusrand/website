@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom'
 // import { wrapGrid } from 'animate-css-grid'
 import classNames from 'classnames'
 
-import { SiteHeading } from '../../components/SiteHeading'
-import { TextDivider } from '../../components/TextDivider'
+import { SiteHeading } from '../../components/SiteHeading/SiteHeading'
+import { TextDivider } from '../../components/TextDivider/TextDivider'
 import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
 import MainNavBar from '../../components/NavBar/MainNavBar'
@@ -61,15 +61,16 @@ export const DisplayPhotosPage = () => {
         getPhotosForCurrentPage()
     }, [albumName])
 
-    const photoGrid1 = useMemo(() => {
+    const photoGrid1 = useMemo(;() => {
         const layoutArray = []
-        const dividerArray = new Array(photos.length)
-            .fill(1)
-            .map(() => (Math.random() >= 0.8 ? 1 : 0))
+        const dividerArray = new Array(photos.length).fill(0)
+        // const dividerArray = new Array(photos.length).fill(0)
+        // .map(() => (Math.random() >= 0.8 ? 1 : 0))
         let counter = 0
         while (counter < photos?.length) {
             if (counter + 1 === photos?.length) {
                 layoutArray.push(1)
+
                 counter++
             } else if (photos[counter].metaData?.orientation === 'landscape') {
                 layoutArray.push(1)
@@ -163,10 +164,7 @@ export const DisplayPhotosPage = () => {
                         />
                     </div>
                     {photoGrid1.dividerArray[index] === 1 && (
-                        <TextDivider
-                            index={index}
-                            text={displayedAlbumName()}
-                        />
+                        <TextDivider text={displayedAlbumName()} />
                     )}
                 </React.Fragment>
             ))}
