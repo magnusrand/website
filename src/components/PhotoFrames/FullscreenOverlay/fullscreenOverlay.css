@@ -1,0 +1,50 @@
+.main-grid:has(.fullscreen-overlay--active) .header {
+    height: 0;
+    overflow: hidden;
+}
+
+.fullscreen-overlay {
+    pointer-events: none;
+    opacity: 0;
+    transition: all ease 0.25s;
+
+    background-color: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
+    top: 0rem;
+    left: 0rem;
+    z-index: 2;
+
+    &--active {
+        pointer-events: all;
+        opacity: 1;
+    }
+    
+}
+
+.fullscreen-overlay__close-button {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+
+    &:focus {
+        outline-color: var(--white);
+    }
+}
+
+.fullscreen-overlay__image {
+    position: fixed;
+    width: auto;
+    height: auto;
+    max-height: 90vh;
+    max-width: 90vw;
+    margin: auto;
+    top: 0rem;
+    bottom: 0rem;
+    left: 0rem;
+    right: 0rem;
+    z-index: 3;
+}
+

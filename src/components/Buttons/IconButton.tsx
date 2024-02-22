@@ -15,6 +15,7 @@ export const IconButton = ({
 }) => (
     <button
         className={`icon-button ${className} icon-button--${variant}`}
+        type="button"
         {...rest}
     >
         {children}

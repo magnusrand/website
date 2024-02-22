@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
-import { SiteHeading } from '../../../components/SiteHeading'
+import { SiteHeading } from '../../../components/SiteHeading/SiteHeading'
 import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
 import { PhotoData } from '../../../types'
 import MainNavBar from '../../../components/NavBar/MainNavBar'
 import { SimpleWithFrame } from '../../../components/PhotoFrames/SimpleWithFrame'
+import { FullscreenOverlay } from '../../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
 
 import Arrows from '../../../assets/images/arrows.svg'
 
@@ -15,6 +16,7 @@ import './featuredPhotos.css'
 export const FeaturedPhotosPage = () => {
     const gridRef = useRef<HTMLDivElement>(null)
     const [photos, setPhotos] = useState<PhotoData[]>([])
+    const [currentFullscreen, setCurrentFullscreen] = useState('')
 
     const ALBUM_NAME = 'featured'
     const PAGE_TITLE = 'Utvalgte'
@@ -31,6 +33,10 @@ export const FeaturedPhotosPage = () => {
         <div ref={gridRef} className="main-grid featured-photos-page">
             <MainNavBar />
             <SiteHeading siteName={PAGE_TITLE} />
+            <FullscreenOverlay
+                currentFullscreenSrc={currentFullscreen}
+                onClick={() => setCurrentFullscreen('')}
+            />
             {photos.length > 0 && (
                 <button
                     className={classNames(
@@ -53,7 +59,11 @@ export const FeaturedPhotosPage = () => {
                 </button>
             )}
             {photos.map((photo) => (
-                <SimpleWithFrame photo={photo} key={photo.fileName} />
+                <SimpleWithFrame
+                    photo={photo}
+                    key={photo.fileName}
+                    onClick={() => setCurrentFullscreen(photo.imageUrl)}
+                />
             ))}
         </div>
     )

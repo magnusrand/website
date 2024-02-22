@@ -21,17 +21,13 @@
         overflow-y: scroll;
         scroll-snap-type: y mandatory;
 
-        .header {
-            height: 25vh;
-        }
-
         .site-heading__horizontal-bar-top {
             scroll-snap-align: center;
             scroll-margin-top: var(--margin-top-main);
         }
 
         .divider-box {
-            grid-column: 1 / 7;
+            grid-column: 1 / -1;
             grid-row: 4 / 5;
 
             height: var(--row-height);
@@ -43,7 +39,7 @@
             opacity: 0;
             transition: opacity 0.2s ease-in-out;
 
-            grid-column: 3 / 5;
+            grid-column: 5 / 9;
             display: flex;
             flex-direction: column;
             justify-content: center;

@@ -1,19 +1,27 @@
+.app {
+    height: 100vh;
+    height: 100dvh;
+}
+
 .main-grid {
     &.displayed-photos-page {
+        --theme-color: var(--light-color-2);
+        --theme-color-secondary: var(--light-color-1);
+        --theme-color-difference: var(--dark-color-2);
+        
+        --row-height: 5rem;
         --row-gap: 1.25rem;
 
         position: relative;
         align-items: center;
-        grid-template-rows: auto;
+        grid-template-rows: 25vh repeat(2, var(--row-height));
         height: 100%;
         margin-bottom: 4rem;
 
-        img {
-            width: 100px;
-        }
+        overflow-y: scroll;
 
         .divider-box {
-            grid-column: 1 / 7;
+            grid-column: 1 / -1;
             grid-row: 4 / 5;
 
             height: var(--row-height);
@@ -24,151 +32,32 @@
             z-index: 1;
 
             &--1 {
-                grid-column-start: 2;
-                grid-column-end: 6;
-                margin: 0 -5rem;
+                grid-column: 3 / -3;
                 &1 {
-                    grid-column-start: 3;
-                    grid-column-end: 5;
-                    margin: 0 -5rem;
+                    grid-column: 5 / 9;
                 }
             }
             &--2 {
-                grid-column-start: 2;
-                grid-column-end: 4;
-                margin-left: -5rem;
+                grid-column: 2 / 7;
             }
             &--3 {
-                grid-column-start: 4;
-                grid-column-end: 6;
-                margin-right: -5rem;
+                grid-column: 7 / -2;
+            }
+
+            &:last-child {
+                margin-bottom: var(--row-height);
             }
 
             &__image {
                 opacity: 0;
                 width: 100%;
                 z-index: 1;
-
-                &__fullscreen {
-                    position: fixed;
-                    width: auto;
-                    height: auto;
-                    max-height: 90vh;
-                    max-width: 90vw;
-                    margin: auto;
-                    top: 0rem;
-                    bottom: 0rem;
-                    left: 0rem;
-                    right: 0rem;
-                    z-index: 3;
-                }
             }
 
             &:hover {
                 box-shadow: -8px -8px 24px 0 #fff,
                     8px 8px 24px 0 rgb(174 174 192 / 70%);
                 scale: 1.01;
-            }
-        }
-
-        .fullscreen__overlay {
-            pointer-events: none;
-            opacity: 0;
-            transition: all ease 0.25s;
-
-            background-color: rgba(0, 0, 0, 0.9);
-            position: fixed;
-            height: 100vh;
-            height: 100dvh;
-            width: 100vw;
-            top: 0rem;
-            left: 0rem;
-            z-index: 2;
-
-            &--active {
-                pointer-events: all;
-                opacity: 1;
-            }
-        }
-
-        .text-divider-wrapper {
-            --divider-color: var(--light-color-2);
-
-            grid-column: span 6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin: 4rem -2rem;
-            overflow-x: hidden;
-
-            .text-divider__background {
-                &--left,
-                &--right {
-                    display: flex;
-                    align-items: center;
-
-                    flex: 2.25;
-                    height: calc(var(--row-height) / 2.5);
-                    margin-top: calc(var(--row-height) / 8);
-                    margin-bottom: calc(var(--row-height) / 8);
-
-                    background-color: var(--divider-color);
-                }
-                &--left {
-                    justify-content: flex-end;
-                }
-                &--right {
-                    justify-content: flex-start;
-                }
-            }
-
-            .text-divider__text {
-                display: flex;
-                align-items: center;
-                position: relative;
-                margin: 0 1rem;
-
-                color: white;
-                white-space: nowrap;
-                text-align: center;
-
-                &--left {
-                    left: calc(10vw + 2rem);
-                    &::before {
-                        background: white;
-                        margin-right: 1rem;
-                    }
-                    &::after {
-                        background: var(--divider-color);
-                        margin-left: 1.5rem;
-                    }
-                }
-
-                &--right {
-                    right: calc(10vw + 2rem);
-                    &::before {
-                        background: var(--divider-color);
-                        margin-right: 1.5rem;
-                    }
-                    &::after {
-                        background: white;
-                        margin-left: 1rem;
-                    }
-                }
-
-                &::before {
-                    content: '';
-                    display: block;
-                    width: 10vw;
-                    height: 2px;
-                }
-                &::after {
-                    content: '';
-                    display: block;
-                    width: 10vw;
-                    height: 2px;
-                }
             }
         }
     }
@@ -182,26 +71,24 @@
 @media only screen and (max-width: 800px) {
     .main-grid {
         &.displayed-photos-page {
+            --row-height: inherit;
+            
             .photo-element {
                 transition: all ease-out 0.1s;
                 &--1 {
-                    grid-column-start: 1;
-                    grid-column-end: 7;
+                    grid-column: 1 / -1;
                     margin: 0;
                     &1 {
-                        grid-column-start: 1;
-                        grid-column-end: 7;
+                        grid-column: 1 / -1;
                         margin: 0;
                     }
                 }
                 &--2 {
-                    grid-column-start: 1;
-                    grid-column-end: 4;
+                    grid-column: 1 / 7;
                     margin: 0;
                 }
                 &--3 {
-                    grid-column-start: 4;
-                    grid-column-end: 7;
+                    grid-column: 7 / -1;
                     margin: 0;
                 }
 

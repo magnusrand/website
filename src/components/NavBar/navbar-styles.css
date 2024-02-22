@@ -1,10 +1,8 @@
 @import '../../main-styles.css';
 
 .header {
-    grid-column-start: 1;
-    grid-column-end: 7;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    grid-column: 1 / 13;
+    grid-row: 1 / 2;
 
     z-index: 10;
 
@@ -13,6 +11,7 @@
         grid-template-columns: repeat(12, minmax(0, 1fr));
         grid-template-rows: 8rem;
         column-gap: 1.25rem;
+        height: 100%;
 
         .navitem:first-child {
             grid-column-start: 3;

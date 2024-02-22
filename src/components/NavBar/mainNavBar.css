@@ -2,8 +2,10 @@
     position: sticky;
     top: var(--margin-top-main);
     margin-top: var(--margin-top-main);
+    align-self: start;
     
     &:has(.main-navbar--collapsed) {
+        height: 5vh;
         mix-blend-mode: difference;
     }
 }
