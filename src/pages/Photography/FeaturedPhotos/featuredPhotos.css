@@ -21,10 +21,6 @@
         overflow-y: scroll;
         scroll-snap-type: y mandatory;
 
-        .header {
-            height: 25vh;
-        }
-
         .site-heading__horizontal-bar-top {
             scroll-snap-align: center;
             scroll-margin-top: var(--margin-top-main);

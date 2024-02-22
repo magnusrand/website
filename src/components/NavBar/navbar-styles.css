@@ -11,6 +11,7 @@
         grid-template-columns: repeat(12, minmax(0, 1fr));
         grid-template-rows: 8rem;
         column-gap: 1.25rem;
+        height: 100%;
 
         .navitem:first-child {
             grid-column-start: 3;

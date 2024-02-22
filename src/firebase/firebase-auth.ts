@@ -11,8 +11,6 @@ import {
 
 import type { User } from 'firebase/auth'
 
-import { google } from 'googleapis'
-
 import { auth, provider } from './firebase-init'
 
 export const signInWithGoogle = () => {

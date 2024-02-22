@@ -9,7 +9,10 @@ import { HomeLogo } from './HomeLogo'
 
 import './mainNavBar.css'
 
-export const MainNavBar = ({ hideHomeLogo = false }): JSX.Element => {
+export const MainNavBar = ({
+    hideHomeLogo = false,
+    hideNavbar = false,
+}): JSX.Element => {
     const [scrolled, setScrolled] = React.useState(false)
     const [showCollapsed, setShowCollapsed] = React.useState(false)
 
@@ -62,6 +65,8 @@ export const MainNavBar = ({ hideHomeLogo = false }): JSX.Element => {
             }
         }
     }, [])
+
+    if (hideNavbar) return <NavBar></NavBar>
 
     if (showCollapsed)
         return (

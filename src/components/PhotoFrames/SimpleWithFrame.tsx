@@ -17,7 +17,13 @@ import { IconButton } from '../Buttons/IconButton'
 
 import './simpleWithFrame.css'
 
-export const SimpleWithFrame = ({ photo }: { photo: PhotoData }) => {
+export const SimpleWithFrame = ({
+    photo,
+    onClick,
+}: {
+    photo: PhotoData
+    onClick: () => void
+}) => {
     const [showMeta, setShowMeta] = React.useState(false)
 
     const cameraName = ` ${
@@ -38,6 +44,7 @@ export const SimpleWithFrame = ({ photo }: { photo: PhotoData }) => {
                 className="simple-with-frame__photo-wrapper__image"
                 src={photo.imageUrl}
                 alt={photo.fileName}
+                onClick={onClick}
             />
             <div className="simple-with-frame__photo-wrapper__caption">
                 <p className="simple-with-frame__photo-wrapper__caption__description">
