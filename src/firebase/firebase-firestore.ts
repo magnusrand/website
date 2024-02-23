@@ -10,7 +10,7 @@ import {
     where,
 } from 'firebase/firestore'
 
-import type { PhotoData } from '../types'
+import type { AlbumData, PhotoData } from '../types'
 
 import { db } from './firebase-init'
 
@@ -37,4 +37,12 @@ export const getPhotosInAlbum = async (album: string | undefined) => {
     const docSnap = await getDocs(photosQuery)
     const photosData = docSnap.docs.map((photo) => photo.data()) as PhotoData[]
     return photosData
+}
+
+export const getAlbums = async () => {
+    const albumSnapshot = await getDocs(collection(db, ALBUM_COLLECTION))
+    if (albumSnapshot.empty) return []
+    const albums = albumSnapshot.docs.map((album) => album.data() as AlbumData)
+
+    return albums
 }

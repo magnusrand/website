@@ -11,6 +11,7 @@ import AddPhotos from './pages/LoginAndAdmin/AddPhotos'
 import DisplayPhotosPage from './pages/Photography/DisplayPhotosPage'
 import { LogIn } from './pages/LoginAndAdmin/LogIn'
 import FeaturedPhotosPage from './pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
+import AlbumsPage from './pages/Photography/Albums/AlbumsPage'
 
 const App = () => (
     <BrowserRouter>
@@ -23,7 +24,7 @@ const App = () => (
 
             <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="foto" element={<h1>Under construction</h1>} />
+                <Route path="foto" element={<AlbumsPage />} />
                 <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
                 <Route path="foto/:albumName" element={<DisplayPhotosPage />} />
                 <Route

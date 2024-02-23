@@ -7,6 +7,12 @@ export enum Color {
     LIGHT3 = '--light-color-3',
 }
 
+export interface AlbumData {
+    name: string
+    coverPhotoUrl: string
+    numberOfPhotos: number
+}
+
 export interface PhotoData {
     title?: string
     description?: string
