@@ -146,11 +146,12 @@ a {
     padding-right: var(--padding-sides);
 
     display: grid;
-    /* TODO change to 12 columns */
     grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-template-rows: repeat(auto-fill, var(--row-height));
     column-gap: var(--column-gap);
     row-gap: var(--row-gap);
+
+    animation: fade-in 2s ease;
 }
 
 @media only screen and (max-width: 1080px) {
@@ -193,5 +194,14 @@ a {
         .row-container {
             width: calc(100% - 4rem);
         }
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

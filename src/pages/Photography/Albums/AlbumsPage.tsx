@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
+import MainNavBar from '../../../components/NavBar/MainNavBar'
 import { getAlbums } from '../../../firebase/firebase-firestore'
 import { AlbumData } from '../../../types'
 
@@ -10,13 +12,46 @@ const AlbumsPage = () => {
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
             const albumData = await getAlbums()
-            console.log('Got ', albumData.length, ' albums')
-            setAlbums(photoData ?? [])
+            setAlbums(albumData ?? [])
         }
         getPhotosForCurrentPage()
     }, [])
 
-    return <h1>Under construction. {albums.length}</h1>
+    const AlbumCard = (album?: AlbumData) => {
+        if (album === undefined) return <></>
+        const albumName = album.name === 'featured' ? 'Utvalgte' : album.name
+        return (
+            <Link
+                to={`/foto/${albumName.toLowerCase()}`}
+                key={album.name}
+                className="albums-page__list__album-card"
+            >
+                <img src={album.coverPhotoUrl} alt={albumName} />
+                <p className="albums-page__list__album-card__title type-garamond-regular ">
+                    {albumName.toLowerCase()}
+                    <span className="albums-page__list__album-card__title__sub type-sourcesans-regular">
+                        ({album.numberOfPhotos} bilder)
+                    </span>
+                </p>
+            </Link>
+        )
+    }
+
+    return (
+        <div className="main-grid albums-page">
+            <MainNavBar />
+            <div className="albums-page__list-wrapper">
+                {AlbumCard(albums.find((album) => album.name === 'featured'))}
+                {albums
+                    .filter(
+                        (album) =>
+                            album.name !== 'featured' &&
+                            album.numberOfPhotos > 0,
+                    )
+                    .map((album) => AlbumCard(album))}
+            </div>
+        </div>
+    )
 }
 
 export default AlbumsPage
