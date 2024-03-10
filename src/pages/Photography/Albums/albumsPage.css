@@ -1,0 +1,109 @@
+.main-grid.albums-page {
+    --theme-color: var(--light-color-2);
+    --theme-color-secondary: var(--light-color-1);
+    --theme-color-difference: var(--dark-color-2);
+
+    --row-gap: 2rem;
+
+    position: relative;
+    height: 100%;
+    margin-bottom: 4rem;
+
+    overflow-y: scroll;
+
+    .albums-page__list-wrapper {
+        grid-column: 3 / 11;
+
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-template-rows: auto;
+        row-gap: var(--row-gap);
+    }
+
+    .albums-page__list__album-card {
+        grid-column-start: span 8;
+        transition: all 0.3s ease;
+
+        margin-inline: -6%;
+
+
+        .albums-page__list__album-card__image-container,
+        img {
+            will-change: transform;
+            transition: transform .3s;
+            transform: scale(1.111);
+
+            height: 12rem;
+        }
+
+        .albums-page__list__album-card__image-container {
+            overflow: hidden;
+            transform: scale(0.9);
+        }
+
+
+        &:hover .albums-page__list__album-card__image-container,
+        &:hover img {
+            transform: scale(1);
+        }
+
+        &:hover {
+            filter: opacity(0.9);
+        }
+
+        animation: fade-in 2s ease;
+
+        .albums-page__list__album-card__title {
+            width: 100%;
+            margin-top: 0rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            font-variant: small-caps;
+            font-size: 1.5rem;
+
+            .albums-page__list__album-card__title__sub {
+                font-size: 0.75rem;
+                font-variant: normal;
+            }
+        }
+
+        img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .main-grid.albums-page {
+        .albums-page__list-wrapper {
+            grid-column: 2 / 12;
+        }
+        .albums-page__list__album-card {
+            grid-column-start: span 10;
+        }
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .main-grid.albums-page {
+        .albums-page__list-wrapper {
+            grid-column: 1 / 13;
+        }
+        .albums-page__list__album-card {
+            grid-column-start: span 12;
+        }
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
