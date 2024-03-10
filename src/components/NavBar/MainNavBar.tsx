@@ -114,8 +114,8 @@ export const MainNavBar = ({
             />
             <NavItem title="Annet" color={Color.DARK3}>
                 <Dropdown>
-                    <DropdownItem title="CV" linkPath="" />
-                    <DropdownItem title="Kontakt meg" linkPath="" />
+                    <DropdownItem title="LinkedIn" linkPath="/linkedin" />
+                    <DropdownItem title="Musikk" linkPath="/musikk" />
                 </Dropdown>
             </NavItem>
             {!hideHomeLogo && <HomeLogo />}

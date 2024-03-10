@@ -32,6 +32,18 @@ const App = () => (
                         <Redirect linkPath="https://github.com/magnusrand" />
                     }
                 />
+                <Route
+                    path="/linkedin"
+                    element={
+                        <Redirect linkPath="https://www.linkedin.com/in/magnus-rand-363489122/" />
+                    }
+                />
+                <Route
+                    path="/musikk"
+                    element={
+                        <Redirect linkPath="https://soundcloud.com/magnus-rand" />
+                    }
+                />
                 <Route path="add-photos" element={<AddPhotos />} />
                 <Route path="login" element={<LogIn />} />
                 <Route
