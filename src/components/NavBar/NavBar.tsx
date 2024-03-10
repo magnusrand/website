@@ -83,7 +83,7 @@ interface DropdownItemsProps {
 }
 
 export const DropdownItem = (props: DropdownItemsProps) => (
-    <Link to={'/' + props.linkPath} className="dropdown-item">
+    <Link to={props.linkPath} className="dropdown-item">
         {props.title}
     </Link>
 )

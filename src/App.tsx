@@ -28,19 +28,19 @@ const App = () => (
                 <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
                 <Route path="foto/:albumName" element={<DisplayPhotosPage />} />
                 <Route
-                    path="/github"
+                    path="github"
                     element={
                         <Redirect linkPath="https://github.com/magnusrand" />
                     }
                 />
                 <Route
-                    path="/linkedin"
+                    path="linkedin"
                     element={
                         <Redirect linkPath="https://www.linkedin.com/in/magnus-rand-363489122/" />
                     }
                 />
                 <Route
-                    path="/musikk"
+                    path="musikk"
                     element={
                         <Redirect linkPath="https://soundcloud.com/magnus-rand" />
                     }

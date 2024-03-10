@@ -102,8 +102,8 @@ export const MainNavBar = ({
         <NavBar className={classNames('fade-in', { 'fade-out': scrolled })}>
             <NavItem title="Fotografi" color={Color.DARK1}>
                 <Dropdown>
-                    <DropdownItem title="Utvalgte" linkPath="foto/utvalgte" />
-                    <DropdownItem title="Alle album" linkPath="foto" />
+                    <DropdownItem title="Utvalgte" linkPath="/foto/utvalgte" />
+                    <DropdownItem title="Alle album" linkPath="/foto" />
                 </Dropdown>
             </NavItem>
             <NavItem
