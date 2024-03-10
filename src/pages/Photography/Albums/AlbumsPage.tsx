@@ -26,7 +26,9 @@ const AlbumsPage = () => {
                 key={album.name}
                 className="albums-page__list__album-card"
             >
-                <img src={album.coverPhotoUrl} alt={albumName} />
+                <div className="albums-page__list__album-card__image-container">
+                    <img src={album.coverPhotoUrl} alt={albumName} />
+                </div>
                 <p className="albums-page__list__album-card__title type-garamond-regular ">
                     {albumName.toLowerCase()}
                     <span className="albums-page__list__album-card__title__sub type-sourcesans-regular">

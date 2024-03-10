@@ -24,11 +24,34 @@
         grid-column-start: span 8;
         transition: all 0.3s ease;
 
-        animation: fade-in 2s ease;
+        margin-inline: -6%;
+
+
+        .albums-page__list__album-card__image-container,
+        img {
+            will-change: transform;
+            transition: transform .3s;
+            transform: scale(1.111);
+
+            height: 12rem;
+        }
+
+        .albums-page__list__album-card__image-container {
+            overflow: hidden;
+            transform: scale(0.9);
+        }
+
+
+        &:hover .albums-page__list__album-card__image-container,
+        &:hover img {
+            transform: scale(1);
+        }
 
         &:hover {
-            filter: opacity(0.75);
+            filter: opacity(0.9);
         }
+
+        animation: fade-in 2s ease;
 
         .albums-page__list__album-card__title {
             width: 100%;
@@ -49,7 +72,6 @@
 
         img {
             width: 100%;
-            height: 12rem;
             object-fit: cover;
         }
     }
