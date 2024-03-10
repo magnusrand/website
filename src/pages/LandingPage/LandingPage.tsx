@@ -13,9 +13,9 @@ export const LandingPage = () => {
     useLayoutEffect(() => {
         if (gridRef.current)
             wrapGrid(gridRef.current, {
-                easing: 'backInOut',
+                easing: 'backOut',
                 stagger: 10,
-                duration: 400,
+                duration: 600,
             })
     }, [gridRef])
 

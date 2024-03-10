@@ -8,7 +8,7 @@
         background-color: var(--theme-color-secondary);
 
         transition: 0.5s ease-in-out;
-        animation: expand-line-right-to-left 1s ease-out;
+        animation: expand-line-left-to-right 1.7s ease-out;
 
 
         &__text {
@@ -34,7 +34,7 @@
         background-color: var(--theme-color);
         
         transition: 0.5s ease-in-out;
-        animation: expand-line-left-to-right 1s ease-out;
+        animation: expand-line-left-to-right 2s ease-out;
 
         &__text {
             margin: 0; /* remove margin from h2 tag */

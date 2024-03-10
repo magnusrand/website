@@ -87,7 +87,7 @@
         }
 
         [class^='logo-overlapping-letter-'] {
-            transition: all ease-out 0.5s;
+            transition: all ease-out 0.25s;
         }
 
         margin-top: -1.4rem;

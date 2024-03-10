@@ -15,8 +15,10 @@
     .simple-with-frame__photo-wrapper__image {
         max-width: 100%;
         max-height: 100%;
-        border: 1vw solid var(--theme-color);
+        //border: 1vw solid var(--theme-color);
         box-sizing: border-box;
+
+        cursor: pointer;
     }
 
     .simple-with-frame__photo-wrapper__caption {
