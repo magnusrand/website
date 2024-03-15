@@ -1,5 +1,5 @@
 .simple-with-frame__photo-wrapper {
-    grid-column: 3 / 11;
+    grid-column: 4 / 10;
 
     display: flex;
     flex-direction: column;
@@ -17,6 +17,7 @@
         max-height: 100%;
         //border: 1vw solid var(--theme-color);
         box-sizing: border-box;
+        object-fit: contain;
 
         cursor: pointer;
     }
@@ -25,10 +26,10 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
+        gap: 1rem;
         min-height: 3rem;
         
         .simple-with-frame__photo-wrapper__caption__description {
-            max-width: 60%;
             margin: 0;
             flex: 1;
    
