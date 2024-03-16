@@ -13,16 +13,21 @@ import { MdIso } from 'react-icons/md'
 import { PhotoData } from '../../types'
 
 import { getAperture, getISO, getShutterSpeedFraction } from '../utils'
+
 import { IconButton } from '../Buttons/IconButton'
+
+import { ProgressiveImage } from './ProgressiveImage'
 
 import './simpleWithFrame.css'
 
 export const SimpleWithFrame = ({
     photo,
     onClick,
+    className,
 }: {
     photo: PhotoData
     onClick: () => void
+    className?: string
 }) => {
     const [showMeta, setShowMeta] = React.useState(false)
 
@@ -35,14 +40,15 @@ export const SimpleWithFrame = ({
     return (
         <div
             key={photo.fileName}
-            className={classNames([
+            className={classNames(className, [
                 'photo',
                 'simple-with-frame__photo-wrapper',
             ])}
         >
-            <img
+            <ProgressiveImage
                 className="simple-with-frame__photo-wrapper__image"
                 src={photo.imageUrl}
+                placeholderSrc={photo.thumbnailUrl}
                 alt={photo.fileName}
                 onClick={onClick}
             />

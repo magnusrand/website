@@ -5,6 +5,7 @@ import MainNavBar from '../../components/NavBar/MainNavBar'
 import { SiteHeading } from '../../components/SiteHeading/SiteHeading'
 import { TextDivider } from '../../components/TextDivider/TextDivider'
 import { FullscreenOverlay } from '../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
+import { ProgressiveImage } from '../../components/PhotoFrames/ProgressiveImage'
 import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
 
@@ -91,27 +92,13 @@ export const DisplayPhotosPage = () => {
             />
             {photos?.map((photo, index) => (
                 <React.Fragment key={photo.imageUrl}>
-                    <div
-                        className={`photo-element photo-element--${
-                            photoLayout[index]
-                        } test ${
-                            currentFullscreen === photo.imageUrl
-                                ? 'photo-element--active'
-                                : ''
-                        }`}
-                        style={{
-                            backgroundImage: `url('${photo.imageUrl}')`,
-                            backgroundSize: 'cover',
-                            backgroundRepeat: 'no-repeat',
-                        }}
-                    >
-                        <img
-                            className="photo-element__image"
-                            src={photo.imageUrl}
-                            tabIndex={currentFullscreen ? -1 : 0}
-                            onClick={() => setCurrentFullscreen(photo.imageUrl)}
-                        />
-                    </div>
+                    <ProgressiveImage
+                        src={photo.imageUrl}
+                        placeholderSrc={photo.thumbnailUrl}
+                        tabIndex={currentFullscreen ? -1 : 0}
+                        onClick={() => setCurrentFullscreen(photo.imageUrl)}
+                        className={`photo-element photo-element--${photoLayout[index]}`}
+                    />
                     {photoGrid1.dividerArray[index] === 1 && (
                         <TextDivider text={displayedAlbumName()} />
                     )}

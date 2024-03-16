@@ -29,6 +29,7 @@
 
         .photo-element {
             transition: all ease-out 0.1s;
+            width: 100%;
             z-index: 1;
 
             &--1 {
@@ -46,12 +47,6 @@
 
             &:last-child {
                 margin-bottom: var(--row-height);
-            }
-
-            &__image {
-                opacity: 0;
-                width: 100%;
-                z-index: 1;
             }
 
             &:hover {
@@ -90,10 +85,6 @@
                 &--3 {
                     grid-column: 7 / -1;
                     margin: 0;
-                }
-
-                &__image {
-                    width: 100%;
                 }
             }
 
