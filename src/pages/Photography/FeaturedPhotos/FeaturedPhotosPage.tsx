@@ -30,7 +30,12 @@ export const FeaturedPhotosPage = () => {
     }, [ALBUM_NAME])
 
     return (
-        <div ref={gridRef} className="main-grid featured-photos-page">
+        <div
+            ref={gridRef}
+            className={classNames('main-grid featured-photos-page', {
+                'fullscreen-active': currentFullscreen !== '',
+            })}
+        >
             <MainNavBar />
             <SiteHeading siteName={PAGE_TITLE} />
             <FullscreenOverlay

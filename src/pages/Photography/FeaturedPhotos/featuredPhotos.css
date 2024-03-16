@@ -21,6 +21,10 @@
         overflow-y: scroll;
         scroll-snap-type: y mandatory;
 
+        &.fullscreen-active {
+            scroll-snap-type: none;
+        }
+
         .site-heading__horizontal-bar-top {
             scroll-snap-align: center;
             scroll-margin-top: var(--margin-top-main);
