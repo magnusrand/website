@@ -54,14 +54,14 @@ export const SimpleWithFrame = ({
             />
             <div className="simple-with-frame__photo-wrapper__caption">
                 <p className="simple-with-frame__photo-wrapper__caption__description">
-                    {photo.title ? (
+                    {photo.title && (
                         <span className="simple-with-frame__photo-wrapper__caption__description__heading type-garamond-bold ">
-                            {photo.title} –
+                            {photo.title}
                         </span>
-                    ) : (
-                        <></>
                     )}
-                    {` ${photo.description ?? ''}`}
+                    {`${photo.title && photo.description ? '– ' : ''}${
+                        photo.description ?? ''
+                    }`}
                 </p>
                 {showMeta ? (
                     <p className="simple-with-frame__photo-wrapper__caption__meta">
