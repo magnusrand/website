@@ -1,0 +1,6 @@
+.edit-album-page {
+
+    .edit-photo-data-card{
+        grid-column: span 3;
+    }
+}
