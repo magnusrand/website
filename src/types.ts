@@ -13,7 +13,7 @@ export interface AlbumData {
     name: string
     coverPhotoUrl: string
     numberOfPhotos: number
-    documentRef?: DocumentReference
+    documentRef: DocumentReference
 }
 
 export interface PhotoData {

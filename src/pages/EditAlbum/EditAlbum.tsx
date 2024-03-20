@@ -1,32 +1,54 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
 import MainNavBar from '../../components/NavBar/MainNavBar'
 import EditPhotoDataCard from '../../components/Admin/EditPhotoDataCard'
-import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
-import { PhotoData } from '../../types'
+import { getAlbums, getPhotosInAlbum } from '../../firebase/firebase-firestore'
+import { AlbumData, PhotoData } from '../../types'
 
 import './editAlbum.css'
 
 export const EditAlbum = () => {
-    const params = useParams()
     const [photos, setPhotos] = useState<PhotoData[]>([])
-    const [photoDescription, setPhotoDescription] = useState<string>()
+    const [albums, setAlbums] = useState<AlbumData[]>([])
+    const [currentAlbumName, setCurrentAlbumName] = useState<string>('featured')
 
-    const albumName = params.albumName?.toLowerCase()
+    useEffect(() => {
+        const getAlbumList = async () => {
+            const albumData = await getAlbums()
+            setAlbums(albumData ?? [])
+        }
+        getAlbumList()
+    }, [])
 
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
-            const photoData = await getPhotosInAlbum('featured')
-            console.log('Got ', photoData.length, ' photos for current page')
+            console.log('ran get photos for album')
+            const photoData = await getPhotosInAlbum(currentAlbumName)
             setPhotos(photoData ?? [])
         }
         getPhotosForCurrentPage()
-    }, [albumName])
+    }, [currentAlbumName])
 
     return (
         <div className="main-grid edit-album-page">
             <MainNavBar />
+            <div className="edit-album-page__album-select">
+                <label htmlFor="album-select">Album:</label>
+                <select
+                    name="album"
+                    id="album-select"
+                    onChange={(e) => setCurrentAlbumName(e.currentTarget.value)}
+                >
+                    {albums.map((album) => (
+                        <option key={album?.documentRef.id} value={album.name}>
+                            {album.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="edit-album-page__current-album-header">
+                <h1>{currentAlbumName}</h1>
+            </div>
             {photos.map((photo) => (
                 <EditPhotoDataCard key={photo.fileName} photo={photo} />
             ))}
