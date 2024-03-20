@@ -24,7 +24,7 @@ const App = () => (
             />
 
             <Routes>
-                <Route path="/" element={<LandingPage />} />
+                <Route index element={<LandingPage />} />
                 <Route path="/admin" element={<EditAlbum />} />
                 <Route path="foto" element={<AlbumsPage />} />
                 <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />

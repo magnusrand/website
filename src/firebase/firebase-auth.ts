@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 
 import {
     GoogleAuthProvider,
-    OAuthCredential,
     onAuthStateChanged,
     signInWithPopup,
     signOut,
@@ -49,10 +48,3 @@ export const useAuth = () => {
 
     return currentUser
 }
-
-
-// export const oauth2Client = new google.auth.OAuth2(
-//     OAuthCredential YOUR_CLIENT_ID,
-//     YOUR_CLIENT_SECRET,
-//     YOUR_REDIRECT_URL
-//   );
