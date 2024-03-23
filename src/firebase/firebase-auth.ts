@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react'
 
 import {
     GoogleAuthProvider,
-    OAuthCredential,
     onAuthStateChanged,
     signInWithPopup,
     signOut,
 } from 'firebase/auth'
 
 import type { User } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 
-import { auth, provider } from './firebase-init'
+import { auth, db, provider } from './firebase-init'
 
 export const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
@@ -50,9 +50,14 @@ export const useAuth = () => {
     return currentUser
 }
 
+export const isAdmin = async (userUID: string | undefined) => {
+    if (userUID === undefined) return false
 
-// export const oauth2Client = new google.auth.OAuth2(
-//     OAuthCredential YOUR_CLIENT_ID,
-//     YOUR_CLIENT_SECRET,
-//     YOUR_REDIRECT_URL
-//   );
+    const docRef = doc(db, 'admins', userUID)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+        return true
+    }
+    return false
+}

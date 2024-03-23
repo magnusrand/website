@@ -1,3 +1,5 @@
+import { DocumentReference } from 'firebase/firestore'
+
 export enum Color {
     DARK1 = '--dark-color-1',
     DARK2 = '--dark-color-2',
@@ -11,6 +13,7 @@ export interface AlbumData {
     name: string
     coverPhotoUrl: string
     numberOfPhotos: number
+    documentRef: DocumentReference
 }
 
 export interface PhotoData {
@@ -22,6 +25,7 @@ export interface PhotoData {
     priority: number
     thumbnailUrl: string
     metaData?: metaData
+    documentRef: DocumentReference
 }
 
 interface metaData {

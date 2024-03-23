@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { logOut, signInWithGoogle, useAuth } from '../../firebase/firebase-auth'
 
 import './styles.css'

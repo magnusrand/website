@@ -1,0 +1,27 @@
+.edit-album-page {
+
+    .header {
+        height: 5vh;
+    }
+
+    .edit-album-page__album-select {
+        grid-column: span 12;
+        margin-top: 2.5rem;
+    }
+
+    .edit-album-page__current-album-header {
+        grid-column: span 12;
+    }
+
+    .edit-photo-data-card{
+        grid-column: span 3;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .edit-album-page {
+        .edit-photo-data-card{
+            grid-column: span 12;
+        }
+    }
+}

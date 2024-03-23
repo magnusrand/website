@@ -8,6 +8,8 @@ import {
     orderBy,
     query,
     where,
+    updateDoc,
+    DocumentReference,
 } from 'firebase/firestore'
 
 import type { AlbumData, PhotoData } from '../types'
@@ -35,14 +37,53 @@ export const getPhotosInAlbum = async (album: string | undefined) => {
         limit(50),
     )
     const docSnap = await getDocs(photosQuery)
-    const photosData = docSnap.docs.map((photo) => photo.data()) as PhotoData[]
+    const photosData = docSnap.docs.map((photo) => ({
+        ...photo.data(),
+        documentRef: photo.ref,
+    })) as PhotoData[]
+
     return photosData
 }
 
 export const getAlbums = async () => {
     const albumSnapshot = await getDocs(collection(db, ALBUM_COLLECTION))
     if (albumSnapshot.empty) return []
-    const albums = albumSnapshot.docs.map((album) => album.data() as AlbumData)
+    const albums = albumSnapshot.docs.map(
+        (album) => ({ ...album.data(), documentRef: album.ref } as AlbumData),
+    )
 
     return albums
+}
+
+export const updatePhotoData = async (
+    documentRef: DocumentReference,
+    updatedPhotoData: Partial<PhotoData>,
+) => {
+    const updatedPhotoDataWithoutMetaData = Object.entries(updatedPhotoData)
+        .filter((data) => data[0] !== 'metaData')
+        .reduce(
+            (accumulator, currentValue) => ({
+                ...accumulator,
+                [currentValue?.[0]]: currentValue?.[1],
+            }),
+            {},
+        )
+    if (updatedPhotoData.metaData !== undefined) {
+        const flattenedMetaData = Object.entries(
+            updatedPhotoData.metaData ?? {},
+        ).reduce(
+            (accumulator, currentValue) => ({
+                ...accumulator,
+                [`metaData.${currentValue?.[0]}`]: currentValue?.[1],
+            }),
+            {},
+        )
+        await updateDoc(documentRef, {
+            ...updatedPhotoDataWithoutMetaData,
+            ...flattenedMetaData,
+        })
+        return
+    }
+
+    await updateDoc(documentRef, updatedPhotoDataWithoutMetaData)
 }
