@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import MainNavBar from '../../components/NavBar/MainNavBar'
 import EditPhotoDataCard from '../../components/Admin/EditPhotoDataCard'
 import { getAlbums, getPhotosInAlbum } from '../../firebase/firebase-firestore'
-import { useAuth } from '../../firebase/firebase-auth'
+import { isAdmin, useAuth } from '../../firebase/firebase-auth'
 import { AlbumData, PhotoData } from '../../types'
 
 import './editAlbum.css'
@@ -11,6 +11,7 @@ import './editAlbum.css'
 export const EditAlbum = () => {
     const [photos, setPhotos] = useState<PhotoData[]>([])
     const [albums, setAlbums] = useState<AlbumData[]>([])
+    const [isAllowedToEdit, setIsAllowedToEdit] = useState<boolean>(false)
     const [currentAlbumName, setCurrentAlbumName] = useState<string>('featured')
     const user = useAuth()
 
@@ -23,6 +24,14 @@ export const EditAlbum = () => {
     }, [])
 
     useEffect(() => {
+        const checkIfAdmin = async () => {
+            const allowed = await isAdmin(user?.uid)
+            setIsAllowedToEdit(allowed)
+        }
+        checkIfAdmin()
+    }, [user?.uid])
+
+    useEffect(() => {
         const getPhotosForCurrentPage = async () => {
             const photoData = await getPhotosInAlbum(currentAlbumName)
             setPhotos(photoData ?? [])
@@ -33,7 +42,7 @@ export const EditAlbum = () => {
     return (
         <div className="main-grid edit-album-page">
             <MainNavBar />
-            {user?.email === 'magnus.rand@gmail.com' ? (
+            {isAllowedToEdit ? (
                 <>
                     <div className="edit-album-page__album-select">
                         <label htmlFor="album-select">Album:</label>
