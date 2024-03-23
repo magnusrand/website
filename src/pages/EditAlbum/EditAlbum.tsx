@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import MainNavBar from '../../components/NavBar/MainNavBar'
 import EditPhotoDataCard from '../../components/Admin/EditPhotoDataCard'
 import { getAlbums, getPhotosInAlbum } from '../../firebase/firebase-firestore'
@@ -16,20 +18,20 @@ export const EditAlbum = () => {
     const user = useAuth()
 
     useEffect(() => {
-        const getAlbumList = async () => {
-            const albumData = await getAlbums()
-            setAlbums(albumData ?? [])
-        }
-        getAlbumList()
-    }, [])
-
-    useEffect(() => {
         const checkIfAdmin = async () => {
             const allowed = await isAdmin(user?.uid)
             setIsAllowedToEdit(allowed)
         }
         checkIfAdmin()
     }, [user?.uid])
+
+    useEffect(() => {
+        const getAlbumList = async () => {
+            const albumData = await getAlbums()
+            setAlbums(albumData ?? [])
+        }
+        getAlbumList()
+    }, [])
 
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
@@ -71,7 +73,10 @@ export const EditAlbum = () => {
                     ))}
                 </>
             ) : (
-                <h1>Logg inn for å redigere</h1>
+                <div className="edit-album-page__not-logged-in">
+                    <h1>Du må logge inn som admin for å redigere</h1>
+                    <Link to="/login">Login-side</Link>
+                </div>
             )}
         </div>
     )

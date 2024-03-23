@@ -16,6 +16,10 @@
     .edit-photo-data-card{
         grid-column: span 3;
     }
+
+    .edit-album-page__not-logged-in {
+        grid-column: 2 / 11;
+    }
 }
 
 @media screen and (max-width: 768px){

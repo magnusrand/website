@@ -31,8 +31,7 @@ const EditPhotoDataCard = ({ photo }: { photo: PhotoData }) => {
             </div>
             <div className="edit-photo-data-card__input">
                 <label htmlFor="photoDescription">Description</label>
-                <input
-                    type="text"
+                <textarea
                     id="photoDescription"
                     value={photoDescription}
                     onChange={(e) => setPhotoDescription(e.target.value)}

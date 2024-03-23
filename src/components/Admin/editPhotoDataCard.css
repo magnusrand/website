@@ -7,4 +7,9 @@
         object-fit: cover;
         max-height: 10rem;
     }
+
+    .edit-photo-data-card__input {
+        display: flex;
+        flex-direction: column;
+    }
 }

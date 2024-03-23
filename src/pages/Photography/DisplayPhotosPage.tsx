@@ -24,7 +24,6 @@ export const DisplayPhotosPage = () => {
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
             const photoData = await getPhotosInAlbum(albumName)
-            console.log('Got ', photoData.length, ' photos for current page')
             setPhotos(photoData ?? [])
         }
         getPhotosForCurrentPage()
