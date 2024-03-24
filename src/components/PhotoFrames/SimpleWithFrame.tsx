@@ -59,7 +59,7 @@ export const SimpleWithFrame = ({
                             {photo.title}
                         </span>
                     )}
-                    {`${photo.title && photo.description ? '– ' : ''}${
+                    {`${photo.title && photo.description ? ' – ' : ''}${
                         photo.description ?? ''
                     }`}
                 </p>
