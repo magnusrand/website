@@ -1,4 +1,5 @@
-import { storage } from 'firebase-functions'
+import { storage } from 'firebase-functions/v2'
+import { onCall } from 'firebase-functions/v2/https'
 import { initializeApp } from 'firebase-admin/app'
 import {
     getStorage as getStorageAdmin,
@@ -22,10 +23,10 @@ const THUMBNAILS_FOLDER = 'thumbnails'
 const THUMBNAIL_PREFIX = 'thumb_'
 const THUMBNAIL_HEIGHT = 100
 
-export const createDocumentForUploadedPhotoInAlbum = storage
-    .object()
-    .onFinalize(async (object) => {
-        const filePath = object.name as string
+export const createDocumentForUploadedPhotoInAlbum = storage.onObjectFinalized(
+    { region: 'europe-north1' },
+    async (object) => {
+        const filePath = object.data.name as string
         const splitFilePath = filePath?.split('/')
         const fileName = filePath?.includes('/')
             ? splitFilePath[splitFilePath.length - 1]
@@ -182,12 +183,13 @@ export const createDocumentForUploadedPhotoInAlbum = storage
         }
 
         return null
-    })
+    },
+)
 
-export const removeDocumentsForDeletedPhoto = storage
-    .object()
-    .onDelete(async (object) => {
-        const filePath = object.name as string
+export const removeDocumentsForDeletedPhoto = storage.onObjectDeleted(
+    { region: 'europe-north1' },
+    async (object) => {
+        const filePath = object.data.name as string
         const splitFilePath = filePath?.split('/')
         const fileName = filePath?.includes('/')
             ? splitFilePath[splitFilePath.length - 1]
@@ -265,4 +267,28 @@ export const removeDocumentsForDeletedPhoto = storage
         thumbnailFile.delete()
         log('Successfully deleted thumbnail:', thumbnailFileName)
         return true
-    })
+    },
+)
+
+export const deleteImageFromStorage = onCall(
+    { cors: true, region: 'europe-north1' },
+    async (request) => {
+        log('GELOLZ1')
+        try {
+            const storageBucket = getStorageAdmin().bucket()
+            const filePath = `${ALBUM_COLLECTION}/${request.data.albumName}/${request.data.fileName}`
+
+            await storageBucket.file(filePath).delete()
+
+            log(
+                'File',
+                request.data.fileName,
+                'in album',
+                request.data.albumName,
+                'deleted successfully',
+            )
+        } catch (error) {
+            log('Error deleting file', request.data.fileName)
+        }
+    },
+)

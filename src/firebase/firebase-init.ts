@@ -3,6 +3,7 @@ import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getAnalytics } from 'firebase/analytics'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
+import { connectFunctionsEmulator, getFunctions } from 'firebase/functions'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCNunJy-lSja8KBdfmHejyITir4e_qO7es',
@@ -21,8 +22,10 @@ export const db = getFirestore(app)
 export const analytics = getAnalytics(app)
 export const auth = getAuth(app)
 export const storage = getStorage(app)
+export const functions = getFunctions(app, 'europe-north1')
 auth.useDeviceLanguage()
 export const provider = new GoogleAuthProvider()
 if (location.hostname === 'localhost') {
     connectFirestoreEmulator(db, 'localhost', 8081)
+    connectFunctionsEmulator(functions, 'localhost', 5002)
 }

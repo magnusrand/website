@@ -14,22 +14,22 @@
     ]
   },
   "emulators": {
-    "firestore": {
-      "port": 8081
-    },
-    "hosting": {
-      "port": 5001
-    },
-    "ui": {
-      "enabled": true
-    },
-    "auth": {
-      "port": 9099
-    },
-    "functions": {
-      "port": 5001
-    },
-    "singleProjectMode": true
+      "firestore": {
+          "port": 8081
+      },
+      "hosting": {
+          "port": 5001
+      },
+      "ui": {
+          "enabled": true
+      },
+      "auth": {
+          "port": 9099
+      },
+      "functions": {
+          "port": 5002
+      },
+      "singleProjectMode": true
   },
   "functions": [
     {

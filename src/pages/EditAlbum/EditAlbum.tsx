@@ -69,7 +69,11 @@ export const EditAlbum = () => {
                         <h1>{currentAlbumName}</h1>
                     </div>
                     {photos.map((photo) => (
-                        <EditPhotoDataCard key={photo.fileName} photo={photo} />
+                        <EditPhotoDataCard
+                            key={photo.fileName}
+                            photo={photo}
+                            albumName={currentAlbumName}
+                        />
                     ))}
                 </>
             ) : (

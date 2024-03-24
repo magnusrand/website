@@ -1,12 +1,21 @@
 import React, { useState } from 'react'
 
-import { updatePhotoData } from '../../firebase/firebase-firestore'
+import {
+    deleteImageFromStorage,
+    updatePhotoData,
+} from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
 import { ProgressiveImage } from '../PhotoFrames/ProgressiveImage'
 
 import './editPhotoDataCard.css'
 
-const EditPhotoDataCard = ({ photo }: { photo: PhotoData }) => {
+const EditPhotoDataCard = ({
+    photo,
+    albumName,
+}: {
+    photo: PhotoData
+    albumName: string
+}) => {
     const [photoTitle, setPhotoTitle] = useState<string>(photo.title ?? '')
     const [photoDescription, setPhotoDescription] = useState<string>(
         photo.description ?? '',
@@ -14,10 +23,9 @@ const EditPhotoDataCard = ({ photo }: { photo: PhotoData }) => {
 
     return (
         <div className="edit-photo-data-card">
-            <ProgressiveImage
+            <img
                 className="edit-photo-data-card__image"
-                src={photo.imageUrl}
-                placeholderSrc={photo.thumbnailUrl}
+                src={photo.thumbnailUrl}
             />
             <h2>{photo.fileName}</h2>
             <div className="edit-photo-data-card__input">
@@ -47,6 +55,18 @@ const EditPhotoDataCard = ({ photo }: { photo: PhotoData }) => {
                 }
             >
                 Oppdater
+            </button>
+            <button
+                type="button"
+                onClick={async () => {
+                    await deleteImageFromStorage({
+                        albumName,
+                        fileName: photo.fileName,
+                    })
+                    window.location.reload()
+                }}
+            >
+                SLETT
             </button>
         </div>
     )

@@ -11,10 +11,11 @@ import {
     updateDoc,
     DocumentReference,
 } from 'firebase/firestore'
+import { httpsCallable } from 'firebase/functions'
 
 import type { AlbumData, PhotoData } from '../types'
 
-import { db } from './firebase-init'
+import { db, functions } from './firebase-init'
 
 const ALBUM_COLLECTION = 'albums'
 const PHOTOS_COLLECTION = 'photos'
@@ -87,3 +88,8 @@ export const updatePhotoData = async (
 
     await updateDoc(documentRef, updatedPhotoDataWithoutMetaData)
 }
+
+export const deleteImageFromStorage = httpsCallable<{
+    albumName: string
+    fileName: string
+}>(functions, 'deleteImageFromStorage')
