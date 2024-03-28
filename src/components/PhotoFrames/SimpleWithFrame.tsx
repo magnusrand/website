@@ -40,10 +40,17 @@ export const SimpleWithFrame = ({
     return (
         <div
             key={photo.fileName}
-            className={classNames(className, [
-                'photo',
-                'simple-with-frame__photo-wrapper',
-            ])}
+            className={classNames(
+                className,
+                ['photo', 'simple-with-frame__photo-wrapper'],
+                {
+                    'simple-with-frame__photo-wrapper--portrait':
+                        photo.metaData?.orientation === 'portrait',
+                    'simple-with-frame__photo-wrapper--no-description': !(
+                        photo.title || photo.description
+                    ),
+                },
+            )}
         >
             <ProgressiveImage
                 className="simple-with-frame__photo-wrapper__image"
