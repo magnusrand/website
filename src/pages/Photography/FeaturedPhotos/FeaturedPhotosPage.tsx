@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 
 import classNames from 'classnames'
 
@@ -17,6 +18,7 @@ export const FeaturedPhotosPage = () => {
     const gridRef = useRef<HTMLDivElement>(null)
     const [photos, setPhotos] = useState<PhotoData[]>([])
     const [currentFullscreen, setCurrentFullscreen] = useState('')
+    const { hash } = useLocation()
 
     const ALBUM_NAME = 'featured'
     const PAGE_TITLE = 'Utvalgte'
@@ -28,6 +30,22 @@ export const FeaturedPhotosPage = () => {
         }
         getPhotosForCurrentPage()
     }, [ALBUM_NAME])
+
+    useEffect(() => {
+        if (hash && photos.length > 0) {
+            const sanitizedHash = location.hash.slice(1)
+            const elementWithHashId = document.getElementById(sanitizedHash)
+
+            if (sanitizedHash && elementWithHashId) {
+                setTimeout(() => {
+                    elementWithHashId.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                    })
+                }, 100)
+            }
+        }
+    }, [hash, photos.length])
 
     return (
         <div

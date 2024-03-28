@@ -38,7 +38,8 @@ export const SimpleWithFrame = ({
     }${photo.metaData?.Model}`
 
     return (
-        <div
+        <section
+            id={photo.fileName.split('.')[0]}
             key={photo.fileName}
             className={classNames(
                 className,
@@ -108,6 +109,6 @@ export const SimpleWithFrame = ({
                     </IconButton>
                 )}
             </div>
-        </div>
+        </section>
     )
 }
