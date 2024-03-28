@@ -14,13 +14,9 @@
         &__text {
             margin: 0; /* remove margin from h1 tag */
 
-            grid-column: 5 / 11;
-            grid-row: 2 / 3;
-
             position: relative;
             z-index: 1;
             bottom: calc(var(--row-height) / 1.95);
-            height: var(--row-height);
 
             font-size: calc(var(--row-height) * 1.5);
         }
@@ -38,16 +34,13 @@
 
         &__text {
             margin: 0; /* remove margin from h2 tag */
-            
-            grid-column: 3 / 11;
-            grid-row: 3 / 4;
 
             position: relative;
-            bottom: calc(var(--row-height) / 1.95);
-            height: var(--row-height);
-
+            bottom: calc(var(--row-height) / 1.83);
+            
             color: var(--white);
-            font-size: calc(var(--row-height) * 1.5);
+            font-size: calc(var(--row-height)* 1.54);
+            white-space: nowrap;
         }
     }
 }
