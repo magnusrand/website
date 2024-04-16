@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { useEffect, useState } from 'react'
 
 import {
     FieldPath,
@@ -10,12 +11,14 @@ import {
     where,
     updateDoc,
     DocumentReference,
+    onSnapshot,
 } from 'firebase/firestore'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { httpsCallable } from 'firebase/functions'
 
 import type { AlbumData, PhotoData } from '../types'
 
-import { db, functions } from './firebase-init'
+import { db, functions, storage } from './firebase-init'
 
 const ALBUM_COLLECTION = 'albums'
 const PHOTOS_COLLECTION = 'photos'
@@ -93,3 +96,50 @@ export const deleteImageFromStorage = httpsCallable<{
     albumName: string
     fileName: string
 }>(functions, 'deleteImageFromStorage')
+
+export function useAlbumsList() {
+    const [albums, setAlbums] = useState<AlbumData[]>([])
+    useEffect(() => {
+        const q = query(collection(db, ALBUM_COLLECTION))
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const _albums = querySnapshot.docs.map(
+                (album) =>
+                    ({ ...album.data(), documentRef: album.ref } as AlbumData),
+            )
+            console.log('getting albums. Length:', _albums.length)
+
+            setAlbums(_albums)
+        })
+        return unsubscribe
+    }, [])
+    return albums
+}
+
+export async function uploadPhotosFromWeb(files: File[], albumName: string) {
+    files.forEach(async (file) => {
+        const storageRef = ref(
+            storage,
+            `${ALBUM_COLLECTION}/${albumName}/${file.name}`,
+        )
+        const uploadTask = uploadBytesResumable(storageRef, file)
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                console.log('Upload is ' + progress + '% done')
+            },
+            (error) => {
+                // On error
+                console.log(error)
+            },
+            () => {
+                // On success
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL)
+                })
+            },
+        )
+    })
+}

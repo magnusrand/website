@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getAnalytics } from 'firebase/analytics'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
-import { getStorage } from 'firebase/storage'
+import { connectAuthEmulator, getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { connectStorageEmulator, getStorage } from 'firebase/storage'
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions'
 
 const firebaseConfig = {
@@ -28,4 +28,6 @@ export const provider = new GoogleAuthProvider()
 if (location.hostname === 'localhost') {
     connectFirestoreEmulator(db, 'localhost', 8081)
     connectFunctionsEmulator(functions, 'localhost', 5002)
+    connectStorageEmulator(storage, 'localhost', 9199)
+    connectAuthEmulator(auth, 'http://localhost:9099')
 }

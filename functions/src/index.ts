@@ -23,6 +23,60 @@ const THUMBNAILS_FOLDER = 'thumbnails'
 const THUMBNAIL_PREFIX = 'thumb_'
 const THUMBNAIL_HEIGHT = 100
 
+export const createDocumentForFiles = onCall(
+    { cors: true, region: 'europe-north1' },
+    async (request) => {
+        const { albumName, files } = request.data
+
+        const bucket = getStorageAdmin().bucket()
+        const albumRef = getFirestore().collection(ALBUM_COLLECTION).doc()
+
+        await albumRef.set({
+            name: albumName,
+            numberOfPhotos: files.length,
+            coverPhotoUrl: '',
+        })
+
+        for (const file of files) {
+            const fileName = file.name
+            const filePath = `${ALBUM_COLLECTION}/${albumName}/${fileName}`
+
+            const fileBuffer = Buffer.from(file.data, 'base64')
+            await bucket.file(filePath).save(fileBuffer)
+
+            const publicUrl = await getDownloadURL(bucket.file(filePath))
+            const meta = await exifr
+                .parse(fileBuffer, META_DATA_FIELDS)
+                .then((output) => output)
+                .catch((e) => {
+                    log('Error parsing EXIF data:', e)
+                    return {}
+                })
+
+            const newPhotoData = {
+                title: '',
+                description: '',
+                imageUrl: publicUrl,
+                downloadUrl: publicUrl,
+                thumbnailUrl: publicUrl,
+                fileName: fileName,
+                priority: 1,
+                metaData: {
+                    ...meta,
+                    orientation:
+                        meta.ExifImageHeight > meta.ExifImageWidth
+                            ? 'portrait'
+                            : 'landscape',
+                },
+            }
+
+            const photoRef = albumRef.collection(PHOTOS_COLLECTION).doc()
+            await photoRef.set(newPhotoData)
+
+            log('Photo', fileName, 'created in album', albumName)
+        }
+    },
+)
 export const createDocumentForUploadedPhotoInAlbum = storage.onObjectFinalized(
     { region: 'europe-north1' },
     async (object) => {
