@@ -8,10 +8,7 @@ import {
 import { getFirestore } from 'firebase-admin/firestore'
 import { log } from 'firebase-functions/logger'
 
-import * as exifr from 'exifr'
 import * as sharp from 'sharp'
-
-import { META_DATA_FIELDS } from './utils'
 
 initializeApp()
 
@@ -23,62 +20,8 @@ const THUMBNAILS_FOLDER = 'thumbnails'
 const THUMBNAIL_PREFIX = 'thumb_'
 const THUMBNAIL_HEIGHT = 100
 
-export const createDocumentForFiles = onCall(
-    { cors: true, region: 'europe-north1' },
-    async (request) => {
-        const { albumName, files } = request.data
-
-        const bucket = getStorageAdmin().bucket()
-        const albumRef = getFirestore().collection(ALBUM_COLLECTION).doc()
-
-        await albumRef.set({
-            name: albumName,
-            numberOfPhotos: files.length,
-            coverPhotoUrl: '',
-        })
-
-        for (const file of files) {
-            const fileName = file.name
-            const filePath = `${ALBUM_COLLECTION}/${albumName}/${fileName}`
-
-            const fileBuffer = Buffer.from(file.data, 'base64')
-            await bucket.file(filePath).save(fileBuffer)
-
-            const publicUrl = await getDownloadURL(bucket.file(filePath))
-            const meta = await exifr
-                .parse(fileBuffer, META_DATA_FIELDS)
-                .then((output) => output)
-                .catch((e) => {
-                    log('Error parsing EXIF data:', e)
-                    return {}
-                })
-
-            const newPhotoData = {
-                title: '',
-                description: '',
-                imageUrl: publicUrl,
-                downloadUrl: publicUrl,
-                thumbnailUrl: publicUrl,
-                fileName: fileName,
-                priority: 1,
-                metaData: {
-                    ...meta,
-                    orientation:
-                        meta.ExifImageHeight > meta.ExifImageWidth
-                            ? 'portrait'
-                            : 'landscape',
-                },
-            }
-
-            const photoRef = albumRef.collection(PHOTOS_COLLECTION).doc()
-            await photoRef.set(newPhotoData)
-
-            log('Photo', fileName, 'created in album', albumName)
-        }
-    },
-)
-export const createDocumentForUploadedPhotoInAlbum = storage.onObjectFinalized(
-    { region: 'europe-north1' },
+export const createDisplayAndThumbnailForUploadedImage = storage.onObjectFinalized(
+    { region: 'europe-north1', timeoutSeconds: 300, memory: '1GiB' },
     async (object) => {
         const filePath = object.data.name as string
         const splitFilePath = filePath?.split('/')
@@ -113,18 +56,9 @@ export const createDocumentForUploadedPhotoInAlbum = storage.onObjectFinalized(
 
         const albumName = splitFilePath[1]
 
-        // Get the download URL for the uploaded file
         const bucket = getStorageAdmin().bucket(fileBucket)
         const file = bucket.file(filePath)
         const _file = await file.download().then((data) => data[0])
-        const publicUrl = await getDownloadURL(file)
-        const meta = await exifr
-            .parse(_file, META_DATA_FIELDS)
-            .then((output) => output)
-            .catch((e) => {
-                log('Error parsing EXIF data:', e)
-                return {}
-            })
 
         // Generate web display version
         const webDisplayBuffer = await sharp(_file)
@@ -132,7 +66,6 @@ export const createDocumentForUploadedPhotoInAlbum = storage.onObjectFinalized(
                 width: 1600,
                 withoutEnlargement: true,
             })
-            // .toFormat('webp')
             .webp({
                 quality: 100,
             })
@@ -168,73 +101,43 @@ export const createDocumentForUploadedPhotoInAlbum = storage.onObjectFinalized(
         const _thumbnailPublicUrl = await getDownloadURL(_thumbnailFileBucket)
         log('Thumbnail url generated')
 
-        const newPhotoData = {
-            title: '',
-            description: '',
-            imageUrl: _displayPublicUrl,
-            downloadUrl: publicUrl,
-            thumbnailUrl: _thumbnailPublicUrl,
-            fileName: fileName,
-            priority: 1,
-            metaData: {
-                ...meta,
-                orientation:
-                    meta.ExifImageHeight > meta.ExifImageWidth
-                        ? 'portrait'
-                        : 'landscape',
-            },
-        }
-
-        const albumQuery = getFirestore()
+        // Update existing document with urls for thumbnail and display version
+        const albumSnapshot = await getFirestore()
             .collection(ALBUM_COLLECTION)
             .where('name', '==', albumName)
-        const querySnapshot = await albumQuery.get()
-        const albumAlreadyExists = !querySnapshot.empty
+            .get()
+        const albumRef = albumSnapshot?.docs?.[0]?.ref
+        const photoSnapshot = await getFirestore()
+            .collection(`${albumRef.path}/${PHOTOS_COLLECTION}`)
+            .where('fileName', '==', fileName)
+            .get()
+        const photoRef = photoSnapshot?.docs?.[0]?.ref
+        await getFirestore().doc(photoRef.path).update({
+            imageUrl: _displayPublicUrl,
+            thumbnailUrl: _thumbnailPublicUrl,
+        })
 
-        if (albumAlreadyExists) {
-            // Update the existing album with the new image
-            const albumRef = querySnapshot.docs?.[0]?.ref
-            albumRef.collection(PHOTOS_COLLECTION).add(newPhotoData)
+        // Get number of photos in album
+        const numberOfPhotosInAlbum = await getFirestore()
+            .collection(`${albumRef.path}/${PHOTOS_COLLECTION}`)
+            .count()
+            .get()
+            .then((result) => result.data().count)
 
-            const numberOfPhotosInAlbum =
-                (
-                    await albumRef.collection(PHOTOS_COLLECTION).count().get()
-                ).data().count + 1
+        // Check if album needs coverphoto
+        const albumHasCoverPhoto =
+            albumSnapshot?.docs?.[0].data().coverPhotoUrl !== ''
+        const valueForCoverPhoto = albumHasCoverPhoto
+            ? {}
+            : { coverPhotoUrl: _displayPublicUrl }
 
-            await albumRef.update({
+        // Update values for number of photos and cover photo for album
+        await getFirestore()
+            .doc(albumRef.path)
+            .update({
                 numberOfPhotos: numberOfPhotosInAlbum,
+                ...valueForCoverPhoto,
             })
-
-            log(
-                'Album',
-                albumName,
-                'updated with photo:',
-                fileName,
-                'and URL:',
-                publicUrl,
-            )
-            log('Number of photos in album is now:', numberOfPhotosInAlbum)
-        } else {
-            // Create a new document with the image
-            const albumRef = getFirestore().collection(ALBUM_COLLECTION).doc()
-            await albumRef.set({
-                name: albumName,
-                numberOfPhotos: 1,
-                coverPhotoUrl: publicUrl,
-            })
-
-            const photoRef = albumRef.collection(PHOTOS_COLLECTION).doc()
-            await photoRef.set(newPhotoData)
-
-            log(
-                'Album',
-                albumName,
-                'created with photo:',
-                fileName,
-                'and URL:',
-                publicUrl,
-            )
-        }
 
         return null
     },
@@ -327,7 +230,6 @@ export const removeDocumentsForDeletedPhoto = storage.onObjectDeleted(
 export const deleteImageFromStorage = onCall(
     { cors: true, region: 'europe-north1' },
     async (request) => {
-        log('GELOLZ1')
         try {
             const storageBucket = getStorageAdmin().bucket()
             const filePath = `${ALBUM_COLLECTION}/${request.data.albumName}/${request.data.fileName}`
