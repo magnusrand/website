@@ -12,31 +12,40 @@ import {
     updateDoc,
     DocumentReference,
     onSnapshot,
+    addDoc,
 } from 'firebase/firestore'
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import {
+    StorageReference,
+    getDownloadURL,
+    ref,
+    uploadBytesResumable,
+} from 'firebase/storage'
 import { httpsCallable } from 'firebase/functions'
+
+import * as exifr from 'exifr'
 
 import type { AlbumData, PhotoData } from '../types'
 
 import { db, functions, storage } from './firebase-init'
+import { META_DATA_FIELDS } from './utils'
 
 const ALBUM_COLLECTION = 'albums'
 const PHOTOS_COLLECTION = 'photos'
 // const THUMBNAILS_FOLDER = 'thumbnails'
 // const THUMBNAIL_PREFIX = 'thumb_'
 
-export const getPhotosInAlbum = async (album: string | undefined) => {
+export const getPhotosInAlbum = async (albumName: string | undefined) => {
     const albumQuery = query(
         collection(db, ALBUM_COLLECTION),
-        where('name', '==', album),
+        where('name', '==', albumName),
     )
 
     const albumSnapshot = await getDocs(albumQuery)
     if (albumSnapshot.empty) return []
-    const albumId = albumSnapshot.docs[0].id
+    const albumRef = albumSnapshot.docs[0].ref
 
     const photosQuery = query(
-        collection(db, ALBUM_COLLECTION, albumId, PHOTOS_COLLECTION),
+        collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
         orderBy(new FieldPath('metaData', 'CreateDate'), 'desc'),
         limit(50),
     )
@@ -116,7 +125,44 @@ export function useAlbumsList() {
 }
 
 export async function uploadPhotosFromWeb(files: File[], albumName: string) {
+    // CHECK IF ALBUM EXISTS IN FIRESTORE
+    const albumQuery = query(
+        collection(db, ALBUM_COLLECTION),
+        where('name', '==', albumName),
+    )
+    const albumSnapshot = await getDocs(albumQuery)
+    let albumRef = albumSnapshot?.docs?.[0]?.ref
+    // IF NOT EXISTS CREATE AND AWAIT ALBUM
+    if (albumSnapshot.empty) {
+        const emptyAlbumData = {
+            name: albumName,
+            numberOfPhotos: 0,
+            coverPhotoUrl: '',
+        }
+        albumRef = await addDoc(
+            collection(db, ALBUM_COLLECTION),
+            emptyAlbumData,
+        )
+    }
+
+    // UPLOAD ALL PHOTOS TO STORAGE AND AFTER UPLOAD PHOTO CREATE FIRESTORE DOC
     files.forEach(async (file) => {
+        const newPhotoData = {
+            title: '',
+            description: '',
+            imageUrl: '',
+            downloadUrl: '',
+            thumbnailUrl: '',
+            fileName: file.name,
+            priority: 1,
+            metaData: {
+                orientation: '',
+            },
+        }
+        const photoDocRef = await addDoc(
+            collection(albumRef, 'photos'),
+            newPhotoData,
+        )
         const storageRef = ref(
             storage,
             `${ALBUM_COLLECTION}/${albumName}/${file.name}`,
@@ -136,10 +182,25 @@ export async function uploadPhotosFromWeb(files: File[], albumName: string) {
             },
             () => {
                 // On success
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL)
-                })
+                updateDocumentWithPhotoData(file, storageRef, photoDocRef)
             },
         )
+    })
+}
+
+export async function updateDocumentWithPhotoData(
+    file: File,
+    photoStorageRef: StorageReference,
+    photoDocumentRef: DocumentReference,
+) {
+    const downloadUrl = await getDownloadURL(photoStorageRef)
+    const metaData = await exifr.parse(file, META_DATA_FIELDS).catch((e) => {
+        console.error('Error parsing EXIF data:', e)
+        return {}
+    })
+
+    updateDoc(photoDocumentRef, {
+        downloadUrl,
+        metaData: { ...metaData, orientation: '' },
     })
 }

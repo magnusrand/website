@@ -50,28 +50,9 @@ export const EditAlbum = () => {
     ): void => {
         const files = Array.from(e.target.files ?? [])
         setPhotosForUpload(files)
-        console.log('files:', files)
     }
 
     async function uploadPhotos() {
-        const currentAlbums = albums.map((album) => album.name)
-        const albumAlreadyExists = currentAlbums.includes(
-            photosForUploadAlbumName,
-        )
-        console.log(
-            'cur:',
-            currentAlbums,
-            'exists:',
-            albumAlreadyExists,
-            'foto length',
-            photosForUpload.length,
-        )
-
-        if (!albumAlreadyExists && photosForUpload.length > 1) {
-            return setUploadFeedback(
-                'Dette albumet finnes ikke fra før. Last opp ett (1) bilde til å begynne med',
-            )
-        }
         if (photosForUpload && photosForUploadAlbumName !== '') {
             await uploadPhotosFromWeb(photosForUpload, photosForUploadAlbumName)
             setPhotosForUpload([])
@@ -101,7 +82,7 @@ export const EditAlbum = () => {
                     }
                 />
                 <button onClick={uploadPhotos}>LAST DET OPP!</button>
-                {uploadFeedback !== '' && <div>{uploadFeedback}</div>} 
+                {uploadFeedback !== '' && <div>{uploadFeedback}</div>}
             </div>
             {isAllowedToEdit ? (
                 <>
