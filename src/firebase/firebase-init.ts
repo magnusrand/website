@@ -7,7 +7,6 @@ import { connectFunctionsEmulator, getFunctions } from 'firebase/functions'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCNunJy-lSja8KBdfmHejyITir4e_qO7es',
-    authDomain: 'magnusrand-911ec.firebaseapp.com',
     projectId: 'magnusrand-911ec',
     storageBucket: 'magnusrand-911ec.appspot.com',
     messagingSenderId: '516297674542',
