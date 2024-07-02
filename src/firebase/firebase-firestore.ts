@@ -5,7 +5,6 @@ import {
     FieldPath,
     collection,
     getDocs,
-    limit,
     orderBy,
     query,
     where,
@@ -49,7 +48,6 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
     const photosQuery = query(
         collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
         orderBy(new FieldPath('metaData', 'CreateDate'), sortPreference),
-        limit(50),
     )
     const docSnap = await getDocs(photosQuery)
     const photosData = docSnap.docs.map((photo) => ({
