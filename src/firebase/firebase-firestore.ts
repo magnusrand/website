@@ -135,7 +135,7 @@ export async function uploadPhotosFromWeb(files: File[], albumName: string) {
     // IF NOT EXISTS CREATE AND AWAIT ALBUM
     if (albumSnapshot.empty) {
         const emptyAlbumData = {
-            name: albumName,
+            name: albumName.toLowerCase(),
             numberOfPhotos: 0,
             coverPhotoUrl: '',
         }
