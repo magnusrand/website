@@ -44,9 +44,11 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
     if (albumSnapshot.empty) return []
     const albumRef = albumSnapshot.docs[0].ref
 
+    const sortPreference = albumSnapshot.docs[0].data().sort || 'desc'
+
     const photosQuery = query(
         collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
-        orderBy(new FieldPath('metaData', 'CreateDate'), 'desc'),
+        orderBy(new FieldPath('metaData', 'CreateDate'), sortPreference),
         limit(50),
     )
     const docSnap = await getDocs(photosQuery)
