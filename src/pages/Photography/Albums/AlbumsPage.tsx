@@ -30,7 +30,7 @@ const AlbumsPage = () => {
                     <img src={album.coverPhotoUrl} alt={albumName} />
                 </div>
                 <p className="albums-page__list__album-card__title type-garamond-regular ">
-                    {albumName.toLowerCase()}
+                    {albumName.toLowerCase().replace('-', ' ')}
                     <span className="albums-page__list__album-card__title__sub type-sourcesans-regular">
                         ({album.numberOfPhotos} bilder)
                     </span>
