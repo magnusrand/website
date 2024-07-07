@@ -28,7 +28,7 @@ export interface PhotoData {
     documentRef: DocumentReference
 }
 
-interface metaData {
+export interface metaData {
     Make?: string
     Model?: string
     XResolution?: number

@@ -8,7 +8,7 @@
         --theme-color: var(--light-color-2);
         --theme-color-secondary: var(--light-color-1);
         --theme-color-difference: var(--dark-color-2);
-        
+
         --row-height: 5rem;
         --row-gap: 1.25rem;
 
@@ -32,17 +32,18 @@
             width: 100%;
             z-index: 1;
 
-            &--1 {
+            &--full-width,
+            &--default {
                 grid-column: 3 / -3;
-                &1 {
-                    grid-column: 5 / 9;
-                }
             }
-            &--2 {
-                grid-column: 2 / 7;
+            &--narrow-width {
+                grid-column: 4 / -4;
             }
-            &--3 {
-                grid-column: 7 / -2;
+            &--half-left {
+                grid-column: 3 / 7;
+            }
+            &--half-right {
+                grid-column: 7 / -3;
             }
 
             &:last-child {
@@ -50,10 +51,15 @@
             }
 
             &:hover {
-                box-shadow: -8px -8px 24px 0 #fff,
-                    8px 8px 24px 0 rgb(174 174 192 / 70%);
                 scale: 1.01;
+                cursor: pointer;
             }
+        }
+
+        .scroll-to-top-button {
+            grid-column: 6 / -6;
+            margin: auto;
+            margin-bottom: 2rem;
         }
     }
 
@@ -67,22 +73,23 @@
     .main-grid {
         &.displayed-photos-page {
             --row-height: inherit;
-            
+
             .photo-element {
                 transition: all ease-out 0.1s;
-                &--1 {
+                &--full-width,
+                &--default {
                     grid-column: 1 / -1;
                     margin: 0;
-                    &1 {
-                        grid-column: 1 / -1;
-                        margin: 0;
-                    }
                 }
-                &--2 {
+                &--narrow-width {
+                    grid-column: 1 / -1;
+                    margin: 0;
+                }
+                &--half-left {
                     grid-column: 1 / 7;
                     margin: 0;
                 }
-                &--3 {
+                &--half-right {
                     grid-column: 7 / -1;
                     margin: 0;
                 }

@@ -24,10 +24,12 @@ export const SimpleWithFrame = ({
     photo,
     onClick,
     className,
+    focusable,
 }: {
     photo: PhotoData
     onClick: () => void
     className?: string
+    focusable?: boolean
 }) => {
     const [showMeta, setShowMeta] = React.useState(false)
 
@@ -59,6 +61,7 @@ export const SimpleWithFrame = ({
                 placeholderSrc={photo.thumbnailUrl}
                 alt={photo.fileName}
                 onClick={onClick}
+                focusable={focusable}
             />
             <div className="simple-with-frame__photo-wrapper__caption">
                 <p className="simple-with-frame__photo-wrapper__caption__description">

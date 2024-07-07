@@ -41,6 +41,9 @@
         &:hover {
             text-decoration: underline;
         }
+        &:focus {
+            outline: solid 2px var(--theme-color-difference);
+        }
 
     }
     &::after, &::before {

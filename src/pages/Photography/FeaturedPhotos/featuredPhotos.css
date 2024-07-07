@@ -77,6 +77,12 @@
         .featured-photos-page__scroll-indicator--show {
             opacity: 1;
         }
+        
+        .scroll-to-top-button {
+            grid-column: 6 / -6;
+            margin: auto;
+            margin-bottom: 2rem;
+        }
 
     }
 

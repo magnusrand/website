@@ -5,7 +5,6 @@ import {
     updatePhotoData,
 } from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
-import { ProgressiveImage } from '../PhotoFrames/ProgressiveImage'
 
 import './editPhotoDataCard.css'
 

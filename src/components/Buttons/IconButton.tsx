@@ -12,6 +12,7 @@ export const IconButton = ({
     onClick?: () => void
     className?: string
     variant?: 'primary' | 'secondary'
+    tabIndex?: number
 }) => (
     <button
         className={`icon-button ${className} icon-button--${variant}`}

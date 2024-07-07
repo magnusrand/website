@@ -8,7 +8,7 @@
     opacity: 0;
     transition: all ease 0.25s;
 
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: var(--white);
     position: fixed;
     height: 100vh;
     height: 100dvh;
@@ -28,9 +28,10 @@
     position: absolute;
     top: 2rem;
     right: 2rem;
+    z-index: 4;
 
     &:focus {
-        outline-color: var(--white);
+        outline-color: var(--primary-colour);
     }
 }
 

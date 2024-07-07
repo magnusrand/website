@@ -23,7 +23,7 @@ import { httpsCallable } from 'firebase/functions'
 
 import * as exifr from 'exifr'
 
-import type { AlbumData, PhotoData } from '../types'
+import type { AlbumData, PhotoData, metaData } from '../types'
 
 import { db, functions, storage } from './firebase-init'
 import { META_DATA_FIELDS } from './utils'
@@ -194,13 +194,21 @@ export async function updateDocumentWithPhotoData(
     photoDocumentRef: DocumentReference,
 ) {
     const downloadUrl = await getDownloadURL(photoStorageRef)
-    const metaData = await exifr.parse(file, META_DATA_FIELDS).catch((e) => {
-        console.error('Error parsing EXIF data:', e)
-        return {}
-    })
+    const metaData: metaData = await exifr
+        .parse(file, META_DATA_FIELDS)
+        .catch((e) => {
+            console.error('Error parsing EXIF data:', e)
+            return {}
+        })
 
     updateDoc(photoDocumentRef, {
         downloadUrl,
-        metaData: { ...metaData, orientation: '' },
+        metaData: {
+            ...metaData,
+            orientation:
+                metaData?.ExifImageHeight ?? 0 > (metaData?.ExifImageWidth ?? 0)
+                    ? 'portrait'
+                    : 'landscape',
+        },
     })
 }

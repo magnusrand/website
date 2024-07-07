@@ -5,6 +5,8 @@ type ProgressiveImageProps = {
     placeholderSrc: string
     alt?: string
     className?: string
+    focusable?: boolean
+    onClick?: () => void
 } & React.ImgHTMLAttributes<HTMLImageElement>
 
 export const ProgressiveImage = ({
@@ -12,9 +14,11 @@ export const ProgressiveImage = ({
     placeholderSrc,
     alt,
     className,
+    focusable,
     ...rest
 }: ProgressiveImageProps) => {
     const [imageSrc, setImageSrc] = React.useState(placeholderSrc)
+    const imageRef = React.useRef<HTMLImageElement>(null)
 
     React.useEffect(() => {
         const imageToLoad = new Image()
@@ -24,12 +28,23 @@ export const ProgressiveImage = ({
         }
     }, [src])
 
+    React.useEffect(() => {
+        const currentRef = imageRef?.current
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key == ' ' || e.key == 'Enter') rest.onClick?.()
+        }
+        currentRef?.addEventListener('keydown', handleKeyDown)
+        return () => currentRef?.removeEventListener('keydown', handleKeyDown)
+    }, [rest])
+
     return (
         <img
+            ref={imageRef}
             src={imageSrc}
             alt={alt}
             className={'progressive-img ' + className}
             loading="lazy"
+            tabIndex={focusable ? 0 : undefined}
             {...rest}
         />
     )

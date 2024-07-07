@@ -1,23 +1,27 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { MdArrowUpward } from 'react-icons/md'
+
 import MainNavBar from '../../components/NavBar/MainNavBar'
 import { SiteHeading } from '../../components/SiteHeading/SiteHeading'
-import { TextDivider } from '../../components/TextDivider/TextDivider'
 import { FullscreenOverlay } from '../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
 import { ProgressiveImage } from '../../components/PhotoFrames/ProgressiveImage'
+import { IconButton } from '../../components/Buttons/IconButton'
 import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
 
 import './photographypages-styles.css'
 
 export const DisplayPhotosPage = () => {
-    const gridRef = useRef<HTMLDivElement>(null)
+    const headingRef = useRef<HTMLDivElement>(null)
     const params = useParams()
     const [photos, setPhotos] = useState<PhotoData[]>([])
     const [gridStyle] = useState<number>(1)
-    const [photoLayout, setPhotoLayout] = useState<number[]>([])
-    const [currentFullscreen, setCurrentFullscreen] = useState('')
+    const [photoLayout, setPhotoLayout] = useState<string[]>([])
+    const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
+        number | null
+    >(null)
 
     const albumName = params.albumName?.toLowerCase()
 
@@ -30,32 +34,36 @@ export const DisplayPhotosPage = () => {
     }, [albumName])
 
     const photoGrid1 = useMemo(() => {
-        const layoutArray = []
-        const dividerArray = new Array(photos.length).fill(0)
-        // const dividerArray = new Array(photos.length).fill(0)
-        // .map(() => (Math.random() >= 0.8 ? 1 : 0))
+        const layoutArray: string[] = []
         let counter = 0
         while (counter < photos?.length) {
-            if (counter + 1 === photos?.length) {
-                layoutArray.push(1)
-
+            if (counter === photos?.length - 1) {
+                layoutArray.push('full-width')
                 counter++
-            } else if (photos[counter].metaData?.orientation === 'landscape') {
-                layoutArray.push(1)
+                continue
+            }
+            if (photos[counter].metaData?.orientation === 'landscape') {
+                layoutArray.push('full-width')
                 counter++
-            } else if (
+                continue
+            }
+            if (
+                photos[counter].metaData?.orientation === 'portrait' &&
                 photos[counter + 1].metaData?.orientation === 'portrait'
             ) {
-                if (dividerArray[counter] === 1)
-                    dividerArray.splice(counter, 1, 0)
-                layoutArray.push(2, 3)
+                layoutArray.push('half-left', 'half-right')
                 counter += 2
-            } else {
-                layoutArray.push(11)
-                counter++
+                continue
             }
+            if (photos[counter].metaData?.orientation === 'portrait') {
+                layoutArray.push('narrow-width')
+                counter++
+                continue
+            }
+            layoutArray.push('default')
+            counter++
         }
-        return { layoutArray, dividerArray }
+        return { layoutArray }
     }, [photos])
 
     useEffect(() => {
@@ -63,9 +71,6 @@ export const DisplayPhotosPage = () => {
             case 1:
                 setPhotoLayout(photoGrid1.layoutArray)
                 break
-            // case 2:
-            //     setPhotoLayout(photoGrid2(photoLinks))
-            //     break
             default:
                 setPhotoLayout(photoGrid1.layoutArray)
         }
@@ -81,28 +86,34 @@ export const DisplayPhotosPage = () => {
     }
 
     return (
-        <div ref={gridRef} className="main-grid displayed-photos-page">
-            <MainNavBar hideNavbar={currentFullscreen !== ''} />
-            <SiteHeading siteName={displayedAlbumName()} />
+        <div className="main-grid displayed-photos-page">
+            <MainNavBar hideNavbar={currentFullscreenIndex !== null} />
+            <SiteHeading
+                siteName={displayedAlbumName()}
+                headingRef={headingRef}
+            />
             <div className="divider-box" />
             <FullscreenOverlay
-                currentFullscreenSrc={currentFullscreen}
-                onClick={() => setCurrentFullscreen('')}
+                photoUrls={photos.map((photo) => photo.imageUrl)}
+                currentIndex={currentFullscreenIndex}
+                onIndexChange={setCurrentFullscreenIndex}
             />
             {photos?.map((photo, index) => (
-                <React.Fragment key={photo.imageUrl}>
-                    <ProgressiveImage
-                        src={photo.imageUrl}
-                        placeholderSrc={photo.thumbnailUrl}
-                        tabIndex={currentFullscreen ? -1 : 0}
-                        onClick={() => setCurrentFullscreen(photo.imageUrl)}
-                        className={`photo-element photo-element--${photoLayout[index]}`}
-                    />
-                    {photoGrid1.dividerArray[index] === 1 && (
-                        <TextDivider text={displayedAlbumName()} />
-                    )}
-                </React.Fragment>
+                <ProgressiveImage
+                    src={photo.imageUrl}
+                    placeholderSrc={photo.thumbnailUrl}
+                    focusable={currentFullscreenIndex === null}
+                    onClick={() => setCurrentFullscreenIndex(index)}
+                    className={`photo-element photo-element--${photoLayout[index]}`}
+                    key={photo.imageUrl}
+                />
             ))}
+            <IconButton
+                className="scroll-to-top-button"
+                onClick={() => headingRef.current?.scrollIntoView(true)}
+            >
+                <MdArrowUpward />
+            </IconButton>
         </div>
     )
 }

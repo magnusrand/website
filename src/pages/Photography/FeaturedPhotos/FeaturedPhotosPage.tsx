@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import classNames from 'classnames'
+import { MdArrowUpward } from 'react-icons/md'
 
 import { SiteHeading } from '../../../components/SiteHeading/SiteHeading'
 import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
@@ -9,15 +10,18 @@ import { PhotoData } from '../../../types'
 import MainNavBar from '../../../components/NavBar/MainNavBar'
 import { SimpleWithFrame } from '../../../components/PhotoFrames/SimpleWithFrame'
 import { FullscreenOverlay } from '../../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
+import { IconButton } from '../../../components/Buttons/IconButton'
 
 import Arrows from '../../../assets/images/arrows.svg'
 
 import './featuredPhotos.css'
 
 export const FeaturedPhotosPage = () => {
-    const gridRef = useRef<HTMLDivElement>(null)
+    const headingRef = useRef<HTMLDivElement>(null)
     const [photos, setPhotos] = useState<PhotoData[]>([])
-    const [currentFullscreen, setCurrentFullscreen] = useState('')
+    const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
+        number | null
+    >(null)
     const { hash } = useLocation()
 
     const ALBUM_NAME = 'featured'
@@ -49,16 +53,16 @@ export const FeaturedPhotosPage = () => {
 
     return (
         <div
-            ref={gridRef}
             className={classNames('main-grid featured-photos-page', {
-                'fullscreen-active': currentFullscreen !== '',
+                'fullscreen-active': currentFullscreenIndex !== null,
             })}
         >
             <MainNavBar />
-            <SiteHeading siteName={PAGE_TITLE} />
+            <SiteHeading siteName={PAGE_TITLE} headingRef={headingRef} />
             <FullscreenOverlay
-                currentFullscreenSrc={currentFullscreen}
-                onClick={() => setCurrentFullscreen('')}
+                photoUrls={photos.map((photo) => photo.imageUrl)}
+                currentIndex={currentFullscreenIndex}
+                onIndexChange={setCurrentFullscreenIndex}
             />
             {photos.length > 0 && (
                 <button
@@ -81,13 +85,20 @@ export const FeaturedPhotosPage = () => {
                     <Arrows />
                 </button>
             )}
-            {photos.map((photo) => (
+            {photos.map((photo, index) => (
                 <SimpleWithFrame
                     photo={photo}
                     key={photo.fileName}
-                    onClick={() => setCurrentFullscreen(photo.imageUrl)}
+                    onClick={() => setCurrentFullscreenIndex(index)}
+                    focusable={currentFullscreenIndex === null}
                 />
             ))}
+            <IconButton
+                className="scroll-to-top-button"
+                onClick={() => headingRef.current?.scrollIntoView(true)}
+            >
+                <MdArrowUpward />
+            </IconButton>
         </div>
     )
 }

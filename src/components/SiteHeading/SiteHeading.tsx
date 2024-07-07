@@ -2,13 +2,19 @@ import React from 'react'
 
 import './siteHeading.css'
 
-export const SiteHeading = (props: { siteName: string }) => {
+export const SiteHeading = (props: {
+    siteName: string
+    headingRef?: React.RefObject<HTMLDivElement>
+}) => {
     const formatedSiteName = props.siteName
         .replace(/-/g, ' ')
         .replace(/\b\w/g, (l) => l.toUpperCase())
     return (
         <>
-            <div className="site-heading__horizontal-bar-top">
+            <div
+                className="site-heading__horizontal-bar-top"
+                ref={props.headingRef}
+            >
                 <h1 className="site-heading__horizontal-bar-top__text type-garamond-bold font-size-extralarge">
                     Fotografi
                 </h1>
