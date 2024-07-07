@@ -7,7 +7,6 @@ import { LandingPage } from './pages/LandingPage/LandingPage'
 import Redirect from './components/Redirect'
 
 import './main-styles.css'
-import AddPhotos from './pages/LoginAndAdmin/AddPhotos'
 import DisplayPhotosPage from './pages/Photography/DisplayPhotosPage'
 import { LogIn } from './pages/LoginAndAdmin/LogIn'
 import FeaturedPhotosPage from './pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
@@ -25,7 +24,7 @@ const App = () => (
 
             <Routes>
                 <Route index element={<LandingPage />} />
-                <Route path="/admin" element={<EditAlbum />} />
+                <Route path="admin" element={<EditAlbum />} />
                 <Route path="foto" element={<AlbumsPage />} />
                 <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
                 <Route path="foto/:albumName" element={<DisplayPhotosPage />} />
@@ -47,7 +46,6 @@ const App = () => (
                         <Redirect linkPath="https://soundcloud.com/magnus-rand" />
                     }
                 />
-                <Route path="add-photos" element={<AddPhotos />} />
                 <Route path="login" element={<LogIn />} />
                 <Route
                     path="*"

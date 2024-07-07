@@ -66,26 +66,26 @@ export const EditAlbum = () => {
     return (
         <div className="main-grid edit-album-page">
             <MainNavBar />
-            <div className="edit-album-page__upload">
-                <input
-                    name="photo_upload"
-                    type="file"
-                    multiple
-                    onChange={handleFileSelected}
-                />
-                <input
-                    name="photo_album_name"
-                    type="text"
-                    value={photosForUploadAlbumName}
-                    onChange={(e) =>
-                        setPhotosForUploadAlbumName(e.target.value)
-                    }
-                />
-                <button onClick={uploadPhotos}>LAST DET OPP!</button>
-                {uploadFeedback !== '' && <div>{uploadFeedback}</div>}
-            </div>
             {isAllowedToEdit ? (
                 <>
+                    <div className="edit-album-page__upload">
+                        <input
+                            name="photo_upload"
+                            type="file"
+                            multiple
+                            onChange={handleFileSelected}
+                        />
+                        <input
+                            name="photo_album_name"
+                            type="text"
+                            value={photosForUploadAlbumName}
+                            onChange={(e) =>
+                                setPhotosForUploadAlbumName(e.target.value)
+                            }
+                        />
+                        <button onClick={uploadPhotos}>LAST DET OPP!</button>
+                        {uploadFeedback !== '' && <div>{uploadFeedback}</div>}
+                    </div>
                     <div className="edit-album-page__album-select">
                         <label htmlFor="album-select">Album:</label>
                         <select
