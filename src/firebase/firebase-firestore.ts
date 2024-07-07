@@ -125,17 +125,18 @@ export function useAlbumsList() {
 }
 
 export async function uploadPhotosFromWeb(files: File[], albumName: string) {
+    const safeAlbumName = albumName.toLowerCase().replace(' ', '-')
     // CHECK IF ALBUM EXISTS IN FIRESTORE
     const albumQuery = query(
         collection(db, ALBUM_COLLECTION),
-        where('name', '==', albumName),
+        where('name', '==', safeAlbumName),
     )
     const albumSnapshot = await getDocs(albumQuery)
     let albumRef = albumSnapshot?.docs?.[0]?.ref
     // IF NOT EXISTS CREATE AND AWAIT ALBUM
     if (albumSnapshot.empty) {
         const emptyAlbumData = {
-            name: albumName.toLowerCase(),
+            name: safeAlbumName.toLowerCase(),
             numberOfPhotos: 0,
             coverPhotoUrl: '',
         }
@@ -165,7 +166,7 @@ export async function uploadPhotosFromWeb(files: File[], albumName: string) {
         )
         const storageRef = ref(
             storage,
-            `${ALBUM_COLLECTION}/${albumName}/${file.name}`,
+            `${ALBUM_COLLECTION}/${safeAlbumName}/${file.name}`,
         )
         const uploadTask = uploadBytesResumable(storageRef, file)
 
