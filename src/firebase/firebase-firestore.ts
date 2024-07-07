@@ -201,14 +201,18 @@ export async function updateDocumentWithPhotoData(
             return {}
         })
 
+    const orientation =
+        metaData?.ExifImageHeight && metaData.ExifImageWidth
+            ? metaData.ExifImageWidth >= metaData.ExifImageHeight
+                ? 'landscape'
+                : 'portrait'
+            : 'unknown'
+
     updateDoc(photoDocumentRef, {
         downloadUrl,
         metaData: {
             ...metaData,
-            orientation:
-                metaData?.ExifImageHeight ?? 0 > (metaData?.ExifImageWidth ?? 0)
-                    ? 'portrait'
-                    : 'landscape',
+            orientation,
         },
     })
 }
