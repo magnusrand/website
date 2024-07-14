@@ -12,7 +12,7 @@
     overflow-y: scroll;
 
     .albums-page__list-wrapper {
-        grid-column: 3 / 11;
+        grid-column: 4 / 12;
 
         display: grid;
         grid-template-columns: subgrid;

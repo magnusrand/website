@@ -21,7 +21,7 @@
         overflow-y: scroll;
 
         .divider-box {
-            grid-column: 1 / -1;
+            grid-column: 2 / -2;
             grid-row: 4 / 5;
 
             height: var(--row-height);
@@ -32,18 +32,24 @@
             width: 100%;
             z-index: 1;
 
+            &--portrait {
+                max-height: 90dvh;
+                width: auto;
+                margin: auto;
+            }
+
             &--full-width,
             &--default {
-                grid-column: 3 / -3;
-            }
-            &--narrow-width {
                 grid-column: 4 / -4;
             }
+            &--narrow-width {
+                grid-column: 5 / -5;
+            }
             &--half-left {
-                grid-column: 3 / 7;
+                grid-column: 4 / 8;
             }
             &--half-right {
-                grid-column: 7 / -3;
+                grid-column: 8 / -4;
             }
 
             &:last-child {

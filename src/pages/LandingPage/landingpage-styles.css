@@ -15,14 +15,14 @@
     }
 
     .horizontal-bar2 {
-        grid-column: 3 / -1;
+        grid-column: 4 / -1;
         grid-row: 4 / 5;
 
         background-color: var(--light-color-2);
     }
 
     .horizontal-bar3 {
-        grid-column: 5 / -1;
+        grid-column: 6 / -1;
         grid-row: 5 / 6;
 
         background-color: var(--light-color-3);
@@ -37,12 +37,12 @@
         cursor: pointer;
 
         &.position-primary {
-            grid-column: 9 / 11;
+            grid-column: 10 / 12;
             grid-row: 4 / 5;
             z-index: 3;
         }
         &.position-secondary {
-            grid-column: 5 / 9;
+            grid-column: 6 / 10;
             grid-row: 4 / 5;
             z-index: 3;
 
@@ -59,7 +59,7 @@
         cursor: pointer;
 
         &.position-primary {
-            grid-column: 9 / 11;
+            grid-column: 10 / 12;
             grid-row: 2 / 6;
             z-index: 3;
 
@@ -73,7 +73,7 @@
         }
 
         &.position-secondary {
-            grid-column: 5 / 7;
+            grid-column: 6 / 8;
             grid-row: 3 / 7;
             z-index: 3;
 
@@ -97,13 +97,14 @@
     }
 
     .background-letter {
-        grid-column: 3 / 5;
-        grid-row: 1 / 2;
+        grid-column: 2 / -2;
+        grid-row-start: 1;
+        margin-left: -7rem;
         z-index: -1;
 
         font-size: 150rem;
-        margin-top: -72rem;
-        margin-left: -20.5rem;
+        line-height: 52rem;
+
         color: var(--light-color-1);
         opacity: 0.4125;
 

@@ -1,6 +1,6 @@
 .site-heading__horizontal-bar {
     &-top {
-        grid-column: 5 / 11;
+        grid-column: 6 / 12;
         grid-row: 2 / 3;
 
         height: var(--row-height);
@@ -22,7 +22,7 @@
         }
     }
     &-bottom {
-        grid-column: 3 / 11;
+        grid-column: 4 / 12;
         grid-row: 3 / 4;
 
         height: var(--row-height);
