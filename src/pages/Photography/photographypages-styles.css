@@ -47,9 +47,11 @@
             }
             &--half-left {
                 grid-column: 4 / 8;
+                width: 100%;
             }
             &--half-right {
                 grid-column: 8 / -4;
+                width: 100%;
             }
 
             &:last-child {

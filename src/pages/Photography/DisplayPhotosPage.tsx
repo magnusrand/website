@@ -17,7 +17,7 @@ export const DisplayPhotosPage = () => {
     const headingRef = useRef<HTMLDivElement>(null)
     const params = useParams()
     const [photos, setPhotos] = useState<PhotoData[]>([])
-    const [gridStyle] = useState<number>(2)
+    const [gridStyle] = useState<number>(1)
     const [photoLayout, setPhotoLayout] = useState<string[]>([])
     const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
         number | null
