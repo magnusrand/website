@@ -202,12 +202,22 @@ export async function updateDocumentWithPhotoData(
             return {}
         })
 
-    const orientation =
+    let orientation =
         metaData?.ExifImageHeight && metaData.ExifImageWidth
             ? metaData.ExifImageWidth >= metaData.ExifImageHeight
                 ? 'landscape'
                 : 'portrait'
             : 'unknown'
+
+    if (orientation === 'unknown') {
+        const dimensions = await getImageDimensions(file)
+        orientation =
+            dimensions.width && dimensions.height
+                ? dimensions.width >= dimensions.height
+                    ? 'landscape'
+                    : 'portrait'
+                : 'truly unknown'
+    }
 
     updateDoc(photoDocumentRef, {
         downloadUrl,
@@ -215,5 +225,36 @@ export async function updateDocumentWithPhotoData(
             ...metaData,
             orientation,
         },
+    })
+}
+
+async function getImageDimensions(file: File) {
+    console.log(
+        'INFO: exif dimensions not available, fetching from render instead',
+    )
+    return new Promise<{ width: number; height: number }>((resolve, reject) => {
+        const reader = new FileReader()
+
+        reader.onload = function (e) {
+            const img = new Image()
+
+            img.onload = function () {
+                const width = img?.naturalWidth ?? img?.width
+                const height = img?.naturalHeight ?? img?.height
+                resolve({ width, height })
+            }
+
+            img.onerror = function () {
+                reject(new Error('Error loading image'))
+            }
+
+            img.src = e.target?.result as string
+        }
+
+        reader.onerror = function () {
+            reject(new Error('Error reading file'))
+        }
+
+        reader.readAsDataURL(file)
     })
 }
