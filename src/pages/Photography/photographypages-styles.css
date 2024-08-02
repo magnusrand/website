@@ -85,20 +85,19 @@
             .photo-element {
                 transition: all ease-out 0.1s;
                 &--full-width,
-                &--default {
-                    grid-column: 1 / -1;
-                    margin: 0;
-                }
+                &--default,
                 &--narrow-width {
                     grid-column: 1 / -1;
                     margin: 0;
+                    max-width: 100%;
+                    max-height: none;
                 }
                 &--half-left {
-                    grid-column: 1 / 7;
+                    grid-column: 1 / 8;
                     margin: 0;
                 }
                 &--half-right {
-                    grid-column: 7 / -1;
+                    grid-column: 8 / -1;
                     margin: 0;
                 }
             }
