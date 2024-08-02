@@ -66,15 +66,43 @@ export const DisplayPhotosPage = () => {
         return { layoutArray }
     }, [photos])
 
+    const photoGrid2 = useMemo(() => {
+        const layoutArray: string[] = []
+        let counter = 0
+        while (counter < photos?.length) {
+            if (counter === photos?.length - 1) {
+                layoutArray.push('full-width')
+                counter++
+                continue
+            }
+            if (photos[counter].metaData?.orientation === 'landscape') {
+                layoutArray.push('full-width')
+                counter++
+                continue
+            }
+            if (photos[counter].metaData?.orientation === 'portrait') {
+                layoutArray.push('narrow-width')
+                counter++
+                continue
+            }
+            layoutArray.push('default')
+            counter++
+        }
+        return { layoutArray }
+    }, [photos])
+
     useEffect(() => {
         switch (gridStyle) {
             case 1:
                 setPhotoLayout(photoGrid1.layoutArray)
                 break
+            case 2:
+                setPhotoLayout(photoGrid2.layoutArray)
+                break
             default:
                 setPhotoLayout(photoGrid1.layoutArray)
         }
-    }, [photos, gridStyle, photoGrid1])
+    }, [photos, gridStyle, photoGrid1, photoGrid2])
 
     const displayedAlbumName = () => {
         if (!albumName) return 'feil  🥶'
@@ -104,7 +132,7 @@ export const DisplayPhotosPage = () => {
                     placeholderSrc={photo.thumbnailUrl}
                     focusable={currentFullscreenIndex === null}
                     onClick={() => setCurrentFullscreenIndex(index)}
-                    className={`photo-element photo-element--${photoLayout[index]}`}
+                    className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
                     key={photo.imageUrl}
                 />
             ))}

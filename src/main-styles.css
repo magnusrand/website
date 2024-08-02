@@ -147,6 +147,12 @@ a {
 
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-columns:
+        1fr minmax(0px, 100px) minmax(0px, 100px)
+        minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px)
+        minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px)
+        minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px)
+        minmax(0px, 100px) 1fr;
     grid-template-rows: repeat(auto-fill, var(--row-height));
     column-gap: var(--column-gap);
     row-gap: var(--row-gap);

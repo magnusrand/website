@@ -1,5 +1,5 @@
 .simple-with-frame__photo-wrapper {
-    grid-column: 4 / 10;
+    grid-column: 5 / 11;
 
     display: flex;
     flex-direction: column;
@@ -7,7 +7,6 @@
     margin-top: var(--image-gap);
     max-height: 80vh;
     width: fit-content;
-    width: 100%;
     margin-left: auto;
     margin-right: auto;
 
