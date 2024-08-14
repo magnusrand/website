@@ -60,7 +60,10 @@ export const FeaturedPhotosPage = () => {
             <MainNavBar />
             <SiteHeading siteName={PAGE_TITLE} headingRef={headingRef} />
             <FullscreenOverlay
-                photoUrls={photos.map((photo) => photo.imageUrl)}
+                photoUrls={photos.map((photo) => ({
+                    photo: photo.imageUrl,
+                    placeholder: photo.thumbnailUrl,
+                }))}
                 currentIndex={currentFullscreenIndex}
                 onIndexChange={setCurrentFullscreenIndex}
             />

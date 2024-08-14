@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { MdClose } from 'react-icons/md'
 
 import { IconButton } from '../../Buttons/IconButton'
+import { ProgressiveImage } from '../ProgressiveImage'
 
 import './fullscreenOverlay.css'
 
@@ -12,7 +13,7 @@ export const FullscreenOverlay = ({
     currentIndex,
     onIndexChange,
 }: {
-    photoUrls: string[]
+    photoUrls: Array<{ photo: string; placeholder: string }>
     currentIndex: number | null
     onIndexChange: (index: number | null) => void
 }) => {
@@ -64,11 +65,14 @@ export const FullscreenOverlay = ({
             >
                 <MdClose size="2rem" />
             </IconButton>
-            <img
-                className="fullscreen-overlay__image"
-                src={currentIndex !== null ? photoUrls?.[currentIndex] : ''}
-                tabIndex={currentIndex !== null ? 0 : -1}
-            />
+            {currentIndex !== null && (
+                <ProgressiveImage
+                    className="fullscreen-overlay__image"
+                    src={photoUrls?.[currentIndex].photo}
+                    placeholderSrc={photoUrls?.[currentIndex].placeholder}
+                    focusable={currentIndex !== null}
+                />
+            )}
         </div>
     )
 }

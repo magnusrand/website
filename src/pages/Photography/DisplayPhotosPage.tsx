@@ -122,7 +122,10 @@ export const DisplayPhotosPage = () => {
             />
             <div className="divider-box" />
             <FullscreenOverlay
-                photoUrls={photos.map((photo) => photo.imageUrl)}
+                photoUrls={photos.map((photo) => ({
+                    photo: photo.imageUrl,
+                    placeholder: photo.thumbnailUrl,
+                }))}
                 currentIndex={currentFullscreenIndex}
                 onIndexChange={setCurrentFullscreenIndex}
             />

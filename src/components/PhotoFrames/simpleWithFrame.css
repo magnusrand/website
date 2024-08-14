@@ -15,6 +15,7 @@
     &.simple-with-frame__photo-wrapper--portrait {
         flex-direction: row;
         justify-content: center;
+        height: 100%;
 
         &.simple-with-frame__photo-wrapper--no-description {
             width: fit-content;
