@@ -21,6 +21,8 @@ export const ProgressiveImage = ({
     const imageRef = React.useRef<HTMLImageElement>(null)
 
     React.useEffect(() => {
+        // TODO this needs to implement functionality to
+        // delay loading untill image is close to be scrolled into view
         const imageToLoad = new Image()
         imageToLoad.src = src
         imageToLoad.onload = () => {
