@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 export function getShutterSpeedFraction(value: number | undefined) {
     if (value === undefined) return ''
 
@@ -18,4 +20,35 @@ export function getISO(value: number | undefined) {
     if (value === undefined) return ''
 
     return 'ISO ' + value
+}
+
+export function useDebounce<T extends (...args: any[]) => any>(
+    callBack: T,
+    debounceTime: number,
+) {
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+
+    useEffect(
+        () => () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current)
+            }
+        },
+        [],
+    )
+
+    const debouncedFunc = (...args: any[]) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            callBack(...args)
+        }, debounceTime)
+    }
+
+    return {
+        func: debouncedFunc as T,
+        cancel: () => timeoutRef.current && clearTimeout(timeoutRef.current),
+    }
 }

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom'
 
-import debounce from 'lodash.debounce'
 import { IoTriangleSharp } from 'react-icons/io5'
+
+import { useDebounce } from '../utils'
 
 import type { Color } from '../../types'
 
@@ -39,7 +40,7 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
         setOpen(!open)
     }
 
-    const debounceMouseLeave = debounce(() => setOpen(false), 300)
+    const debounceMouseLeave = useDebounce(() => setOpen(false), 300)
 
     return (
         <div
@@ -48,8 +49,8 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ['--nav-item-color' as any]: `var(${props.color})`,
             }}
-            onMouseEnter={() => debounceMouseLeave.cancel()}
-            onMouseLeave={debounceMouseLeave}
+            onMouseEnter={debounceMouseLeave.cancel}
+            onMouseLeave={debounceMouseLeave.func}
             onClick={() => {
                 if (!props.linkPath) onClick()
             }}
