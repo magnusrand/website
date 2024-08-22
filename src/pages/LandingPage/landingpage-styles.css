@@ -170,14 +170,14 @@
             word-wrap: break-word;
 
             &.position-primary {
-                grid-column: 7 / 11;
+                grid-column: 8;
                 grid-row: 3 / 7;
 
                 margin-left: calc(16.67vw * 0.15);
             }
 
             &.position-secondary {
-                grid-column: 3 / 7;
+                grid-column: 4;
                 grid-row: 4 / 8;
 
                 margin-left: calc(16.67vw * 0.2);
