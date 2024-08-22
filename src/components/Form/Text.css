@@ -1,0 +1,25 @@
+.mr-textfield {
+    height: 2rem;
+}
+
+.mr-textfield,
+.mr-textarea {
+    background: var(--theme-color-secondary);
+    color: var(--dark-color-3);
+    padding-inline: 0.5rem;
+    border: 2px solid var(--theme-color);
+    font-family: "Source Sans 3";
+
+    &:focus {
+        outline-color: var(--theme-color-difference);
+        border-radius: 0;
+    }
+}
+
+.mr-form-label {
+    font-family: "Source Sans 3";
+    font-variant: small-caps;
+    font-weight: 400;
+    font-size: 1rem;
+    text-transform: lowercase;
+}
