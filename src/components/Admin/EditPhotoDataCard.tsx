@@ -21,6 +21,7 @@ const EditPhotoDataCard = ({
     const [photoDescription, setPhotoDescription] = useState<string>(
         photo.description ?? '',
     )
+    const [photoTags, setPhotoTags] = useState<string[]>(photo?.tags ?? [])
 
     return (
         <div className="edit-photo-data-card">
@@ -47,12 +48,21 @@ const EditPhotoDataCard = ({
                     onChange={(e) => setPhotoDescription(e.target.value)}
                 />
             </div>
+            <div className="edit-photo-data-card__input">
+                <Label htmlFor="photoDescription">Etiketter</Label>
+                <TextField
+                    id="photoTags"
+                    value={photoTags.join(',')}
+                    onChange={(e) => setPhotoTags(e.target.value.split(','))}
+                />
+            </div>
             <div className="edit-photo-data-card__buttons">
                 <Button
                     onClick={() =>
                         updatePhotoData(photo.documentRef, {
                             title: photoTitle,
                             description: photoDescription,
+                            tags: photoTags,
                         })
                     }
                 >

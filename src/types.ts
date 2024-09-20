@@ -26,6 +26,7 @@ export interface PhotoData {
     thumbnailUrl: string
     metaData?: metaData
     documentRef: DocumentReference
+    tags?: string[]
 }
 
 export interface metaData {
