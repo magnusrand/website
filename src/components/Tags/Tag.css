@@ -1,0 +1,39 @@
+.tag {
+    --tag-color: var(--theme-color);
+
+    all: unset;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+    height: 1.5rem;
+    width: 100%;
+
+    color: var(--tag-color);
+    
+    svg {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+}
+
+.tag:hover {
+    background-color: var(--tag-color);
+    color: var(--white);
+}
+.tag:checked {
+    background-color: var(--tag-color);
+    color: var(--white);
+}
+
+.tag:focus-visible {
+    outline: var(--dark-color-3) solid 2px;
+}
+
+.tag__label {
+    position: relative;
+    margin-inline: 0.5rem;
+
+}
