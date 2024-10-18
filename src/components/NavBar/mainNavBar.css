@@ -1,12 +1,16 @@
 .header {
     position: sticky;
-    top: var(--margin-top-main);
-    margin-top: var(--margin-top-main);
     align-self: start;
+    top: 0;
     
     &:has(.main-navbar--collapsed) {
         height: 5vh;
         mix-blend-mode: difference;
+    }
+
+    .navbar {
+        height: calc(var(--row-height) - var(--row-gap));
+        margin-top: var(--margin-top-main);
     }
 }
 

@@ -52,8 +52,8 @@ const EditPhotoDataCard = ({
                 <Label htmlFor="photoDescription">Etiketter</Label>
                 <TextField
                     id="photoTags"
-                    value={photoTags.join(',')}
-                    onChange={(e) => setPhotoTags(e.target.value.split(','))}
+                    value={photoTags.join(', ')}
+                    onChange={(e) => setPhotoTags(e.target.value.split(', '))}
                 />
             </div>
             <div className="edit-photo-data-card__buttons">

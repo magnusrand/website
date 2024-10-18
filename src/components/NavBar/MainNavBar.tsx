@@ -103,7 +103,11 @@ export const MainNavBar = ({
             <NavItem title="Fotografi" color={Color.DARK1}>
                 <Dropdown>
                     <DropdownItem title="Utvalgte" linkPath="/foto/utvalgte" />
-                    <DropdownItem title="Alle album" linkPath="/foto" />
+                    <DropdownItem title="Alle album" linkPath="/foto/album" />
+                    <DropdownItem
+                        title="Etiketter"
+                        linkPath="/foto/etiketter"
+                    />
                 </Dropdown>
             </NavItem>
             <NavItem
