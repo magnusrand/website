@@ -1,0 +1,25 @@
+.main-grid.tags-page {
+    --theme-color: var(--light-color-2);
+    --theme-color-secondary: var(--light-color-1);
+    --theme-color-difference: var(--dark-color-2);
+
+    --row-gap: 2rem;
+
+    position: relative;
+    height: 100%;
+    margin-bottom: 4rem;
+
+    main {
+        grid-column: 4 / -4;
+
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-template-rows: auto;
+        row-gap: var(--row-gap);
+
+        .tags-page__tags-list {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+}

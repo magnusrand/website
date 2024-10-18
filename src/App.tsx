@@ -12,6 +12,7 @@ import { LogIn } from './pages/LoginAndAdmin/LogIn'
 import FeaturedPhotosPage from './pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
 import AlbumsPage from './pages/Photography/Albums/AlbumsPage'
 import { EditAlbum } from './pages/EditAlbum/EditAlbum'
+import { TagsPage } from './pages/Photography/Search/TagsPage'
 
 const App = () => (
     <BrowserRouter>
@@ -26,6 +27,7 @@ const App = () => (
                 <Route index element={<LandingPage />} />
                 <Route path="admin" element={<EditAlbum />} />
                 <Route path="foto" element={<AlbumsPage />} />
+                <Route path="tags" element={<TagsPage />} />
                 <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
                 <Route path="foto/:albumName" element={<DisplayPhotosPage />} />
                 <Route
