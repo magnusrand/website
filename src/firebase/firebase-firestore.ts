@@ -59,7 +59,7 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
 
     return photosData
 }
-export const getPhotosByTag = async (searchString: string | undefined) => {
+export const getPhotosByTag = async (searchString: string | null) => {
     const photosWithTagQuery = query(
         collectionGroup(db, 'photos'),
         where('tags', 'array-contains', searchString),

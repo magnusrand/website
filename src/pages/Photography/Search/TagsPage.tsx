@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+import { useSearchParams } from 'react-router-dom'
+
 import { MdArrowUpward } from 'react-icons/md'
 
 import { PhotoData } from '../../../types'
@@ -19,8 +21,8 @@ import './tagsPage.css'
 
 export const TagsPage = () => {
     const [tags, setTags] = useState<string[]>([])
-    const [selectedTag, setSelectedTag] = useState<string>()
     const [photos, setPhotos] = useState<PhotoData[]>([])
+    const [searchParams, setSearchParams] = useSearchParams()
     const tagsRef = useRef<HTMLFieldSetElement>(null)
     const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
         number | null
@@ -35,12 +37,14 @@ export const TagsPage = () => {
     }, [])
 
     useEffect(() => {
+        const _currentTag = searchParams.get('etikett')
+
         const getPhotosForTag = async () => {
-            const _photos = await getPhotosByTag(selectedTag)
+            const _photos = await getPhotosByTag(_currentTag)
             setPhotos(_photos ?? [])
         }
-        selectedTag !== undefined && getPhotosForTag()
-    }, [selectedTag])
+        _currentTag !== null && getPhotosForTag()
+    }, [searchParams])
 
     return (
         <div className="main-grid tags-page">
@@ -51,7 +55,7 @@ export const TagsPage = () => {
                         <Tag
                             key={tag}
                             name="photo-tags"
-                            onClick={() => setSelectedTag(tag)}
+                            onClick={() => setSearchParams({ etikett: tag })}
                         >
                             {tag}
                         </Tag>
