@@ -12,7 +12,8 @@ import {
     DocumentReference,
     onSnapshot,
     addDoc,
-    FieldValue,
+    collectionGroup,
+    limit,
 } from 'firebase/firestore'
 import {
     StorageReference,
@@ -57,6 +58,42 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
     })) as PhotoData[]
 
     return photosData
+}
+export const getPhotosByTag = async (searchString: string | undefined) => {
+    const photosWithTagQuery = query(
+        collectionGroup(db, 'photos'),
+        where('tags', 'array-contains', searchString),
+        orderBy(new FieldPath('metaData', 'CreateDate'), 'asc'),
+    )
+
+    const photosWithTagSnapshot = await getDocs(photosWithTagQuery)
+    if (photosWithTagSnapshot.empty) return []
+
+    const photosData = photosWithTagSnapshot.docs.map((photo) => ({
+        ...photo.data(),
+        documentRef: photo.ref,
+    })) as PhotoData[]
+
+    return photosData
+}
+
+export const getAllPhotoTags = async () => {
+    const photoTagsQuery = query(
+        collectionGroup(db, 'photos'),
+        orderBy('tags', 'asc'),
+        limit(100),
+    )
+
+    const photoTagsSnapshot = await getDocs(photoTagsQuery)
+
+    const allTags = photoTagsSnapshot.docs.flatMap((photo) => photo.data().tags)
+
+    // from https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
+    function onlyUnique(value: string, index: number, array: string[]) {
+        return array.indexOf(value) === index
+    }
+
+    return allTags.filter(onlyUnique)
 }
 
 export const getAlbums = async () => {
