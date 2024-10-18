@@ -42,3 +42,15 @@
         }
     }
 }
+
+@media only screen and (max-width: 800px) {
+    .main-grid.tags-page {
+        main {
+            grid-column: 2 / -2;
+
+            .photo-element {
+                grid-column: span 6;
+            }
+        }
+    }
+}
