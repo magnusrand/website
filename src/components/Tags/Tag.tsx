@@ -12,12 +12,12 @@ export const Tag = ({
     className?: string
     name: string
 }) => (
-    <label className="tag__label">
+    <label className="mr-tag__label">
         {children}
         <input
             type="radio"
             id={children}
-            className={`tag ${className}`}
+            className={`mr-tag ${className}`}
             {...rest}
         />
     </label>
