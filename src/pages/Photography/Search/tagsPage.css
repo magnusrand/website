@@ -28,13 +28,30 @@
             grid-column: 1 / -1;
             display: flex;
             justify-content: center;
+            max-height: 21dvh;
+            overflow-y: auto;
+            height: max-content;
+        }
+
+        .photo-element__container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: var(--row-gap);
+
+            &.first-column {
+                grid-column: 1 / 5;
+            }
+            &.second-column {
+                grid-column: 5 / -1;
+            }
         }
 
         .photo-element {
-            grid-column: span 4;
             width: 100%;
             cursor: pointer;
         }
+
 
         .scroll-to-top-button {
             grid-column: 1 / -1;
@@ -48,8 +65,13 @@
         main {
             grid-column: 2 / -2;
 
-            .photo-element {
-                grid-column: span 6;
+            .photo-element__container {
+                &.first-column {
+                    grid-column: 1 / 7;
+                }
+                &.second-column {
+                    grid-column: 7 / -1;
+                }
             }
         }
     }

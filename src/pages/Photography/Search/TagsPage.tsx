@@ -46,6 +46,9 @@ export const TagsPage = () => {
         _currentTag !== null && getPhotosForTag()
     }, [searchParams])
 
+    const photosFirstHalf = photos?.filter((photo, index) => index % 2 === 0)
+    const photosLastHalf = photos?.filter((photo, index) => index % 2 === 1)
+
     return (
         <div className="main-grid tags-page">
             <MainNavBar />
@@ -69,16 +72,36 @@ export const TagsPage = () => {
                     currentIndex={currentFullscreenIndex}
                     onIndexChange={setCurrentFullscreenIndex}
                 />
-                {photos?.map((photo, index) => (
-                    <ProgressiveImage
-                        src={photo.imageUrl}
-                        placeholderSrc={photo.thumbnailUrl}
-                        focusable={currentFullscreenIndex === null}
-                        onClick={() => setCurrentFullscreenIndex(index)}
-                        className="photo-element"
-                        key={photo.documentRef.id}
-                    />
-                ))}
+                {/* Photos are split into two columns to allow for moasic layout 
+                    with even distribution of elements. */}
+                <div className="photo-element__container first-column">
+                    {photosFirstHalf?.map((photo, index) => (
+                        <ProgressiveImage
+                            src={photo.imageUrl}
+                            placeholderSrc={photo.thumbnailUrl}
+                            focusable={currentFullscreenIndex === null}
+                            onClick={() =>
+                                setCurrentFullscreenIndex(Math.floor(index / 2))
+                            }
+                            className="photo-element"
+                            key={photo.documentRef.id}
+                        />
+                    ))}
+                </div>
+                <div className="photo-element__container second-column">
+                    {photosLastHalf.map((photo, index) => (
+                        <ProgressiveImage
+                            src={photo.imageUrl}
+                            placeholderSrc={photo.thumbnailUrl}
+                            focusable={currentFullscreenIndex === null}
+                            onClick={() =>
+                                setCurrentFullscreenIndex(Math.floor(index / 2))
+                            }
+                            className="photo-element"
+                            key={photo.documentRef.id}
+                        />
+                    ))}
+                </div>
                 {photos.length > 0 && (
                     <IconButton
                         className="scroll-to-top-button"
