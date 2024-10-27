@@ -80,9 +80,7 @@ export const TagsPage = () => {
                             src={photo.imageUrl}
                             placeholderSrc={photo.thumbnailUrl}
                             focusable={currentFullscreenIndex === null}
-                            onClick={() =>
-                                setCurrentFullscreenIndex(Math.floor(index / 2))
-                            }
+                            onClick={() => setCurrentFullscreenIndex(index * 2)}
                             className="photo-element"
                             key={photo.documentRef.id}
                         />
@@ -95,7 +93,7 @@ export const TagsPage = () => {
                             placeholderSrc={photo.thumbnailUrl}
                             focusable={currentFullscreenIndex === null}
                             onClick={() =>
-                                setCurrentFullscreenIndex(Math.floor(index / 2))
+                                setCurrentFullscreenIndex(index * 2 + 1)
                             }
                             className="photo-element"
                             key={photo.documentRef.id}
