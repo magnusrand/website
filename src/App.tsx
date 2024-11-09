@@ -1,12 +1,17 @@
 import React from 'react'
-import { Route, BrowserRouter, Routes, Link } from 'react-router-dom'
+import {
+    Route,
+    Routes,
+    Link,
+    createBrowserRouter,
+    createRoutesFromElements,
+    RouterProvider,
+} from 'react-router-dom'
 
 import VisualBackgroundGrid from './components/BackgroundGrid'
-
-import { LandingPage } from './pages/LandingPage/LandingPage'
 import Redirect from './components/Redirect'
 
-import './main-styles.css'
+import { LandingPage } from './pages/LandingPage/LandingPage'
 import DisplayPhotosPage from './pages/Photography/DisplayPhotosPage'
 import { LogIn } from './pages/LoginAndAdmin/LogIn'
 import FeaturedPhotosPage from './pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
@@ -14,15 +19,11 @@ import AlbumsPage from './pages/Photography/Albums/AlbumsPage'
 import { EditAlbum } from './pages/EditAlbum/EditAlbum'
 import { TagsPage } from './pages/Photography/Search/TagsPage'
 
-const App = () => (
-    <BrowserRouter>
-        <div className="app">
-            <VisualBackgroundGrid
-                numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
-                numberOfColumns={3}
-                visible={false}
-            />
+import './main-styles.css'
 
+const App = () => {
+    const router = createBrowserRouter(
+        createRoutesFromElements(
             <Routes>
                 <Route index element={<LandingPage />} />
                 <Route path="admin" element={<EditAlbum />} />
@@ -61,9 +62,20 @@ const App = () => (
                         </div>
                     }
                 />
-            </Routes>
+            </Routes>,
+        ),
+    )
+
+    return (
+        <div className="app">
+            <VisualBackgroundGrid
+                numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
+                numberOfColumns={3}
+                visible={false}
+            />
+            <RouterProvider router={router} />
         </div>
-    </BrowserRouter>
-)
+    )
+}
 
 export default App
