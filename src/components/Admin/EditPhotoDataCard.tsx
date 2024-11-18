@@ -22,6 +22,9 @@ const EditPhotoDataCard = ({
         photo.description ?? '',
     )
     const [photoTags, setPhotoTags] = useState<string[]>(photo?.tags ?? [])
+    const [photoDisplayMode, setPhotoDisplayMode] = useState<
+        undefined | '' | 'story' | 'normal'
+    >(photo?.displayMode ?? '')
 
     return (
         <div className="edit-photo-data-card">
@@ -49,11 +52,20 @@ const EditPhotoDataCard = ({
                 />
             </div>
             <div className="edit-photo-data-card__input">
-                <Label htmlFor="photoDescription">Etiketter</Label>
+                <Label htmlFor="photoTags">Etiketter</Label>
                 <TextField
                     id="photoTags"
                     value={photoTags.join(', ')}
                     onChange={(e) => setPhotoTags(e.target.value.split(', '))}
+                />
+            </div>
+            <div className="edit-photo-data-card__input">
+                <Label htmlFor="photoDisplayMode">Visningsmodus</Label>
+                <TextField
+                    id="photoDisplayMode"
+                    value={photoDisplayMode ?? ''}
+                    // @ts-expect-error type checking not implemented yet
+                    onChange={(e) => setPhotoDisplayMode(e.target.value)}
                 />
             </div>
             <div className="edit-photo-data-card__buttons">
@@ -63,6 +75,8 @@ const EditPhotoDataCard = ({
                             title: photoTitle,
                             description: photoDescription,
                             tags: photoTags,
+                            // @ts-expect-error type checking not implemented yet
+                            displayMode: photoDisplayMode,
                         })
                     }
                 >
