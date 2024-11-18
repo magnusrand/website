@@ -25,9 +25,9 @@ export const storage = getStorage(app)
 export const functions = getFunctions(app, 'europe-north1')
 auth.useDeviceLanguage()
 export const provider = new GoogleAuthProvider()
-// if (location.hostname === 'localhost') {
-//     connectFirestoreEmulator(db, 'localhost', 8081)
-//     connectFunctionsEmulator(functions, 'localhost', 5002)
-//     connectStorageEmulator(storage, 'localhost', 9199)
-//     connectAuthEmulator(auth, 'http://localhost:9099')
-// }
+if (location.hostname === 'localhost') {
+    connectFirestoreEmulator(db, 'localhost', 8081)
+    connectFunctionsEmulator(functions, 'localhost', 5002)
+    connectStorageEmulator(storage, 'localhost', 9199)
+    connectAuthEmulator(auth, 'http://localhost:9099')
+}
