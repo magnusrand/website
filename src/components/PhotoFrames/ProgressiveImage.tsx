@@ -25,8 +25,13 @@ export const ProgressiveImage = ({
         // delay loading untill image is close to be scrolled into view
         const imageToLoad = new Image()
         imageToLoad.src = src
-        imageToLoad.onload = () => {
+        imageToLoad.onload = function () {
             setImageSrc(src)
+            imageRef.current?.style.setProperty(
+                '--image-height',
+                // @ts-expect-error height does indeed exist
+                this.height + 'px',
+            )
         }
     }, [src])
 

@@ -8,7 +8,8 @@ import {
     IoMdInformationCircleOutline,
 } from 'react-icons/io'
 
-import { MdIso } from 'react-icons/md'
+import { MdCameraAlt, MdIso } from 'react-icons/md'
+import { FaMartiniGlass } from 'react-icons/fa6'
 
 import { PhotoData } from '../../types'
 
@@ -38,6 +39,7 @@ export const SimpleWithFrame = ({
             ? `${photo.metaData?.Make} `
             : ''
     }${photo.metaData?.Model}`
+    const lens = ` (${photo.metaData?.FocalLength}mm) ${photo.metaData?.LensModel}`
 
     return (
         <section
@@ -77,14 +79,16 @@ export const SimpleWithFrame = ({
                 {showMeta ? (
                     <p className="simple-with-frame__photo-wrapper__caption__meta">
                         <span>
-                            kamera:
+                            <MdCameraAlt />
                             <span className="type-sourcesans-italic">
                                 {cameraName}
                             </span>
                         </span>
                         <span>
-                            objektiv:
-                            <span className="type-sourcesans-italic">{`(${photo.metaData?.FocalLength}mm) ${photo.metaData?.LensModel}`}</span>
+                            <FaMartiniGlass />
+                            <span className="type-sourcesans-italic">
+                                {lens}
+                            </span>
                         </span>
                         <span className="simple-with-frame__photo-wrapper__caption__meta__holy-triangle">
                             <span>
