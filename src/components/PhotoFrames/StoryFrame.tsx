@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import classNames from 'classnames'
 
@@ -7,6 +7,7 @@ import { IoMdStopwatch, IoMdAperture } from 'react-icons/io'
 import { MdCameraAlt, MdIso } from 'react-icons/md'
 
 import { PhotoData } from '../../types'
+import { formatDescriptionForHTML } from '../../firebase/utils'
 
 import { getAperture, getISO, getShutterSpeedFraction } from '../utils'
 
@@ -25,11 +26,19 @@ export const StoryFrame = ({
     className?: string
     focusable?: boolean
 }) => {
+    const descriptionRef = useRef<HTMLParagraphElement>(null)
     const cameraName = ` ${
         photo.metaData?.Make !== photo.metaData?.Model?.split(' ')[0]
             ? `${photo.metaData?.Make} `
             : ''
     }${photo.metaData?.Model}`
+
+    const description = formatDescriptionForHTML(photo.description)
+
+    useEffect(() => {
+        descriptionRef.current &&
+            descriptionRef.current.insertAdjacentHTML('afterbegin', description)
+    }, [])
 
     return (
         <section
@@ -66,9 +75,10 @@ export const StoryFrame = ({
                         <MdCameraAlt style={{ marginLeft: '0.5rem' }} />
                         {cameraName}
                     </small>
-                    <p className="story-frame__text__description">
-                        {photo.description}
-                    </p>
+                    <div
+                        className="story-frame__text__description"
+                        ref={descriptionRef}
+                    ></div>
                 </div>
             </div>
         </section>

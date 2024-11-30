@@ -4,6 +4,10 @@ import {
     deleteImageFromStorage,
     updatePhotoData,
 } from '../../firebase/firebase-firestore'
+import {
+    formatDescriptionForDisplay,
+    formatDescriptionForFirestore,
+} from '../../firebase/utils'
 import { PhotoData } from '../../types'
 import { TextArea, TextField, Label } from '../Form/Text'
 import { Button } from '../Buttons/Button'
@@ -19,7 +23,7 @@ const EditPhotoDataCard = ({
 }) => {
     const [photoTitle, setPhotoTitle] = useState<string>(photo.title ?? '')
     const [photoDescription, setPhotoDescription] = useState<string>(
-        photo.description ?? '',
+        formatDescriptionForDisplay(photo.description) ?? '',
     )
     const [photoTags, setPhotoTags] = useState<string[]>(photo?.tags ?? [])
     const [photoDisplayMode, setPhotoDisplayMode] = useState<
@@ -73,7 +77,8 @@ const EditPhotoDataCard = ({
                     onClick={() =>
                         updatePhotoData(photo.documentRef, {
                             title: photoTitle,
-                            description: photoDescription,
+                            description:
+                                formatDescriptionForFirestore(photoDescription),
                             tags: photoTags,
                             // @ts-expect-error type checking not implemented yet
                             displayMode: photoDisplayMode,

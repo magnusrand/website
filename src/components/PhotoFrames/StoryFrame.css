@@ -58,10 +58,20 @@
             }
         }
 
+        &__description {
+            white-space: pre-wrap;
+
+            h3,
+            h4 {
+                margin-bottom: -2rem;
+            }
+        }
+
         &__meta {
             display: flex;
             align-items: center;
             margin-top: -1rem;
+            margin-bottom: 1rem;
             white-space: nowrap;
         }
         
