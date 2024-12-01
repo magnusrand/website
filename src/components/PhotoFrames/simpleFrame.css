@@ -1,4 +1,4 @@
-.simple-with-frame__photo-wrapper {
+.simple-frame__photo-wrapper {
     grid-column: 5 / 11;
 
     display: flex;
@@ -12,32 +12,32 @@
 
     scroll-snap-align: center;
 
-    &.simple-with-frame__photo-wrapper--portrait {
+    &.simple-frame__photo-wrapper--portrait {
         flex-direction: row;
         justify-content: center;
         height: 100%;
 
-        &.simple-with-frame__photo-wrapper--no-description {
+        &.simple-frame__photo-wrapper--no-description {
             width: fit-content;
             position: relative;
             left: 1.5rem;
         }
 
-        .simple-with-frame__photo-wrapper__caption {
+        .simple-frame__photo-wrapper__caption {
             flex-direction: column-reverse;
             width: max-content;
             max-width: 100%;
 
-            .simple-with-frame__photo-wrapper__caption__description {
+            .simple-frame__photo-wrapper__caption__description {
                 flex: unset;
             }
 
-            .simple-with-frame__photo-wrapper__caption__meta {
+            .simple-frame__photo-wrapper__caption__meta {
                 align-items: flex-start;
                 white-space: nowrap;
             }
 
-            .simple-with-frame__photo-wrapper__caption__show-meta-button {
+            .simple-frame__photo-wrapper__caption__show-meta-button {
                 margin-top: unset;
                 top: unset;
                 margin-left: -1rem;
@@ -45,7 +45,7 @@
         }
     }
 
-    .simple-with-frame__photo-wrapper__image {
+    .simple-frame__photo-wrapper__image {
         max-width: 100%;
         max-height: 100%;
         box-sizing: border-box;
@@ -59,28 +59,28 @@
         }
     }
 
-    .simple-with-frame__photo-wrapper__caption {
+    .simple-frame__photo-wrapper__caption {
         width: 100%;
         display: flex;
         justify-content: space-between;
         gap: 1rem;
         min-height: 3rem;
 
-        .simple-with-frame__photo-wrapper__caption__description {
+        .simple-frame__photo-wrapper__caption__description {
             margin: 0;
             margin-top: -0.25rem;
             flex: 1;
 
-            .simple-with-frame__photo-wrapper__caption__description__heading {
+            .simple-frame__photo-wrapper__caption__description__heading {
                 font-weight: 1000;
             }
         }
 
-        .simple-with-frame__photo-wrapper__caption__show-meta-button {
+        .simple-frame__photo-wrapper__caption__show-meta-button {
             margin-top: -1.2rem;
         }
 
-        .simple-with-frame__photo-wrapper__caption__meta {
+        .simple-frame__photo-wrapper__caption__meta {
             justify-self: flex-end;
             display: flex;
             flex-direction: column;
@@ -108,40 +108,40 @@
     }
 }
 
-.simple-with-frame__photo-wrapper:last-child {
+.simple-frame__photo-wrapper:last-child {
     margin-bottom: var(--image-gap);
 }
 
 @media only screen and (max-width: 1080px) {
-    .simple-with-frame__photo-wrapper {
+    .simple-frame__photo-wrapper {
         grid-column: 1 / -1;
     }
 }
 
 @media only screen and (max-width: 800px) {
-    .simple-with-frame__photo-wrapper {
+    .simple-frame__photo-wrapper {
         padding: unset;
 
-        &.simple-with-frame__photo-wrapper--portrait {
+        &.simple-frame__photo-wrapper--portrait {
             flex-direction: column;
-            &.simple-with-frame__photo-wrapper--no-description {
+            &.simple-frame__photo-wrapper--no-description {
                 width: fit-content;
                 position: relative;
                 left: 1.5rem;
             }
 
-            .simple-with-frame__photo-wrapper__caption {
+            .simple-frame__photo-wrapper__caption {
                 flex-direction: row;
 
-                .simple-with-frame__photo-wrapper__caption__description {
+                .simple-frame__photo-wrapper__caption__description {
                     flex: 1;
                 }
 
-                .simple-with-frame__photo-wrapper__caption__meta {
+                .simple-frame__photo-wrapper__caption__meta {
                     align-items: flex-end;
                 }
 
-                .simple-with-frame__photo-wrapper__caption__show-meta-button {
+                .simple-frame__photo-wrapper__caption__show-meta-button {
                     margin-top: -1.2rem;
                     top: 0.2rem;
                     margin-left: 0;

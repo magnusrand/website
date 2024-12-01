@@ -19,9 +19,9 @@ import { IconButton } from '../Buttons/IconButton'
 
 import { ProgressiveImage } from './ProgressiveImage'
 
-import './simpleWithFrame.css'
+import './simpleFrame.css'
 
-export const SimpleWithFrame = ({
+export const SimpleFrame = ({
     photo,
     onClick,
     className,
@@ -47,28 +47,28 @@ export const SimpleWithFrame = ({
             key={photo.fileName}
             className={classNames(
                 className,
-                ['photo', 'simple-with-frame__photo-wrapper'],
+                ['photo', 'simple-frame__photo-wrapper'],
                 {
-                    'simple-with-frame__photo-wrapper--portrait':
+                    'simple-frame__photo-wrapper--portrait':
                         photo.metaData?.orientation === 'portrait',
-                    'simple-with-frame__photo-wrapper--no-description': !(
+                    'simple-frame__photo-wrapper--no-description': !(
                         photo.title || photo.description
                     ),
                 },
             )}
         >
             <ProgressiveImage
-                className="simple-with-frame__photo-wrapper__image"
+                className="simple-frame__photo-wrapper__image"
                 src={photo.imageUrl}
                 placeholderSrc={photo.thumbnailUrl}
                 alt={photo.fileName}
                 onClick={onClick}
                 focusable={focusable}
             />
-            <div className="simple-with-frame__photo-wrapper__caption">
-                <p className="simple-with-frame__photo-wrapper__caption__description">
+            <div className="simple-frame__photo-wrapper__caption">
+                <p className="simple-frame__photo-wrapper__caption__description">
                     {photo.title && (
-                        <span className="simple-with-frame__photo-wrapper__caption__description__heading type-garamond-bold ">
+                        <span className="simple-frame__photo-wrapper__caption__description__heading type-garamond-bold ">
                             {photo.title}
                         </span>
                     )}
@@ -77,7 +77,7 @@ export const SimpleWithFrame = ({
                     }`}
                 </p>
                 {showMeta ? (
-                    <p className="simple-with-frame__photo-wrapper__caption__meta">
+                    <p className="simple-frame__photo-wrapper__caption__meta">
                         <span>
                             <MdCameraAlt />
                             <span className="type-sourcesans-italic">
@@ -90,7 +90,7 @@ export const SimpleWithFrame = ({
                                 {lens}
                             </span>
                         </span>
-                        <span className="simple-with-frame__photo-wrapper__caption__meta__holy-triangle">
+                        <span className="simple-frame__photo-wrapper__caption__meta__holy-triangle">
                             <span>
                                 <IoMdAperture />
                                 {getAperture(photo?.metaData?.FNumber)}
@@ -110,7 +110,7 @@ export const SimpleWithFrame = ({
                 ) : (
                     <IconButton
                         onClick={() => setShowMeta(true)}
-                        className="simple-with-frame__photo-wrapper__caption__show-meta-button"
+                        className="simple-frame__photo-wrapper__caption__show-meta-button"
                     >
                         <IoMdInformationCircleOutline />
                     </IconButton>
