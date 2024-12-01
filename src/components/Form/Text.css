@@ -2,6 +2,11 @@
     height: 2rem;
 }
 
+.mr-textarea {
+    resize: vertical;
+    min-height: 5rem;
+}
+
 .mr-textfield,
 .mr-textarea {
     background: var(--theme-color-secondary);
