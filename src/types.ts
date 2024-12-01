@@ -27,6 +27,7 @@ export interface PhotoData {
     metaData?: metaData
     documentRef: DocumentReference
     tags?: string[]
+    displayMode?: 'normal' | 'story'
 }
 
 export interface metaData {

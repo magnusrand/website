@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
         "jsx": "react",
-        "module": "commonjs",
+        "module": "ESNext",
         "noImplicitAny": true,
         "outDir": "./dist/",
-        "lib": ["es2020", "dom", "dom.iterable"],
+        "lib": ["ESNext", "dom", "dom.iterable"],
         "esModuleInterop": true,
         "sourceMap": true,
         "strict": true,
-        "target": "es5",
+        "target": "ES6",
         "moduleResolution": "node",
         "baseUrl": "."
     },

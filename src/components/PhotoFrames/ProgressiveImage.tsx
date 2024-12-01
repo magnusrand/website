@@ -18,6 +18,7 @@ export const ProgressiveImage = ({
     ...rest
 }: ProgressiveImageProps) => {
     const [imageSrc, setImageSrc] = React.useState(placeholderSrc)
+    const [imageIsLoading, setImageIsLoading] = React.useState(true)
     const imageRef = React.useRef<HTMLImageElement>(null)
 
     React.useEffect(() => {
@@ -25,8 +26,14 @@ export const ProgressiveImage = ({
         // delay loading untill image is close to be scrolled into view
         const imageToLoad = new Image()
         imageToLoad.src = src
-        imageToLoad.onload = () => {
+        imageToLoad.onload = function () {
             setImageSrc(src)
+            setImageIsLoading(false)
+            imageRef.current?.style.setProperty(
+                '--image-height',
+                // @ts-expect-error height does indeed exist
+                this.height + 'px',
+            )
         }
     }, [src])
 
@@ -44,7 +51,11 @@ export const ProgressiveImage = ({
             ref={imageRef}
             src={imageSrc}
             alt={alt}
-            className={'progressive-img ' + className}
+            className={
+                'progressive-img ' +
+                `${imageIsLoading ? 'progressive-img--loading ' : ' '}` +
+                className
+            }
             loading="lazy"
             tabIndex={focusable ? 0 : undefined}
             {...rest}

@@ -5,21 +5,20 @@
 
 .main-grid {
     &.featured-photos-page {
-        --theme-color: var(--dark-color-2);
-        --theme-color-secondary: var(--dark-color-1);
+        --theme-color: var(--dark-color-3);
+        --theme-color-secondary: var(--dark-color-2);
         --theme-color-difference: var(--light-color-2);
 
         --frame-width: 1.5%;
         --row-height: 5rem;
         --row-gap: 1.25rem;
-        --image-gap: max(70vh, 50rem);
+        --image-gap: max(50vh, 50rem);
 
         grid-template-rows: 25vh repeat(2, var(--row-height));
 
         height: 100%;
 
         overflow-y: scroll;
-        scroll-snap-type: y mandatory;
 
         &.fullscreen-active {
             scroll-snap-type: none;
@@ -86,9 +85,10 @@
 
     }
 
-    @media only screen and (max-width: 800px) {
+    @media only screen and (max-width: 1080px) {
         &.featured-photos-page {
             --row-height: inherit;
+            --image-gap: max(40vh, 40rem);
         }
     }
 

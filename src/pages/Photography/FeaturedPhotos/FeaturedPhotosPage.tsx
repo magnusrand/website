@@ -8,7 +8,8 @@ import { SiteHeading } from '../../../components/SiteHeading/SiteHeading'
 import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
 import { PhotoData } from '../../../types'
 import MainNavBar from '../../../components/NavBar/MainNavBar'
-import { SimpleWithFrame } from '../../../components/PhotoFrames/SimpleWithFrame'
+import { SimpleFrame } from '../../../components/PhotoFrames/SimpleFrame'
+import { StoryFrame } from '../../../components/PhotoFrames/StoryFrame'
 import { FullscreenOverlay } from '../../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
 import { IconButton } from '../../../components/Buttons/IconButton'
 
@@ -88,14 +89,28 @@ export const FeaturedPhotosPage = () => {
                     <Arrows />
                 </button>
             )}
-            {photos.map((photo, index) => (
-                <SimpleWithFrame
-                    photo={photo}
-                    key={photo.fileName}
-                    onClick={() => setCurrentFullscreenIndex(index)}
-                    focusable={currentFullscreenIndex === null}
-                />
-            ))}
+            {photos.map((photo, index) => {
+                switch (photo.displayMode) {
+                    case 'story':
+                        return (
+                            <StoryFrame
+                                photo={photo}
+                                key={photo.fileName}
+                                onClick={() => setCurrentFullscreenIndex(index)}
+                                focusable={currentFullscreenIndex === null}
+                            />
+                        )
+                    default:
+                        return (
+                            <SimpleFrame
+                                photo={photo}
+                                key={photo.fileName}
+                                onClick={() => setCurrentFullscreenIndex(index)}
+                                focusable={currentFullscreenIndex === null}
+                            />
+                        )
+                }
+            })}
             <IconButton
                 className="scroll-to-top-button"
                 onClick={() => headingRef.current?.scrollIntoView(true)}

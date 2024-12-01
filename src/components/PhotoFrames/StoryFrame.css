@@ -1,0 +1,105 @@
+.story-frame {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: center;
+    margin-block: calc(var(--image-gap) / 2);
+
+    scroll-snap-align: center;
+
+    &__content {
+        grid-column: 2 / -2;
+        grid-row-start: 1;
+        display: grid;
+        grid-template-columns: subgrid;
+    }
+
+    &__image {
+        grid-column: 1 / 8;
+        width: 100%;
+        height: fit-content;
+        object-fit: contain;
+        margin-bottom: 1rem;
+        position: sticky;
+        top: calc(50dvh - (var(--image-height) / 4));
+
+        transition: box-shadow 1s ease, 
+                    top 1s ease, 
+                    left 1s ease,
+                    transform 1s ease;
+        box-shadow: 10px 10px 53px -8px rgba(0,0,0,0.25), 
+                    20px 20px 0px 0px rgba(var(--dark-color-3-rgb), 0.2);
+
+        &:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 10px 10px 53px -8px rgba(0,0,0,0.25), 
+                        30px 30px 0px 0px var(--theme-color);
+            cursor: pointer;
+        }
+
+        .story-frame--portrait & {
+            width: initial;
+            width: 100%;
+            grid-column: 2 / 6;
+        }
+    }
+
+    &__text {
+        grid-column:  9 / -2;
+        align-self: start;
+
+        &__heading {
+            margin-top: -0.25rem;
+            color: var(--theme-color-secondary);
+            transition: color 1s ease;
+
+            .story-frame__image:hover + .story-frame__text > & {
+                color: var(--theme-color);
+            }
+        }
+
+        &__description {
+            white-space: pre-wrap;
+
+            h3,
+            h4 {
+                margin-bottom: -2rem;
+            }
+        }
+
+        &__meta {
+            display: flex;
+            align-items: center;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            white-space: nowrap;
+        }
+        
+        .story-frame--portrait & {
+            grid-column:  8 / -3;
+            align-self: end;
+        }
+    }
+
+    @media screen and (max-width: 1080px) {
+        &__content {
+            gap: 3rem;
+        }
+        &__image,
+        .story-frame--portrait &__image {
+            position: static;
+            grid-column: 1 / -1;
+            margin-inline: auto;
+        }
+        .story-frame--portrait &__image {
+            max-height: 80dvh;
+            max-width: 100%;
+            width: auto;
+        }
+        &__text,
+        .story-frame--portrait &__text {
+            grid-column: 2 / -2;
+        }
+    }
+}
+

@@ -48,10 +48,10 @@
 @media only screen and (max-width: 1080px) {
     .site-heading__horizontal-bar {
         &-top {
-            grid-column: 2 / 12;
+            grid-column: 4 / 12;
             &__text {
                 grid-column: 2 / 12;
-                justify-self: flex-end;
+                justify-self: flex-start;
             }
         }
     }

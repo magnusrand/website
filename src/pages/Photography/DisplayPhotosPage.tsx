@@ -8,6 +8,7 @@ import { SiteHeading } from '../../components/SiteHeading/SiteHeading'
 import { FullscreenOverlay } from '../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
 import { ProgressiveImage } from '../../components/PhotoFrames/ProgressiveImage'
 import { IconButton } from '../../components/Buttons/IconButton'
+import { StoryFrame } from '../../components/PhotoFrames/StoryFrame'
 import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
 import { PhotoData } from '../../types'
 
@@ -129,16 +130,26 @@ export const DisplayPhotosPage = () => {
                 currentIndex={currentFullscreenIndex}
                 onIndexChange={setCurrentFullscreenIndex}
             />
-            {photos?.map((photo, index) => (
-                <ProgressiveImage
-                    src={photo.imageUrl}
-                    placeholderSrc={photo.thumbnailUrl}
-                    focusable={currentFullscreenIndex === null}
-                    onClick={() => setCurrentFullscreenIndex(index)}
-                    className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
-                    key={photo.imageUrl}
-                />
-            ))}
+            {photos?.map((photo, index) =>
+                photo.displayMode === 'story' ? (
+                    <StoryFrame
+                        photo={photo}
+                        focusable={currentFullscreenIndex === null}
+                        onClick={() => setCurrentFullscreenIndex(index)}
+                        // className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
+                        key={photo.imageUrl}
+                    />
+                ) : (
+                    <ProgressiveImage
+                        src={photo.imageUrl}
+                        placeholderSrc={photo.thumbnailUrl}
+                        focusable={currentFullscreenIndex === null}
+                        onClick={() => setCurrentFullscreenIndex(index)}
+                        className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
+                        key={photo.imageUrl}
+                    />
+                ),
+            )}
             <IconButton
                 className="scroll-to-top-button"
                 onClick={() => headingRef.current?.scrollIntoView(true)}

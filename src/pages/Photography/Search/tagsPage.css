@@ -23,6 +23,7 @@
         grid-template-columns: subgrid;
         grid-template-rows: auto;
         row-gap: var(--row-gap);
+        column-gap: var(--row-gap);
 
         .tags-page__tag-group {
             grid-column: 1 / -1;
@@ -31,6 +32,8 @@
             max-height: 21dvh;
             overflow-y: auto;
             height: max-content;
+            /** remove padding from fieldset **/
+            padding: unset;
         }
 
         .photo-element__container {

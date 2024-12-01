@@ -4,6 +4,10 @@ import {
     deleteImageFromStorage,
     updatePhotoData,
 } from '../../firebase/firebase-firestore'
+import {
+    formatDescriptionForDisplay,
+    formatDescriptionForFirestore,
+} from '../../firebase/utils'
 import { PhotoData } from '../../types'
 import { TextArea, TextField, Label } from '../Form/Text'
 import { Button } from '../Buttons/Button'
@@ -19,9 +23,12 @@ const EditPhotoDataCard = ({
 }) => {
     const [photoTitle, setPhotoTitle] = useState<string>(photo.title ?? '')
     const [photoDescription, setPhotoDescription] = useState<string>(
-        photo.description ?? '',
+        formatDescriptionForDisplay(photo.description) ?? '',
     )
     const [photoTags, setPhotoTags] = useState<string[]>(photo?.tags ?? [])
+    const [photoDisplayMode, setPhotoDisplayMode] = useState<
+        undefined | '' | 'story' | 'normal'
+    >(photo?.displayMode ?? '')
 
     return (
         <div className="edit-photo-data-card">
@@ -49,11 +56,20 @@ const EditPhotoDataCard = ({
                 />
             </div>
             <div className="edit-photo-data-card__input">
-                <Label htmlFor="photoDescription">Etiketter</Label>
+                <Label htmlFor="photoTags">Etiketter</Label>
                 <TextField
                     id="photoTags"
                     value={photoTags.join(', ')}
                     onChange={(e) => setPhotoTags(e.target.value.split(', '))}
+                />
+            </div>
+            <div className="edit-photo-data-card__input">
+                <Label htmlFor="photoDisplayMode">Visningsmodus</Label>
+                <TextField
+                    id="photoDisplayMode"
+                    value={photoDisplayMode ?? ''}
+                    // @ts-expect-error type checking not implemented yet
+                    onChange={(e) => setPhotoDisplayMode(e.target.value)}
                 />
             </div>
             <div className="edit-photo-data-card__buttons">
@@ -61,8 +77,11 @@ const EditPhotoDataCard = ({
                     onClick={() =>
                         updatePhotoData(photo.documentRef, {
                             title: photoTitle,
-                            description: photoDescription,
+                            description:
+                                formatDescriptionForFirestore(photoDescription),
                             tags: photoTags,
+                            // @ts-expect-error type checking not implemented yet
+                            displayMode: photoDisplayMode,
                         })
                     }
                 >
