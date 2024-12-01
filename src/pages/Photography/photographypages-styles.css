@@ -64,6 +64,10 @@
             }
         }
 
+        .story-frame {
+            margin-block: 10rem;
+        }
+
         .scroll-to-top-button {
             grid-column: 6 / -6;
             margin: auto;
