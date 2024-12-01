@@ -18,6 +18,7 @@ export const ProgressiveImage = ({
     ...rest
 }: ProgressiveImageProps) => {
     const [imageSrc, setImageSrc] = React.useState(placeholderSrc)
+    const [imageIsLoading, setImageIsLoading] = React.useState(true)
     const imageRef = React.useRef<HTMLImageElement>(null)
 
     React.useEffect(() => {
@@ -27,6 +28,7 @@ export const ProgressiveImage = ({
         imageToLoad.src = src
         imageToLoad.onload = function () {
             setImageSrc(src)
+            setImageIsLoading(false)
             imageRef.current?.style.setProperty(
                 '--image-height',
                 // @ts-expect-error height does indeed exist
@@ -49,7 +51,11 @@ export const ProgressiveImage = ({
             ref={imageRef}
             src={imageSrc}
             alt={alt}
-            className={'progressive-img ' + className}
+            className={
+                'progressive-img ' +
+                `${imageIsLoading ? 'progressive-img--loading ' : ' '}` +
+                className
+            }
             loading="lazy"
             tabIndex={focusable ? 0 : undefined}
             {...rest}
