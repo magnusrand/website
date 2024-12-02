@@ -1,6 +1,10 @@
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+
+const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
+const __dirname = path.dirname(__filename) // get the name of the directory
 
 const OUTPUT_PATH = path.resolve(__dirname, 'dist')
 
@@ -63,4 +67,4 @@ const config = (env, args) => ({
     },
 })
 
-module.exports = config
+export default config

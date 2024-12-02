@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "jsx": "react",
-        "module": "ESNext",
+        "module": "NodeNext",
         "noImplicitAny": true,
         "outDir": "./dist/",
         "lib": ["ESNext", "dom", "dom.iterable"],
@@ -9,7 +9,7 @@
         "sourceMap": true,
         "strict": true,
         "target": "ES6",
-        "moduleResolution": "node",
+        "moduleResolution": "nodenext",
         "baseUrl": "."
     },
     "include": ["src"],
