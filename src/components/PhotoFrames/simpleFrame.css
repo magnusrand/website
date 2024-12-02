@@ -127,7 +127,7 @@
             &.simple-frame__photo-wrapper--no-description {
                 width: fit-content;
                 position: relative;
-                left: 1.5rem;
+                left: 0;
             }
 
             .simple-frame__photo-wrapper__caption {
@@ -144,7 +144,6 @@
                 .simple-frame__photo-wrapper__caption__show-meta-button {
                     margin-top: -1.2rem;
                     top: 0.2rem;
-                    margin-left: 0;
                 }
             }
         }
