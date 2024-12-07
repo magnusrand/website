@@ -34,6 +34,10 @@ export const ProgressiveImage = ({
                 // @ts-expect-error height does indeed exist
                 this.height + 'px',
             )
+            // @ts-expect-error height and width does indeed exist
+            if (this.width / this.height >= 2.7)
+                imageRef.current &&
+                    imageRef.current.classList.add('progressive-img--ultrawide')
         }
     }, [src])
 
