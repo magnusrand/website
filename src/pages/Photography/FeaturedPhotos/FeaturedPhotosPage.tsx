@@ -29,6 +29,28 @@ export const FeaturedPhotosPage = () => {
     const PAGE_TITLE = 'Utvalgte'
 
     useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('animation-exit')
+                        entry.target.classList.add('animation-in')
+                        return
+                    }
+
+                    entry.target.classList.remove('animation-in')
+                    entry.target.classList.add('animation-exit')
+                })
+            },
+            { threshold: 0.1, rootMargin: '10% 0px 10% 0px' },
+        )
+
+        const images = document.querySelectorAll('.progressive-img')
+
+        images.forEach((element) => observer.observe(element))
+    }, [photos])
+
+    useEffect(() => {
         const getPhotosForCurrentPage = async () => {
             const photoData = await getPhotosInAlbum(ALBUM_NAME)
             setPhotos(photoData ?? [])
