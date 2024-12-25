@@ -42,7 +42,7 @@ export const FeaturedPhotosPage = () => {
                     entry.target.classList.add('animation-exit')
                 })
             },
-            { threshold: 0.1, rootMargin: '10% 0px 10% 0px' },
+            { rootMargin: '10% 0px 10% 0px' },
         )
 
         const images = document.querySelectorAll('.progressive-img')
@@ -133,12 +133,14 @@ export const FeaturedPhotosPage = () => {
                         )
                 }
             })}
-            <IconButton
-                className="scroll-to-top-button"
-                onClick={() => headingRef.current?.scrollIntoView(true)}
-            >
-                <MdArrowUpward />
-            </IconButton>
+            {photos.length > 0 && (
+                <IconButton
+                    className="scroll-to-top-button"
+                    onClick={() => headingRef.current?.scrollIntoView(true)}
+                >
+                    <MdArrowUpward />
+                </IconButton>
+            )}
         </div>
     )
 }

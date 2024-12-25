@@ -83,16 +83,16 @@
             margin-bottom: 2rem;
         }
 
-        .animation-in {
+        .simple-frame__photo-wrapper__image {
             opacity: 0;
-            animation: fade-in 2s ease-out;
-            animation-fill-mode: forwards;
-            animation-delay: 0.3s;
+        }
+        .animation-in {
+            animation: fade-in 1s ease-out;
+            animation-fill-mode: both;
         }
         .animation-exit {
-            opacity: 1;
-            animation: fade-out 2s ease-out;
-            animation-fill-mode: forwards;
+            animation: fade-out 1s ease-out;
+            animation-fill-mode: both;
         }
 
     }
@@ -101,6 +101,11 @@
         &.featured-photos-page {
             --row-height: inherit;
             --image-gap: max(40vh, 40rem);
+
+            .animation-in,
+            .animation-exit {
+                animation-duration: 0.5s;
+            }
         }
     }
 

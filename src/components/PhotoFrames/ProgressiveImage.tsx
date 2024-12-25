@@ -2,7 +2,7 @@ import React from 'react'
 
 type ProgressiveImageProps = {
     src: string
-    placeholderSrc: string
+    placeholderSrc?: string
     alt?: string
     className?: string
     focusable?: boolean
@@ -50,10 +50,13 @@ export const ProgressiveImage = ({
         return () => currentRef?.removeEventListener('keydown', handleKeyDown)
     }, [rest])
 
+    const blankImgSrc =
+        'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='
+
     return (
         <img
             ref={imageRef}
-            src={imageSrc}
+            src={imageSrc ?? blankImgSrc}
             alt={alt}
             className={
                 'progressive-img ' +

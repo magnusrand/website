@@ -12,6 +12,7 @@ export enum Color {
 export interface AlbumData {
     name: string
     coverPhotoUrl: string
+    coverPhotoPlaceholderUrl?: string
     numberOfPhotos: number
     documentRef: DocumentReference
 }

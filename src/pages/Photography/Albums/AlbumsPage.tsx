@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import MainNavBar from '../../../components/NavBar/MainNavBar'
+import { ProgressiveImage } from '../../../components/PhotoFrames/ProgressiveImage'
 import { getAlbums } from '../../../firebase/firebase-firestore'
 import { AlbumData } from '../../../types'
 
@@ -27,7 +28,11 @@ const AlbumsPage = () => {
                 className="albums-page__list__album-card"
             >
                 <div className="albums-page__list__album-card__image-container">
-                    <img src={album.coverPhotoUrl} alt={albumName} />
+                    <ProgressiveImage
+                        src={album.coverPhotoUrl}
+                        alt={albumName}
+                        placeholderSrc={album.coverPhotoPlaceholderUrl}
+                    />
                 </div>
                 <p className="albums-page__list__album-card__title type-garamond-regular ">
                     {albumName.toLowerCase().replace('-', ' ')}

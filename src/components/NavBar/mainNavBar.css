@@ -83,29 +83,19 @@
     animation: fade-out 0.6s ease-in-out;
 }
 
-@keyframes fade-out {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 @keyframes expand-lines {
     from {
         --line-width: 0vw;
     }
     to {
         --line-width: 6vw;
+    }
+}
+
+@keyframes expand-in {
+    from {
+        transform: scale(0.9);
+    } to {
+        transform: scale(1);
     }
 }
