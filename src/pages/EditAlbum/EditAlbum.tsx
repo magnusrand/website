@@ -7,6 +7,7 @@ import EditPhotoDataCard from '../../components/Admin/EditPhotoDataCard'
 import { Label, TextField } from '../../components/Form/Text'
 import { Button } from '../../components/Buttons/Button'
 import {
+    getAllPhotoTags,
     getPhotosInAlbum,
     uploadPhotosFromWeb,
     useAlbumsList,
@@ -22,6 +23,7 @@ export const EditAlbum = () => {
     const [currentAlbumName, setCurrentAlbumName] = useState<string | null>(
         null,
     )
+    const [allPhotoTags, setAllPhotoTags] = useState<string[]>([])
     const [photosForUpload, setPhotosForUpload] = useState<File[]>([])
     const [uploadFeedback, setUploadFeedback] = useState<string>('')
     const [photosForUploadAlbumName, setPhotosForUploadAlbumName] =
@@ -37,6 +39,14 @@ export const EditAlbum = () => {
         }
         checkIfAdmin()
     }, [user?.uid])
+
+    useEffect(() => {
+        const getTags = async () => {
+            const tags = await await getAllPhotoTags()
+            setAllPhotoTags(tags)
+        }
+        getTags()
+    }, [])
 
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
@@ -136,6 +146,7 @@ export const EditAlbum = () => {
                                     key={photo.fileName}
                                     photo={photo}
                                     albumName={currentAlbumName}
+                                    allPhotoTags={allPhotoTags}
                                 />
                             ))}
                     </>

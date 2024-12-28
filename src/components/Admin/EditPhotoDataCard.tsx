@@ -17,9 +17,11 @@ import './editPhotoDataCard.css'
 const EditPhotoDataCard = ({
     photo,
     albumName,
+    allPhotoTags,
 }: {
     photo: PhotoData
     albumName: string
+    allPhotoTags: string[]
 }) => {
     const [photoTitle, setPhotoTitle] = useState<string>(photo.title ?? '')
     const [photoDescription, setPhotoDescription] = useState<string>(
@@ -57,6 +59,32 @@ const EditPhotoDataCard = ({
             </div>
             <div className="edit-photo-data-card__input">
                 <Label htmlFor="photoTags">Etiketter</Label>
+                <select
+                    name="tag"
+                    id="tag-select"
+                    onChange={(e) => {
+                        if (e.target.value === '-') return
+                        if (photoTags.includes(e.target.value)) {
+                            setPhotoTags(
+                                photoTags.filter(
+                                    (tag) => tag !== e.target.value,
+                                ),
+                            )
+                            return
+                        }
+                        setPhotoTags([...photoTags, e.target.value])
+                    }}
+                    value="velg etikett …"
+                >
+                    <option key="nothing" value="-">
+                        velg etikett …
+                    </option>
+                    {allPhotoTags.map((tag) => (
+                        <option key={tag} value={tag}>
+                            {tag}
+                        </option>
+                    ))}
+                </select>
                 <TextField
                     id="photoTags"
                     value={photoTags.join(', ')}
