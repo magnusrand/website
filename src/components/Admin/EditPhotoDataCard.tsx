@@ -81,6 +81,7 @@ const EditPhotoDataCard = ({
                     </option>
                     {allPhotoTags.map((tag) => (
                         <option key={tag} value={tag}>
+                            {photoTags.includes(tag) ? '✔️ ' : ''}
                             {tag}
                         </option>
                     ))}
