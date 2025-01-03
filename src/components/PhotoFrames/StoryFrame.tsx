@@ -6,7 +6,8 @@ import { IoMdStopwatch, IoMdAperture } from 'react-icons/io'
 
 import { MdCameraAlt, MdIso } from 'react-icons/md'
 
-import { PhotoData } from '../../types'
+import { PhotoData } from 'src/types'
+
 import { formatDescriptionForHTML } from '../../firebase/utils'
 
 import { getAperture, getISO, getShutterSpeedFraction } from '../utils'
@@ -38,7 +39,7 @@ export const StoryFrame = ({
     useEffect(() => {
         descriptionRef.current &&
             descriptionRef.current.insertAdjacentHTML('afterbegin', description)
-    }, [])
+    }, [description])
 
     return (
         <section

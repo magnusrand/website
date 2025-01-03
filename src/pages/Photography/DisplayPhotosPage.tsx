@@ -3,14 +3,16 @@ import { useParams } from 'react-router-dom'
 
 import { MdArrowUpward } from 'react-icons/md'
 
-import MainNavBar from '../../components/NavBar/MainNavBar'
-import { SiteHeading } from '../../components/SiteHeading/SiteHeading'
-import { FullscreenOverlay } from '../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
-import { ProgressiveImage } from '../../components/PhotoFrames/ProgressiveImage'
-import { IconButton } from '../../components/Buttons/IconButton'
-import { StoryFrame } from '../../components/PhotoFrames/StoryFrame'
+import { PhotoData } from 'src/types'
+
+import { MainNavBar } from '@components/NavBar/MainNavBar'
+import { SiteHeading } from '@components/SiteHeading/SiteHeading'
+import { FullscreenOverlay } from '@components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
+import { ProgressiveImage } from '@components/PhotoFrames/ProgressiveImage'
+import { IconButton } from '@components/Buttons/IconButton'
+import { StoryFrame } from '@components/PhotoFrames/StoryFrame'
+
 import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
-import { PhotoData } from '../../types'
 
 import './photographypages-styles.css'
 

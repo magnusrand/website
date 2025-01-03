@@ -2,7 +2,7 @@ import React from 'react'
 
 import classNames from 'classnames'
 
-import { Color } from '../../types'
+import { Color } from 'src/types'
 
 import { NavBar, NavItem, Dropdown, DropdownItem } from './NavBar'
 import { HomeLogo } from './HomeLogo'
@@ -126,5 +126,3 @@ export const MainNavBar = ({
         </NavBar>
     )
 }
-
-export default MainNavBar

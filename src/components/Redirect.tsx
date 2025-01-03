@@ -11,5 +11,3 @@ export const Redirect = ({ linkPath }: Props) => {
 
     return null
 }
-
-export default Redirect

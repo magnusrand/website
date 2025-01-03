@@ -1,20 +1,20 @@
 import React from 'react'
 import { Route, BrowserRouter, Routes, Link } from 'react-router-dom'
 
-import VisualBackgroundGrid from './components/BackgroundGrid'
+import { LandingPage } from '@pages/LandingPage/LandingPage'
+import { DisplayPhotosPage } from '@pages/Photography/DisplayPhotosPage'
+import { LogIn } from '@pages/LoginAndAdmin/LogIn'
+import { FeaturedPhotosPage } from '@pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
+import AlbumsPage from '@pages/Photography/Albums/AlbumsPage'
+import { EditAlbum } from '@pages/EditAlbum/EditAlbum'
+import { TagsPage } from '@pages/Photography/Search/TagsPage'
 
-import { LandingPage } from './pages/LandingPage/LandingPage'
-import Redirect from './components/Redirect'
+import { Redirect } from '@components/Redirect'
+import { VisualBackgroundGrid } from '@components/BackgroundGrid'
 
 import './main-styles.css'
-import DisplayPhotosPage from './pages/Photography/DisplayPhotosPage'
-import { LogIn } from './pages/LoginAndAdmin/LogIn'
-import FeaturedPhotosPage from './pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
-import AlbumsPage from './pages/Photography/Albums/AlbumsPage'
-import { EditAlbum } from './pages/EditAlbum/EditAlbum'
-import { TagsPage } from './pages/Photography/Search/TagsPage'
 
-const App = () => (
+export const App = () => (
     <BrowserRouter>
         <div className="app">
             <VisualBackgroundGrid
@@ -65,5 +65,3 @@ const App = () => (
         </div>
     </BrowserRouter>
 )
-
-export default App

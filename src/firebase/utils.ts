@@ -50,7 +50,6 @@ export function formatDescriptionForDisplay(description: string | undefined) {
     return description?.replaceAll('#NEWLINE#', '\n') ?? ''
 }
 export function formatDescriptionForHTML(description: string | undefined) {
-    console.log(description)
     if (description === undefined) return ''
     return description
         .replaceAll(/\*\*(\S.+\S)\*\*/g, '<strong>$1</strong>')

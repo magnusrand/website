@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+
 import HomeLogoSvg from '../../assets/images/magnusrand.svg'
 
 import './navbar-styles.css'

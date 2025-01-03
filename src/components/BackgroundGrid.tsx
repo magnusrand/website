@@ -34,5 +34,3 @@ export const VisualBackgroundGrid = ({
         <></>
     )
 }
-
-export default VisualBackgroundGrid

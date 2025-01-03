@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import MainNavBar from '../../../components/NavBar/MainNavBar'
-import { ProgressiveImage } from '../../../components/PhotoFrames/ProgressiveImage'
+import { AlbumData } from 'src/types'
+
+import { MainNavBar } from '@components/NavBar/MainNavBar'
+import { ProgressiveImage } from '@components/PhotoFrames/ProgressiveImage'
+
 import { getAlbums } from '../../../firebase/firebase-firestore'
-import { AlbumData } from '../../../types'
 
 import './albumsPage.css'
 

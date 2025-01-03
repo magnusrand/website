@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-
 import { Link, useSearchParams } from 'react-router-dom'
 
-import MainNavBar from '../../components/NavBar/MainNavBar'
-import EditPhotoDataCard from '../../components/Admin/EditPhotoDataCard'
-import { Label, TextField } from '../../components/Form/Text'
-import { Button } from '../../components/Buttons/Button'
+import { PhotoData } from 'src/types'
+
+import { MainNavBar } from '@components/NavBar/MainNavBar'
+import EditPhotoDataCard from '@components/Admin/EditPhotoDataCard'
+import { Label, TextField } from '@components/Form/Text'
+import { Button } from '@components/Buttons/Button'
+
 import {
     getAllPhotoTags,
     getPhotosInAlbum,
@@ -13,7 +15,6 @@ import {
     useAlbumsList,
 } from '../../firebase/firebase-firestore'
 import { isAdmin, useAuth } from '../../firebase/firebase-auth'
-import { PhotoData } from '../../types'
 
 import './editAlbum.css'
 

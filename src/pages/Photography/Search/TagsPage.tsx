@@ -4,13 +4,13 @@ import { useSearchParams } from 'react-router-dom'
 
 import { MdArrowUpward } from 'react-icons/md'
 
-import { PhotoData } from '../../../types'
+import { PhotoData } from 'src/types'
 
-import { TagGroup, Tag } from '../../../components/Tags'
-import MainNavBar from '../../../components/NavBar/MainNavBar'
-import { ProgressiveImage } from '../../../components/PhotoFrames/ProgressiveImage'
-import { FullscreenOverlay } from '../../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
-import { IconButton } from '../../../components/Buttons/IconButton'
+import { TagGroup, Tag } from '@components/Tags'
+import { MainNavBar } from '@components/NavBar/MainNavBar'
+import { ProgressiveImage } from '@components/PhotoFrames/ProgressiveImage'
+import { FullscreenOverlay } from '@components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
+import { IconButton } from '@components/Buttons/IconButton'
 
 import {
     getAllPhotoTags,

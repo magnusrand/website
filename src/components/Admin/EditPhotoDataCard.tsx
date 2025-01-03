@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { PhotoData } from 'src/types'
+
 import {
     deleteImageFromStorage,
     updatePhotoData,
@@ -8,7 +10,6 @@ import {
     formatDescriptionForDisplay,
     formatDescriptionForFirestore,
 } from '../../firebase/utils'
-import { PhotoData } from '../../types'
 import { TextArea, TextField, Label } from '../Form/Text'
 import { Button } from '../Buttons/Button'
 

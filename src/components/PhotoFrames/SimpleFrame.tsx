@@ -11,7 +11,7 @@ import {
 import { MdCameraAlt, MdIso } from 'react-icons/md'
 import { FaMartiniGlass } from 'react-icons/fa6'
 
-import { PhotoData } from '../../types'
+import { PhotoData } from 'src/types'
 
 import { getAperture, getISO, getShutterSpeedFraction } from '../utils'
 

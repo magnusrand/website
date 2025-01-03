@@ -64,6 +64,11 @@ const config = (env, args) => ({
     ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js', 'jsx'],
+        alias: {
+            '@components': path.resolve(__dirname, 'src/components'),
+            '@pages': path.resolve(__dirname, 'src/pages'),
+            src: path.resolve(__dirname, 'src'),
+        },
     },
 })
 

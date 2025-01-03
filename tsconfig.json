@@ -10,7 +10,12 @@
         "strict": true,
         "target": "ES6",
         "moduleResolution": "nodenext",
-        "baseUrl": "."
+        "baseUrl": ".",
+        "paths": {
+            "@components/*": ["src/components/*"],
+            "@pages/*": ["src/pages/*"],
+            "src/*": ["src/*"]
+        }
     },
     "include": ["src"],
     "exclude": ["node_modules"]

@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 
 import { IoTriangleSharp } from 'react-icons/io5'
 
-import { useDebounce } from '../utils'
+import type { Color } from 'src/types'
 
-import type { Color } from '../../types'
+import { useDebounce } from '../utils'
 
 import './navbar-styles.css'
 

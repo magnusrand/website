@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import { wrapGrid } from 'animate-css-grid'
 
-import MainNavBar from '../../components/NavBar/MainNavBar'
+import { MainNavBar } from '@components/NavBar/MainNavBar'
 
 import './landingpage-styles.css'
 

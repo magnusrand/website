@@ -4,14 +4,17 @@ import { useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import { MdArrowUpward } from 'react-icons/md'
 
-import { SiteHeading } from '../../../components/SiteHeading/SiteHeading'
+import { PhotoData } from 'src/types'
+
+import { SiteHeading } from '@components/SiteHeading/SiteHeading'
+
+import { MainNavBar } from '@components/NavBar/MainNavBar'
+import { SimpleFrame } from '@components/PhotoFrames/SimpleFrame'
+import { StoryFrame } from '@components/PhotoFrames/StoryFrame'
+import { FullscreenOverlay } from '@components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
+import { IconButton } from '@components/Buttons/IconButton'
+
 import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
-import { PhotoData } from '../../../types'
-import MainNavBar from '../../../components/NavBar/MainNavBar'
-import { SimpleFrame } from '../../../components/PhotoFrames/SimpleFrame'
-import { StoryFrame } from '../../../components/PhotoFrames/StoryFrame'
-import { FullscreenOverlay } from '../../../components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
-import { IconButton } from '../../../components/Buttons/IconButton'
 
 import Arrows from '../../../assets/images/arrows.svg'
 
@@ -144,5 +147,3 @@ export const FeaturedPhotosPage = () => {
         </div>
     )
 }
-
-export default FeaturedPhotosPage
