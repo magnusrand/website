@@ -1,5 +1,8 @@
+/* eslint import/order: 0 */
 import React from 'react'
 import { Route, BrowserRouter, Routes, Link } from 'react-router-dom'
+
+import './main-styles.css'
 
 import { LandingPage } from '@pages/LandingPage/LandingPage'
 import { DisplayPhotosPage } from '@pages/Photography/DisplayPhotosPage'
@@ -11,8 +14,6 @@ import { TagsPage } from '@pages/Photography/Search/TagsPage'
 
 import { Redirect } from '@components/Redirect'
 import { VisualBackgroundGrid } from '@components/BackgroundGrid'
-
-import './main-styles.css'
 
 export const App = () => (
     <BrowserRouter>
