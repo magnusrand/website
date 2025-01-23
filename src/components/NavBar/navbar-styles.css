@@ -20,11 +20,10 @@
 
         .navitem {
             position: relative;
-            bottom: 2rem;
             right: 1.25rem;
             height: 3rem;
-            padding-left: 1.25rem;
-            padding-top: 2rem;
+            padding-left: 0.65rem;
+
             white-space: nowrap;
             min-width: 8ch;
             grid-column-start: span 2;
@@ -53,12 +52,14 @@
             .dropdown {
                 display: flex;
                 flex-direction: column;
-                background-color: var(--nav-item-color);
-
+                gap: 0.5rem;
+                
                 position: absolute;
                 right: 0;
                 width: 100%;
-
+                
+                background-color: var(--nav-item-color);
+                
                 .dropdown-item {
                     padding-left: 1.25rem;
                     padding-top: 0.25rem;
