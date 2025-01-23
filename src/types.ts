@@ -14,6 +14,7 @@ export interface AlbumData {
     coverPhotoUrl: string
     coverPhotoPlaceholderUrl?: string
     numberOfPhotos: number
+    albumCollection: string
     documentRef: DocumentReference
 }
 

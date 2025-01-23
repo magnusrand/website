@@ -96,8 +96,20 @@ export const getAllPhotoTags = async () => {
     return allTags.filter(onlyUnique)
 }
 
-export const getAlbums = async () => {
-    const albumSnapshot = await getDocs(collection(db, ALBUM_COLLECTION))
+export const getAlbums = async ({
+    collectionName,
+}: {
+    collectionName?: string | null
+}) => {
+    const albumSnapshot = collectionName
+        ? await getDocs(
+              query(
+                  collection(db, ALBUM_COLLECTION),
+                  where('albumCollection', '==', collectionName.toLowerCase()),
+              ),
+          )
+        : await getDocs(collection(db, ALBUM_COLLECTION))
+
     if (albumSnapshot.empty) return []
     const albums = albumSnapshot.docs.map(
         (album) => ({ ...album.data(), documentRef: album.ref } as AlbumData),
