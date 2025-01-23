@@ -23,6 +23,8 @@ export const TagsPage = () => {
     const [tags, setTags] = useState<string[]>([])
     const [photos, setPhotos] = useState<PhotoData[]>([])
     const [searchParams, setSearchParams] = useSearchParams()
+    const _currentTag = searchParams.get('etikett')
+
     const tagsRef = useRef<HTMLFieldSetElement>(null)
     const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
         number | null
@@ -37,14 +39,12 @@ export const TagsPage = () => {
     }, [])
 
     useEffect(() => {
-        const _currentTag = searchParams.get('etikett')
-
         const getPhotosForTag = async () => {
             const _photos = await getPhotosByTag(_currentTag)
             setPhotos(_photos ?? [])
         }
         _currentTag !== null && getPhotosForTag()
-    }, [searchParams])
+    }, [_currentTag])
 
     const photosFirstHalf = photos?.filter((photo, index) => index % 2 === 0)
     const photosLastHalf = photos?.filter((photo, index) => index % 2 === 1)
@@ -58,7 +58,13 @@ export const TagsPage = () => {
                         <Tag
                             key={tag}
                             name="photo-tags"
-                            onClick={() => setSearchParams({ etikett: tag })}
+                            onClick={() =>
+                                setSearchParams({
+                                    etikett: _currentTag !== tag ? tag : '',
+                                })
+                            }
+                            // @ts-expect-error test
+                            checked={tag === searchParams.get('etikett')}
                         >
                             {tag}
                         </Tag>
