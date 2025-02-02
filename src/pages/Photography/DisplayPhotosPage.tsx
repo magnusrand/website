@@ -52,7 +52,9 @@ export const DisplayPhotosPage = () => {
             }
             if (
                 photos[counter].metaData?.orientation === 'portrait' &&
-                photos[counter + 1].metaData?.orientation === 'portrait'
+                photos[counter + 1].metaData?.orientation === 'portrait' &&
+                photos[counter].displayMode !== 'story' &&
+                photos[counter + 1].displayMode !== 'story'
             ) {
                 layoutArray.push('half-left', 'half-right')
                 counter += 2

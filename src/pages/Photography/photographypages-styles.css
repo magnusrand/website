@@ -34,7 +34,6 @@
 
             &--portrait {
                 max-height: 90dvh;
-                width: auto;
                 margin: auto;
             }
 
