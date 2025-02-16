@@ -237,9 +237,9 @@ export const removeDocumentsForDeletedPhoto = storage.onObjectDeleted(
 export const deleteImageFromStorage = onCall(
     { cors: true, region: 'europe-north1' },
     async (request) => {
+        const filePath = `${ALBUM_COLLECTION}/${request.data.albumName}/${request.data.fileName}`
         try {
             const storageBucket = getStorageAdmin().bucket()
-            const filePath = `${ALBUM_COLLECTION}/${request.data.albumName}/${request.data.fileName}`
 
             await storageBucket.file(filePath).delete()
 
@@ -251,7 +251,12 @@ export const deleteImageFromStorage = onCall(
                 'deleted successfully',
             )
         } catch (error) {
-            log('Error deleting file', request.data.fileName)
+            log(
+                'Error deleting file',
+                request.data.fileName,
+                'in album',
+                request.data.albumName,
+            )
         }
     },
 )

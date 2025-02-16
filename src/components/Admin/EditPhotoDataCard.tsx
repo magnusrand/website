@@ -126,7 +126,9 @@ const EditPhotoDataCard = ({
                             )
                         ) {
                             await deleteImageFromStorage({
-                                albumName,
+                                albumName: albumName
+                                    .replace(/\s/g, '-')
+                                    .replace('+', '-'),
                                 fileName: photo.fileName,
                             })
                             window.location.reload()
