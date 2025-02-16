@@ -31,6 +31,7 @@
             transition: all ease-out 0.1s;
             width: 100%;
             z-index: 1;
+            object-fit: contain;
 
             &--portrait {
                 max-height: 90dvh;
