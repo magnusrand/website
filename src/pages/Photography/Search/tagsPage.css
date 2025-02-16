@@ -34,6 +34,17 @@
             height: max-content;
             /** remove padding from fieldset **/
             padding: unset;
+
+            &--unselected {
+                margin-bottom: auto;
+                max-height: fit-content;
+
+                @media screen and (max-width: 800px) {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
         }
 
         .photo-element__container {

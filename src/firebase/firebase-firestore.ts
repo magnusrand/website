@@ -88,12 +88,16 @@ export const getAllPhotoTags = async () => {
 
     const allTags = photoTagsSnapshot.docs.flatMap((photo) => photo.data().tags)
 
-    // from https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
-    function onlyUnique(value: string, index: number, array: string[]) {
-        return array.indexOf(value) === index
-    }
+    const tagWithOccurrences = allTags.reduce((acc, tag) => {
+        if (acc[tag]) acc[tag] = acc[tag] + 1
+        else acc[tag] = 1
 
-    return allTags.filter(onlyUnique)
+        return acc
+    }, {})
+
+    return Object.keys(tagWithOccurrences).sort(
+        (a, b) => tagWithOccurrences[b] - tagWithOccurrences[a],
+    )
 }
 
 export const getAlbums = async ({

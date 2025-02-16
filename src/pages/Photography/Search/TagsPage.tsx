@@ -53,7 +53,14 @@ export const TagsPage = () => {
         <div className="main-grid tags-page">
             <MainNavBar />
             <main className="">
-                <TagGroup className="tags-page__tag-group" ref={tagsRef}>
+                <TagGroup
+                    className={`tags-page__tag-group${
+                        photos.length === 0
+                            ? ' tags-page__tag-group--unselected'
+                            : ''
+                    }`}
+                    ref={tagsRef}
+                >
                     {tags.map((tag) => (
                         <Tag
                             key={tag}
