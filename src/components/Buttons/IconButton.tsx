@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 
 import './iconButton.css'
 
@@ -6,6 +6,7 @@ export const IconButton = ({
     children,
     className,
     variant = 'primary',
+    as,
     ...rest
 }: {
     children: React.ReactNode
@@ -13,12 +14,17 @@ export const IconButton = ({
     className?: string
     variant?: 'primary' | 'secondary'
     tabIndex?: number
-}) => (
-    <button
-        className={`icon-button ${className} icon-button--${variant}`}
-        type="button"
-        {...rest}
-    >
-        {children}
-    </button>
-)
+    as?: 'button' | 'a' | React.ElementType
+    to?: string
+} & HTMLAttributes<HTMLButtonElement>) => {
+    const Element = as || 'button'
+    return (
+        <Element
+            className={`icon-button ${className} icon-button--${variant}`}
+            type="button"
+            {...rest}
+        >
+            {children}
+        </Element>
+    )
+}

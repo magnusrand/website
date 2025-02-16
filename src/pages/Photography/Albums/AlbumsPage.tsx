@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { MdArrowBack } from 'react-icons/md'
 
 import { AlbumData } from 'src/types'
 
 import { MainNavBar } from '@components/NavBar/MainNavBar'
 import { ProgressiveImage } from '@components/PhotoFrames/ProgressiveImage'
+import { IconButton } from '@components/Buttons/IconButton'
 
 import { getAlbums } from '../../../firebase/firebase-firestore'
 
@@ -16,13 +18,16 @@ export const AlbumsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const currentAlbumCollection = searchParams.get('samling')
     const [albums, setAlbums] = useState<AlbumData[]>([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const runGetAlbums = async () => {
+            setLoading(true)
             const albumData = await getAlbums({
                 collectionName: currentAlbumCollection,
             })
             setAlbums(albumData ?? [])
+            setLoading(false)
         }
         runGetAlbums()
     }, [currentAlbumCollection])
@@ -53,34 +58,59 @@ export const AlbumsPage = () => {
         <div className="main-grid albums-page">
             <MainNavBar />
             <div className="albums-page__list-wrapper">
-                <AlbumCard
-                    album={albums.find((album) => album.name === 'featured')}
-                />
-                {Object.entries(albumCollections).map(
-                    ([_albumCollectionName, _albums]) => (
-                        <AlbumCollectionCard
-                            key={_albumCollectionName}
-                            albumCollection={{
-                                [_albumCollectionName]: _albums,
-                            }}
-                            onClick={(albumCollectionName) =>
-                                setSearchParams(albumCollectionName)
-                            }
+                {!loading && (
+                    <>
+                        {currentAlbumCollection && (
+                            <div className="album-page--collection__heading">
+                                <IconButton
+                                    as={Link}
+                                    to="/foto/album"
+                                    className="album-page--collection__heading__button"
+                                >
+                                    <MdArrowBack />
+                                </IconButton>
+                                <h1 className="album-page--collection__heading__title type-garamond-bold">
+                                    {currentAlbumCollection
+                                        .toUpperCase()
+                                        .replace('-', ' ')}
+                                </h1>
+                            </div>
+                        )}
+                        <AlbumCard
+                            album={albums.find(
+                                (album) => album.name === 'featured',
+                            )}
                         />
-                    ),
+                        {Object.entries(albumCollections).map(
+                            ([_albumCollectionName, _albums]) => (
+                                <AlbumCollectionCard
+                                    key={_albumCollectionName}
+                                    albumCollection={{
+                                        [_albumCollectionName]: _albums,
+                                    }}
+                                    onClick={(albumCollectionName) =>
+                                        setSearchParams(albumCollectionName)
+                                    }
+                                />
+                            ),
+                        )}
+                        {albums
+                            .filter(
+                                (album) =>
+                                    album.name !== 'featured' &&
+                                    !Object.keys(albumCollections).includes(
+                                        album.albumCollection,
+                                    ) &&
+                                    album.numberOfPhotos > 0,
+                            )
+                            .map((album) => (
+                                <AlbumCard
+                                    key={album.documentRef.id}
+                                    album={album}
+                                />
+                            ))}
+                    </>
                 )}
-                {albums
-                    .filter(
-                        (album) =>
-                            album.name !== 'featured' &&
-                            !Object.keys(albumCollections).includes(
-                                album.albumCollection,
-                            ) &&
-                            album.numberOfPhotos > 0,
-                    )
-                    .map((album) => (
-                        <AlbumCard key={album.documentRef.id} album={album} />
-                    ))}
             </div>
         </div>
     )
@@ -140,7 +170,7 @@ const AlbumCollectionCard = ({
                     />
                 ))}
             </div>
-            <p className="albums-page__list__album-card__title type-garamond-bold ">
+            <p className="albums-page__list__album-card__title type-garamond-bold">
                 {albumCollectionName.toLowerCase().replace('-', ' ')}
             </p>
         </Link>
