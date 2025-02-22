@@ -55,6 +55,7 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
     const photosData = docSnap.docs.map((photo) => ({
         ...photo.data(),
         documentRef: photo.ref,
+        albumRef,
     })) as PhotoData[]
 
     return photosData
@@ -124,7 +125,7 @@ export const getAlbums = async ({
 
 export const updatePhotoData = async (
     documentRef: DocumentReference,
-    updatedPhotoData: Partial<PhotoData>,
+    updatedPhotoData: Partial<PhotoData & AlbumData>,
 ) => {
     const updatedPhotoDataWithoutMetaData = Object.entries(updatedPhotoData)
         .filter((data) => data[0] !== 'metaData')

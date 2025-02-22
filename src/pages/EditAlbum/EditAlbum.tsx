@@ -11,6 +11,7 @@ import { Button } from '@components/Buttons/Button'
 import {
     getAllPhotoTags,
     getPhotosInAlbum,
+    updatePhotoData,
     uploadPhotosFromWeb,
     useAlbumsList,
 } from '../../firebase/firebase-firestore'
@@ -81,6 +82,19 @@ export const EditAlbum = () => {
         }
     }
 
+    async function updateAlbumCollection() {
+        const albumCollectionInput = document.getElementById(
+            'albumCollection',
+        ) as HTMLInputElement | null
+        const albumRef = photos?.[0].albumRef
+        if (!albumCollectionInput || !albumRef) {
+            return
+        }
+        await updatePhotoData(albumRef, {
+            albumCollection: albumCollectionInput.value,
+        })
+    }
+
     return (
         <div className="main-grid">
             <MainNavBar />
@@ -140,6 +154,20 @@ export const EditAlbum = () => {
 
                         <div className="edit-album-page__current-album-header type-garamond-regular font-size-medium">
                             <h1>{currentAlbumName ?? 'Velg album'}</h1>
+                            <div className="edit-album-page__album-collection-settings">
+                                <Label htmlFor="albumCollection">
+                                    Albumsamling
+                                </Label>
+                                <div className="edit-album-page__album-collection-settings__field">
+                                    <TextField id="albumCollection" />
+                                    <Button
+                                        className="type-sourcesans-regular"
+                                        onClick={updateAlbumCollection}
+                                    >
+                                        Oppdater
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
                         {currentAlbumName !== null &&
                             photos.map((photo) => (

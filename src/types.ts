@@ -28,6 +28,7 @@ export interface PhotoData {
     thumbnailUrl: string
     metaData?: metaData
     documentRef: DocumentReference
+    albumRef?: DocumentReference
     tags?: string[]
     displayMode?: 'normal' | 'story'
 }

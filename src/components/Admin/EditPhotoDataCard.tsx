@@ -102,6 +102,17 @@ const EditPhotoDataCard = ({
                     onChange={(e) => setPhotoDisplayMode(e.target.value)}
                 />
             </div>
+            <Button
+                className="edit-photo-data-card__buttons"
+                onClick={() => {
+                    if (!photo.albumRef) return
+                    updatePhotoData(photo.albumRef, {
+                        coverPhotoUrl: photo.imageUrl,
+                    })
+                }}
+            >
+                Bruk som forsidebilde
+            </Button>
             <div className="edit-photo-data-card__buttons">
                 <Button
                     onClick={() =>
