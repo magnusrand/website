@@ -80,6 +80,7 @@ export const AlbumsPage = () => {
                             album={albums.find(
                                 (album) => album.name === 'featured',
                             )}
+                            to="/foto/utvalgte"
                         />
                         {Object.entries(albumCollections).map(
                             ([_albumCollectionName, _albums]) => (
@@ -116,12 +117,12 @@ export const AlbumsPage = () => {
     )
 }
 
-const AlbumCard = ({ album }: { album?: AlbumData }) => {
+const AlbumCard = ({ album, to }: { album?: AlbumData; to?: string }) => {
     if (album === undefined) return <></>
     const albumName = album.name === 'featured' ? 'Utvalgte' : album.name
     return (
         <Link
-            to={`/foto/album/${albumName.toLowerCase()}`}
+            to={to ?? `/foto/album/${albumName.toLowerCase()}`}
             key={album.name}
             className="albums-page__list__album-card"
         >
