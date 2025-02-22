@@ -34,6 +34,8 @@
 
         &__text {
             margin: 0; /* remove margin from h2 tag */
+            max-width: 100%;
+            overflow: hidden;
 
             position: relative;
             bottom: calc(var(--row-height) / 1.83);
