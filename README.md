@@ -1,33 +1,14 @@
-# Velkommen
+# Velcome to my website
 
-# empty-project
+This repo is for my personal website. The puropse of my site is two-sided: 
+- Have a plave to showcase my photography and other projects I want to share with the world.
+- A side project that allows me to test and learn different techniques and designs in web development
 
-Empty project.
+For the latter I have set a rule to try avoid using third party packages as often as possible. This mainly applies to the frontend part of the page as this is my main area of interest. 
 
-## Building and running on localhost
-
-First install dependencies:
-
-```sh
-npm install
-```
-
-To create a production build:
-
-```sh
-npm run build-prod
-```
-
-To create a development build:
-
-```sh
-npm run build-dev
-```
-
-## Running
-
-Open the file `dist/index.html` in your browser
-
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)
+## Specs
+- React
+- Webpack
+- Firebase
+- CSS + PostCSS
+- react-router-dom
