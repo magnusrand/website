@@ -1,4 +1,4 @@
-# Velcome to my website
+# Welcome to my website
 
 This repo is for my personal website. The puropse of my site is two-sided: 
 - Have a plave to showcase my photography and other projects I want to share with the world.
