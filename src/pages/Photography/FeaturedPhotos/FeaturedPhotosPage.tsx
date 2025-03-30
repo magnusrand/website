@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import classNames from 'classnames'
@@ -61,6 +61,12 @@ export const FeaturedPhotosPage = () => {
         getPhotosForCurrentPage()
     }, [ALBUM_NAME])
 
+    const sortedPhotos = useMemo(
+        () =>
+            photos.sort((photoA, photoB) => photoA.priority - photoB.priority),
+        [photos],
+    )
+
     useEffect(() => {
         if (hash && photos.length > 0) {
             const sanitizedHash = location.hash.slice(1)
@@ -93,7 +99,7 @@ export const FeaturedPhotosPage = () => {
                 currentIndex={currentFullscreenIndex}
                 onIndexChange={setCurrentFullscreenIndex}
             />
-            {photos.length > 0 && (
+            {sortedPhotos.length > 0 && (
                 <button
                     className={classNames(
                         'featured-photos-page__scroll-indicator',
@@ -114,7 +120,7 @@ export const FeaturedPhotosPage = () => {
                     <Arrows />
                 </button>
             )}
-            {photos.map((photo, index) => {
+            {sortedPhotos.map((photo, index) => {
                 switch (photo.displayMode) {
                     case 'story':
                         return (
@@ -136,7 +142,7 @@ export const FeaturedPhotosPage = () => {
                         )
                 }
             })}
-            {photos.length > 0 && (
+            {sortedPhotos.length > 0 && (
                 <IconButton
                     className="scroll-to-top-button"
                     onClick={() => headingRef.current?.scrollIntoView(true)}
