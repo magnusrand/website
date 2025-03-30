@@ -16,6 +16,7 @@ export interface AlbumData {
     numberOfPhotos: number
     albumCollection: string
     documentRef: DocumentReference
+    sort?: string
 }
 
 export interface PhotoData {

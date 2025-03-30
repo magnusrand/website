@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 
+import { MdArrowBack, MdArrowForward } from 'react-icons/md'
+
 import { PhotoData } from 'src/types'
+
+import { IconButton } from '@components/Buttons/IconButton'
 
 import {
     deleteImageFromStorage,
@@ -19,10 +23,18 @@ const EditPhotoDataCard = ({
     photo,
     albumName,
     allPhotoTags,
+    index,
+    maxIndex,
+    onIncreasePosition,
+    onDecreasePosition,
 }: {
     photo: PhotoData
     albumName: string
     allPhotoTags: string[]
+    index?: number
+    maxIndex?: number
+    onIncreasePosition?: () => void
+    onDecreasePosition?: () => void
 }) => {
     const [photoTitle, setPhotoTitle] = useState<string>(photo.title ?? '')
     const [photoDescription, setPhotoDescription] = useState<string>(
@@ -102,6 +114,28 @@ const EditPhotoDataCard = ({
                     onChange={(e) => setPhotoDisplayMode(e.target.value)}
                 />
             </div>
+            {index !== undefined && (
+                <div className="edit-photo-data-card__order">
+                    {index > 0 && (
+                        <IconButton>
+                            <MdArrowBack onClick={onIncreasePosition} />
+                        </IconButton>
+                    )}
+                    <div className="edit-photo-data-card__input">
+                        <Label htmlFor="photoIndex">Index</Label>
+                        <TextField
+                            id="photoIndex"
+                            value={index.toString()}
+                            readOnly
+                        />
+                    </div>
+                    {index < (maxIndex ?? index + 1) && (
+                        <IconButton>
+                            <MdArrowForward onClick={onDecreasePosition} />
+                        </IconButton>
+                    )}
+                </div>
+            )}
             <Button
                 className="edit-photo-data-card__buttons"
                 onClick={() => {

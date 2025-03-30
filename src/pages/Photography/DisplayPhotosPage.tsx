@@ -12,7 +12,10 @@ import { ProgressiveImage } from '@components/PhotoFrames/ProgressiveImage'
 import { IconButton } from '@components/Buttons/IconButton'
 import { StoryFrame } from '@components/PhotoFrames/StoryFrame'
 
-import { getPhotosInAlbum } from '../../firebase/firebase-firestore'
+import {
+    getPhotosInAlbum,
+    useAlbumsList,
+} from '../../firebase/firebase-firestore'
 
 import './photographypages-styles.css'
 
@@ -25,6 +28,9 @@ export const DisplayPhotosPage = () => {
     const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
         number | null
     >(null)
+    const currentAlbum = useAlbumsList().find(
+        (album) => album.name.toLowerCase() === params.albumName?.toLowerCase(),
+    )
 
     const albumName = params.albumName?.toLowerCase()
 
@@ -36,31 +42,42 @@ export const DisplayPhotosPage = () => {
         getPhotosForCurrentPage()
     }, [albumName])
 
+    const sortedPhotos = useMemo(
+        () =>
+            currentAlbum?.sort === 'custom'
+                ? photos.sort(
+                      (photoA, photoB) => photoA.priority - photoB.priority,
+                  )
+                : photos,
+        [photos, currentAlbum?.sort],
+    )
+
     const photoGrid1 = useMemo(() => {
         const layoutArray: string[] = []
         let counter = 0
-        while (counter < photos?.length) {
-            if (counter === photos?.length - 1) {
+        while (counter < sortedPhotos?.length) {
+            if (counter === sortedPhotos?.length - 1) {
                 layoutArray.push('full-width')
                 counter++
                 continue
             }
-            if (photos[counter].metaData?.orientation === 'landscape') {
+            if (sortedPhotos[counter].metaData?.orientation === 'landscape') {
                 layoutArray.push('full-width')
                 counter++
                 continue
             }
             if (
-                photos[counter].metaData?.orientation === 'portrait' &&
-                photos[counter + 1].metaData?.orientation === 'portrait' &&
-                photos[counter].displayMode !== 'story' &&
-                photos[counter + 1].displayMode !== 'story'
+                sortedPhotos[counter].metaData?.orientation === 'portrait' &&
+                sortedPhotos[counter + 1].metaData?.orientation ===
+                    'portrait' &&
+                sortedPhotos[counter].displayMode !== 'story' &&
+                sortedPhotos[counter + 1].displayMode !== 'story'
             ) {
                 layoutArray.push('half-left', 'half-right')
                 counter += 2
                 continue
             }
-            if (photos[counter].metaData?.orientation === 'portrait') {
+            if (sortedPhotos[counter].metaData?.orientation === 'portrait') {
                 layoutArray.push('narrow-width')
                 counter++
                 continue
@@ -69,7 +86,7 @@ export const DisplayPhotosPage = () => {
             counter++
         }
         return { layoutArray }
-    }, [photos])
+    }, [sortedPhotos])
 
     const photoGrid2 = useMemo(() => {
         const layoutArray: string[] = []
@@ -107,7 +124,7 @@ export const DisplayPhotosPage = () => {
             default:
                 setPhotoLayout(photoGrid1.layoutArray)
         }
-    }, [photos, gridStyle, photoGrid1, photoGrid2])
+    }, [gridStyle, photoGrid1, photoGrid2])
 
     const displayedAlbumName = () => {
         if (!albumName) return 'feil  🥶'
@@ -134,7 +151,7 @@ export const DisplayPhotosPage = () => {
                 currentIndex={currentFullscreenIndex}
                 onIndexChange={setCurrentFullscreenIndex}
             />
-            {photos?.map((photo, index) =>
+            {sortedPhotos?.map((photo, index) =>
                 photo.displayMode === 'story' ? (
                     <StoryFrame
                         photo={photo}
