@@ -281,16 +281,10 @@ export const EditAlbum = () => {
                                             : undefined
                                     }
                                     maxIndex={photos.length - 1}
-                                    onIncreasePosition={() =>
+                                    onPositionChange={(operation) =>
                                         handleOnIndexPostionChange(
                                             index,
-                                            'increase',
-                                        )
-                                    }
-                                    onDecreasePosition={() =>
-                                        handleOnIndexPostionChange(
-                                            index,
-                                            'decrease',
+                                            operation,
                                         )
                                     }
                                 />

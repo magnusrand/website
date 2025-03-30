@@ -25,16 +25,14 @@ const EditPhotoDataCard = ({
     allPhotoTags,
     index,
     maxIndex,
-    onIncreasePosition,
-    onDecreasePosition,
+    onPositionChange,
 }: {
     photo: PhotoData
     albumName: string
     allPhotoTags: string[]
     index?: number
     maxIndex?: number
-    onIncreasePosition?: () => void
-    onDecreasePosition?: () => void
+    onPositionChange: (operation: 'increase' | 'decrease' | number) => void
 }) => {
     const [photoTitle, setPhotoTitle] = useState<string>(photo.title ?? '')
     const [photoDescription, setPhotoDescription] = useState<string>(
@@ -118,20 +116,37 @@ const EditPhotoDataCard = ({
                 <div className="edit-photo-data-card__order">
                     {index > 0 && (
                         <IconButton>
-                            <MdArrowBack onClick={onIncreasePosition} />
+                            <MdArrowBack
+                                onClick={() => onPositionChange('increase')}
+                            />
                         </IconButton>
                     )}
                     <div className="edit-photo-data-card__input">
                         <Label htmlFor="photoIndex">Index</Label>
                         <TextField
                             id="photoIndex"
-                            value={index.toString()}
-                            readOnly
+                            defaultValue={index.toString()}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    const newIndex = parseInt(
+                                        e.currentTarget.value,
+                                        10,
+                                    )
+                                    if (newIndex < 0) return
+                                    if (maxIndex && newIndex > maxIndex) return
+                                    onPositionChange(newIndex)
+                                }
+                                if (e.key === 'Escape') {
+                                    e.currentTarget.value = index.toString()
+                                }
+                            }}
                         />
                     </div>
                     {index < (maxIndex ?? index + 1) && (
                         <IconButton>
-                            <MdArrowForward onClick={onDecreasePosition} />
+                            <MdArrowForward
+                                onClick={() => onPositionChange('decrease')}
+                            />
                         </IconButton>
                     )}
                 </div>
