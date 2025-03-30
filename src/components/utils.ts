@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react'
 
+import { PhotoData } from 'src/types'
+
 export function getShutterSpeedFraction(value: number | undefined) {
     if (value === undefined) return ''
 
@@ -51,4 +53,16 @@ export function useDebounce<T extends (...args: any[]) => any>(
         func: debouncedFunc as T,
         cancel: () => timeoutRef.current && clearTimeout(timeoutRef.current),
     }
+}
+
+export function moveToIndex(
+    array: PhotoData[],
+    old_index: number,
+    new_index: number,
+) {
+    const _array = [...array]
+    const element = _array[old_index]
+    _array.splice(old_index, 1)
+    _array.splice(new_index, 0, element)
+    return _array
 }

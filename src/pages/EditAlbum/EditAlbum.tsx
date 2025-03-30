@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
+import { writeBatch } from 'firebase/firestore'
+
 import { PhotoData } from 'src/types'
+
+import { db } from 'src/firebase/firebase-init'
 
 import { MainNavBar } from '@components/NavBar/MainNavBar'
 import EditPhotoDataCard from '@components/Admin/EditPhotoDataCard'
 import { Label, TextField } from '@components/Form/Text'
 import { Button } from '@components/Buttons/Button'
+
+import { moveToIndex } from '@components/utils'
 
 import {
     getAllPhotoTags,
@@ -26,10 +32,14 @@ export const EditAlbum = () => {
         null,
     )
     const [allPhotoTags, setAllPhotoTags] = useState<string[]>([])
+    const [albumSort, setAlbumSort] = useState<string>('')
     const [photosForUpload, setPhotosForUpload] = useState<File[]>([])
     const [uploadFeedback, setUploadFeedback] = useState<string>('')
     const [photosForUploadAlbumName, setPhotosForUploadAlbumName] =
         useState<string>('')
+    const [newPhotosOrder, setNewPhotosOrder] = useState<PhotoData[] | null>(
+        null,
+    )
     const [searchParams, setSearchParams] = useSearchParams()
     const user = useAuth()
     const albums = useAlbumsList()
@@ -64,9 +74,15 @@ export const EditAlbum = () => {
         getPhotosForCurrentPage()
     }, [searchParams])
 
-    const handleFileSelected = (
-        e: React.ChangeEvent<HTMLInputElement>,
-    ): void => {
+    useEffect(() => {
+        const _currentAlbumName = searchParams.get('album')
+        setAlbumSort(
+            albums.find((album) => album.name === _currentAlbumName)?.sort ??
+                '',
+        )
+    }, [searchParams, albums])
+
+    function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>): void {
         const files = Array.from(e.target.files ?? [])
         setPhotosForUpload(files)
     }
@@ -93,6 +109,58 @@ export const EditAlbum = () => {
         await updatePhotoData(albumRef, {
             albumCollection: albumCollectionInput.value,
         })
+    }
+
+    const sortedPhotos = useMemo(() => {
+        if (newPhotosOrder !== null) return newPhotosOrder
+
+        if (albumSort === 'custom') {
+            return photos.sort(
+                (photoA, photoB) => photoA.priority - photoB.priority,
+            )
+        }
+
+        return photos
+    }, [photos, newPhotosOrder, albumSort])
+
+    function handleOnIndexPostionChange(
+        prevIndex: number,
+        operation: 'increase' | 'decrease' | number,
+    ) {
+        const newIndex =
+            operation === 'increase'
+                ? prevIndex - 1
+                : operation === 'decrease'
+                ? prevIndex + 1
+                : operation ?? prevIndex
+        setNewPhotosOrder(moveToIndex(sortedPhotos, prevIndex, newIndex))
+    }
+
+    // Get a new write batch
+    const batchForSortingOrder = writeBatch(db)
+
+    async function updateSortingOrder() {
+        let numberOfPhotosUpdated = 0
+        if (newPhotosOrder === null) return
+        const albumRef = photos?.[0].albumRef
+        if (!albumRef) return
+        newPhotosOrder.forEach((photo, index) => {
+            if (photo.priority === index) return
+
+            const photoRef = photo.documentRef
+            batchForSortingOrder.update(photoRef, {
+                priority: index,
+            })
+            numberOfPhotosUpdated++
+        })
+        batchForSortingOrder.update(albumRef, {
+            sort: albumSort,
+        })
+
+        await batchForSortingOrder.commit()
+        console.info(
+            `Updated priority for ${numberOfPhotosUpdated} photos in album ${currentAlbumName}`,
+        )
     }
 
     return (
@@ -155,27 +223,76 @@ export const EditAlbum = () => {
                         <div className="edit-album-page__current-album-header type-garamond-regular font-size-medium">
                             <h1>{currentAlbumName ?? 'Velg album'}</h1>
                             <div className="edit-album-page__album-collection-settings">
-                                <Label htmlFor="albumCollection">
-                                    Albumsamling
-                                </Label>
-                                <div className="edit-album-page__album-collection-settings__field">
-                                    <TextField id="albumCollection" />
-                                    <Button
-                                        className="type-sourcesans-regular"
-                                        onClick={updateAlbumCollection}
+                                <div>
+                                    <Label htmlFor="albumCollection">
+                                        Albumsamling
+                                    </Label>
+                                    <div className="edit-album-page__album-collection-settings__field">
+                                        <TextField id="albumCollection" />
+                                        <Button
+                                            className="type-sourcesans-regular"
+                                            onClick={updateAlbumCollection}
+                                        >
+                                            Oppdater
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="edit-album-page__album-sort">
+                                    <Label htmlFor="album-sort">
+                                        Sortering:{' '}
+                                    </Label>
+                                    <select
+                                        name="sort"
+                                        id="album-sort"
+                                        onChange={(e) =>
+                                            setAlbumSort(e.currentTarget.value)
+                                        }
+                                        value={albumSort ?? '-'}
                                     >
+                                        {albumSort === '' && (
+                                            <option key="nothing" value="">
+                                                unset
+                                            </option>
+                                        )}
+                                        {['asc', 'desc', 'custom'].map(
+                                            (sort) => (
+                                                <option key={sort} value={sort}>
+                                                    {sort}
+                                                </option>
+                                            ),
+                                        )}
+                                    </select>
+                                    <button onClick={updateSortingOrder}>
                                         Oppdater
-                                    </Button>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                         {currentAlbumName !== null &&
-                            photos.map((photo) => (
+                            sortedPhotos.map((photo, index) => (
                                 <EditPhotoDataCard
                                     key={photo.fileName}
                                     photo={photo}
                                     albumName={currentAlbumName}
                                     allPhotoTags={allPhotoTags}
+                                    index={
+                                        albumSort === 'custom'
+                                            ? index
+                                            : undefined
+                                    }
+                                    maxIndex={photos.length - 1}
+                                    onIncreasePosition={() =>
+                                        handleOnIndexPostionChange(
+                                            index,
+                                            'increase',
+                                        )
+                                    }
+                                    onDecreasePosition={() =>
+                                        handleOnIndexPostionChange(
+                                            index,
+                                            'decrease',
+                                        )
+                                    }
                                 />
                             ))}
                     </>

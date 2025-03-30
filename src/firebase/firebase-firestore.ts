@@ -45,11 +45,13 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
     if (albumSnapshot.empty) return []
     const albumRef = albumSnapshot.docs[0].ref
 
-    const sortPreference = albumSnapshot.docs[0].data().sort || 'desc'
+    const sortPreference = albumSnapshot.docs[0].data().sort
+    const usedSortPreference =
+        (sortPreference === 'custom' ? 'desc' : sortPreference) ?? 'desc'
 
     const photosQuery = query(
         collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
-        orderBy(new FieldPath('metaData', 'CreateDate'), sortPreference),
+        orderBy(new FieldPath('metaData', 'CreateDate'), usedSortPreference),
     )
     const docSnap = await getDocs(photosQuery)
     const photosData = docSnap.docs.map((photo) => ({
