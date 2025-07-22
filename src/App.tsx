@@ -31,6 +31,10 @@ export const App = () => (
                 <Route path="foto/etiketter" element={<TagsPage />} />
                 <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
                 <Route
+                    path="foto/album/:albumName/:photo"
+                    element={<DisplayPhotosPage />}
+                />
+                <Route
                     path="foto/album/:albumName"
                     element={<DisplayPhotosPage />}
                 />

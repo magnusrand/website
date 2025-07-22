@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { MdArrowUpward } from 'react-icons/md'
 
 import { PhotoData } from 'src/types'
+import { getFileNameWithoutFileEnding } from 'src/firebase/utils'
 
 import { MainNavBar } from '@components/NavBar/MainNavBar'
 import { SiteHeading } from '@components/SiteHeading/SiteHeading'
@@ -33,6 +34,7 @@ export const DisplayPhotosPage = () => {
     )
 
     const albumName = params.albumName?.toLowerCase()
+    const photoName = params.photo?.toLowerCase()
 
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
@@ -51,6 +53,17 @@ export const DisplayPhotosPage = () => {
                 : photos,
         [photos, currentAlbum?.sort],
     )
+    useEffect(() => {
+        if (photoName) {
+            const photoIndex = photos?.findIndex((photo) => {
+                const fileName = getFileNameWithoutFileEnding(photo.fileName)
+                return fileName === photoName
+            })
+            if (photoIndex >= 0) setCurrentFullscreenIndex(photoIndex)
+        }
+    }, [photos])
+
+    function toggleFullscreen() {}
 
     const photoGrid1 = useMemo(() => {
         const layoutArray: string[] = []

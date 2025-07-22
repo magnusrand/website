@@ -60,3 +60,7 @@ export function formatDescriptionForHTML(description: string | undefined) {
         .replaceAll('#NEWLINE#', '\n')
         .replaceAll(/^([^<])/g, '<p>$1')
 }
+
+export function getFileNameWithoutFileEnding(fileName: string) {
+    return fileName.split('.')?.[0]
+}
