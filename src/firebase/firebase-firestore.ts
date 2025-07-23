@@ -62,6 +62,39 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
 
     return photosData
 }
+
+// WIP NOT TESTED
+export const getPhotoInAlbum = async (
+    albumName: string | undefined,
+    fileName: string | undefined,
+) => {
+    if (!albumName || !fileName) return null
+
+    const albumQuery = query(
+        collection(db, ALBUM_COLLECTION),
+        where('name', '==', albumName),
+    )
+
+    const albumSnapshot = await getDocs(albumQuery)
+    if (albumSnapshot.empty) return null
+    const albumRef = albumSnapshot.docs[0].ref
+
+    const photoQuery = query(
+        collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
+        where('fileName', '==', fileName + '.jpg'), // Assuming the fileName is stored with .jpg extension
+    )
+    const photoSnapshot = await getDocs(photoQuery)
+    if (photoSnapshot.empty) return null
+
+    const photoData = {
+        ...photoSnapshot.docs[0].data(),
+        documentRef: photoSnapshot.docs[0].ref,
+        albumRef,
+    } as PhotoData
+
+    return photoData
+}
+
 export const getPhotosByTag = async (searchString: string | null) => {
     const photosWithTagQuery = query(
         collectionGroup(db, 'photos'),

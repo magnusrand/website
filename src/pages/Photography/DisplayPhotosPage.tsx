@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { MdArrowUpward } from 'react-icons/md'
 
@@ -21,6 +21,7 @@ import {
 import './photographypages-styles.css'
 
 export const DisplayPhotosPage = () => {
+    const navigate = useNavigate()
     const headingRef = useRef<HTMLDivElement>(null)
     const params = useParams()
     const [photos, setPhotos] = useState<PhotoData[]>([])
@@ -36,14 +37,6 @@ export const DisplayPhotosPage = () => {
     const albumName = params.albumName?.toLowerCase()
     const photoName = params.photo?.toLowerCase()
 
-    useEffect(() => {
-        const getPhotosForCurrentPage = async () => {
-            const photoData = await getPhotosInAlbum(albumName)
-            setPhotos(photoData ?? [])
-        }
-        getPhotosForCurrentPage()
-    }, [albumName])
-
     const sortedPhotos = useMemo(
         () =>
             currentAlbum?.sort === 'custom'
@@ -53,17 +46,36 @@ export const DisplayPhotosPage = () => {
                 : photos,
         [photos, currentAlbum?.sort],
     )
+
     useEffect(() => {
-        if (photoName) {
+        const getPhotosForCurrentPage = async () => {
+            const photoData = await getPhotosInAlbum(albumName)
+            setPhotos(photoData ?? [])
+        }
+        getPhotosForCurrentPage()
+    }, [albumName])
+
+    useEffect(() => {
+        if (photoName && photos.length > 0) {
             const photoIndex = photos?.findIndex((photo) => {
                 const fileName = getFileNameWithoutFileEnding(photo.fileName)
                 return fileName === photoName
             })
-            if (photoIndex >= 0) setCurrentFullscreenIndex(photoIndex)
+            if (photoIndex >= 0) {
+                setCurrentFullscreenIndex(photoIndex)
+                const photoElement = document.getElementById(
+                    getFileNameWithoutFileEnding(photos[photoIndex].fileName),
+                )
+                setTimeout(() => {
+                    photoElement?.scrollIntoView({
+                        block: 'center',
+                    })
+                }, 100) // Delay to ensure the element is rendered
+            }
+        } else if (!photoName) {
+            setCurrentFullscreenIndex(null)
         }
-    }, [photos])
-
-    function toggleFullscreen() {}
+    }, [photos, photoName])
 
     const photoGrid1 = useMemo(() => {
         const layoutArray: string[] = []
@@ -101,43 +113,15 @@ export const DisplayPhotosPage = () => {
         return { layoutArray }
     }, [sortedPhotos])
 
-    const photoGrid2 = useMemo(() => {
-        const layoutArray: string[] = []
-        let counter = 0
-        while (counter < photos?.length) {
-            if (counter === photos?.length - 1) {
-                layoutArray.push('full-width')
-                counter++
-                continue
-            }
-            if (photos[counter].metaData?.orientation === 'landscape') {
-                layoutArray.push('full-width')
-                counter++
-                continue
-            }
-            if (photos[counter].metaData?.orientation === 'portrait') {
-                layoutArray.push('narrow-width')
-                counter++
-                continue
-            }
-            layoutArray.push('default')
-            counter++
-        }
-        return { layoutArray }
-    }, [photos])
-
     useEffect(() => {
         switch (gridStyle) {
             case 1:
                 setPhotoLayout(photoGrid1.layoutArray)
                 break
-            case 2:
-                setPhotoLayout(photoGrid2.layoutArray)
-                break
             default:
                 setPhotoLayout(photoGrid1.layoutArray)
         }
-    }, [gridStyle, photoGrid1, photoGrid2])
+    }, [gridStyle, photoGrid1])
 
     const displayedAlbumName = () => {
         if (!albumName) return 'feil  🥶'
@@ -162,7 +146,17 @@ export const DisplayPhotosPage = () => {
                     placeholder: photo.thumbnailUrl,
                 }))}
                 currentIndex={currentFullscreenIndex}
-                onIndexChange={setCurrentFullscreenIndex}
+                onIndexChange={(index) => {
+                    if (index === null) {
+                        navigate(`/foto/album/${albumName}`)
+                        return
+                    }
+                    navigate(
+                        `/foto/album/${albumName}/${getFileNameWithoutFileEnding(
+                            photos[index]?.fileName ?? '',
+                        )}`,
+                    )
+                }}
             />
             {sortedPhotos?.map((photo, index) =>
                 photo.displayMode === 'story' ? (
@@ -178,7 +172,15 @@ export const DisplayPhotosPage = () => {
                         src={photo.imageUrl}
                         placeholderSrc={photo.thumbnailUrl}
                         focusable={currentFullscreenIndex === null}
-                        onClick={() => setCurrentFullscreenIndex(index)}
+                        id={getFileNameWithoutFileEnding(photo.fileName)}
+                        // onClick={() => setCurrentFullscreenIndex(index)}
+                        onClick={() =>
+                            navigate(
+                                `/foto/album/${albumName}/${getFileNameWithoutFileEnding(
+                                    photo.fileName,
+                                )}`,
+                            )
+                        }
                         className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
                         key={photo.imageUrl}
                     />
