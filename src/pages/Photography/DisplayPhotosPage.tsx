@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { MdArrowUpward } from 'react-icons/md'
 
 import { PhotoData } from 'src/types'
-import { getFileNameWithoutFileEnding } from 'src/firebase/utils'
+import { getFilenameForUrl } from 'src/firebase/utils'
 
 import { MainNavBar } from '@components/NavBar/MainNavBar'
 import { SiteHeading } from '@components/SiteHeading/SiteHeading'
@@ -25,17 +25,12 @@ export const DisplayPhotosPage = () => {
     const headingRef = useRef<HTMLDivElement>(null)
     const params = useParams()
     const [photos, setPhotos] = useState<PhotoData[]>([])
-    const [gridStyle] = useState<number>(1)
-    const [photoLayout, setPhotoLayout] = useState<string[]>([])
-    const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
-        number | null
-    >(null)
     const currentAlbum = useAlbumsList().find(
         (album) => album.name.toLowerCase() === params.albumName?.toLowerCase(),
     )
 
     const albumName = params.albumName?.toLowerCase()
-    const photoName = params.photo?.toLowerCase()
+    const fullscreenPhotoName = params.photo?.toLowerCase()
 
     const sortedPhotos = useMemo(
         () =>
@@ -55,39 +50,30 @@ export const DisplayPhotosPage = () => {
         getPhotosForCurrentPage()
     }, [albumName])
 
+    /** Hook to keep fullscreen image and page scroll in sync */
     useEffect(() => {
-        if (photoName && photos.length > 0) {
-            const photoIndex = photos?.findIndex((photo) => {
-                const fileName = getFileNameWithoutFileEnding(photo.fileName)
-                return fileName === photoName
-            })
-            if (photoIndex >= 0) {
-                setCurrentFullscreenIndex(photoIndex)
-                const photoElement = document.getElementById(
-                    getFileNameWithoutFileEnding(photos[photoIndex].fileName),
-                )
-                setTimeout(() => {
-                    photoElement?.scrollIntoView({
-                        block: 'center',
-                    })
-                }, 100) // Delay to ensure the element is rendered
-            }
-        } else if (!photoName) {
-            setCurrentFullscreenIndex(null)
+        if (fullscreenPhotoName && photos.length > 0) {
+            const photoElementInGrid =
+                document.getElementById(fullscreenPhotoName)
+            setTimeout(() => {
+                photoElementInGrid?.scrollIntoView({
+                    block: 'center',
+                })
+            }, 100) // Delay to ensure the element is rendered
         }
-    }, [photos, photoName])
+    }, [photos, fullscreenPhotoName])
 
-    const photoGrid1 = useMemo(() => {
-        const layoutArray: string[] = []
+    const photoLayout = useMemo(() => {
+        const _photoLayout: string[] = []
         let counter = 0
         while (counter < sortedPhotos?.length) {
             if (counter === sortedPhotos?.length - 1) {
-                layoutArray.push('full-width')
+                _photoLayout.push('full-width')
                 counter++
                 continue
             }
             if (sortedPhotos[counter].metaData?.orientation === 'landscape') {
-                layoutArray.push('full-width')
+                _photoLayout.push('full-width')
                 counter++
                 continue
             }
@@ -98,30 +84,20 @@ export const DisplayPhotosPage = () => {
                 sortedPhotos[counter].displayMode !== 'story' &&
                 sortedPhotos[counter + 1].displayMode !== 'story'
             ) {
-                layoutArray.push('half-left', 'half-right')
+                _photoLayout.push('half-left', 'half-right')
                 counter += 2
                 continue
             }
             if (sortedPhotos[counter].metaData?.orientation === 'portrait') {
-                layoutArray.push('narrow-width')
+                _photoLayout.push('narrow-width')
                 counter++
                 continue
             }
-            layoutArray.push('default')
+            _photoLayout.push('default')
             counter++
         }
-        return { layoutArray }
+        return _photoLayout
     }, [sortedPhotos])
-
-    useEffect(() => {
-        switch (gridStyle) {
-            case 1:
-                setPhotoLayout(photoGrid1.layoutArray)
-                break
-            default:
-                setPhotoLayout(photoGrid1.layoutArray)
-        }
-    }, [gridStyle, photoGrid1])
 
     const displayedAlbumName = () => {
         if (!albumName) return 'feil  🥶'
@@ -134,36 +110,21 @@ export const DisplayPhotosPage = () => {
 
     return (
         <div className="main-grid displayed-photos-page">
-            <MainNavBar hideNavbar={currentFullscreenIndex !== null} />
+            <MainNavBar hideNavbar={fullscreenPhotoName !== undefined} />
             <SiteHeading
                 siteName={displayedAlbumName()}
                 headingRef={headingRef}
             />
             <div className="divider-box" />
-            <FullscreenOverlay
-                photoUrls={photos.map((photo) => ({
-                    photo: photo.imageUrl,
-                    placeholder: photo.thumbnailUrl,
-                }))}
-                currentIndex={currentFullscreenIndex}
-                onIndexChange={(index) => {
-                    if (index === null) {
-                        navigate(`/foto/album/${albumName}`)
-                        return
-                    }
-                    navigate(
-                        `/foto/album/${albumName}/${getFileNameWithoutFileEnding(
-                            photos[index]?.fileName ?? '',
-                        )}`,
-                    )
-                }}
-            />
             {sortedPhotos?.map((photo, index) =>
                 photo.displayMode === 'story' ? (
                     <StoryFrame
                         photo={photo}
-                        focusable={currentFullscreenIndex === null}
-                        onClick={() => setCurrentFullscreenIndex(index)}
+                        focusable={!fullscreenPhotoName}
+                        onClick={() => {
+                            const _photoName = getFilenameForUrl(photo.fileName)
+                            navigate(`/foto/album/${albumName}/${_photoName}`)
+                        }}
                         // className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
                         key={photo.imageUrl}
                     />
@@ -171,16 +132,12 @@ export const DisplayPhotosPage = () => {
                     <ProgressiveImage
                         src={photo.imageUrl}
                         placeholderSrc={photo.thumbnailUrl}
-                        focusable={currentFullscreenIndex === null}
-                        id={getFileNameWithoutFileEnding(photo.fileName)}
-                        // onClick={() => setCurrentFullscreenIndex(index)}
-                        onClick={() =>
-                            navigate(
-                                `/foto/album/${albumName}/${getFileNameWithoutFileEnding(
-                                    photo.fileName,
-                                )}`,
-                            )
-                        }
+                        focusable={!fullscreenPhotoName}
+                        id={getFilenameForUrl(photo.fileName)}
+                        onClick={() => {
+                            const _photoName = getFilenameForUrl(photo.fileName)
+                            navigate(`/foto/album/${albumName}/${_photoName}`)
+                        }}
                         className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
                         key={photo.imageUrl}
                     />
@@ -189,9 +146,24 @@ export const DisplayPhotosPage = () => {
             <IconButton
                 className="scroll-to-top-button"
                 onClick={() => headingRef.current?.scrollIntoView(true)}
+                tabIndex={fullscreenPhotoName ? -1 : 0}
             >
                 <MdArrowUpward />
             </IconButton>
+            <FullscreenOverlay
+                photoUrls={photos.map((photo) => ({
+                    photo: photo.imageUrl,
+                    placeholder: photo.thumbnailUrl,
+                    photoName: getFilenameForUrl(photo.fileName),
+                }))}
+                currentPhoto={fullscreenPhotoName}
+                onNavigate={(nextPhotoName) => {
+                    if (nextPhotoName === null)
+                        return navigate(`/foto/album/${albumName}`)
+
+                    navigate(`/foto/album/${albumName}/${nextPhotoName}`)
+                }}
+            />
         </div>
     )
 }

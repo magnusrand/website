@@ -61,6 +61,19 @@ export function formatDescriptionForHTML(description: string | undefined) {
         .replaceAll(/^([^<])/g, '<p>$1')
 }
 
-export function getFileNameWithoutFileEnding(fileName: string) {
-    return fileName.split('.')?.[0]
+export function getFilenameForUrl(fileName?: string) {
+    if (!fileName) return ''
+    const withoutFileType = fileName.split('.')?.[0] ?? fileName
+    return withoutFileType.toLowerCase().replace(/[æøå]/g, (match) => {
+        switch (match) {
+            case 'æ':
+                return 'ae'
+            case 'ø':
+                return 'o'
+            case 'å':
+                return 'a'
+            default:
+                return match
+        }
+    })
 }
