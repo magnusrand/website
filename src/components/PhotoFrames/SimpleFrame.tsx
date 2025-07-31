@@ -26,11 +26,13 @@ export const SimpleFrame = ({
     onClick,
     className,
     focusable,
+    id = photo.fileName.split('.')[0],
 }: {
     photo: PhotoData
     onClick: () => void
     className?: string
     focusable?: boolean
+    id?: string
 }) => {
     const [showMeta, setShowMeta] = React.useState(false)
 
@@ -64,6 +66,7 @@ export const SimpleFrame = ({
                 alt={photo.fileName}
                 onClick={onClick}
                 focusable={focusable}
+                id={id}
             />
             <div className="simple-frame__photo-wrapper__caption">
                 <p className="simple-frame__photo-wrapper__caption__description">

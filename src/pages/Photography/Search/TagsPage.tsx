@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { MdArrowUpward } from 'react-icons/md'
 
 import { PhotoData } from 'src/types'
+import {
+    getAllPhotoTags,
+    getPhotosByTag,
+} from 'src/firebase/firebase-firestore'
+import { getFilenameForUrl } from 'src/firebase/utils'
 
 import { TagGroup, Tag } from '@components/Tags'
 import { MainNavBar } from '@components/NavBar/MainNavBar'
@@ -12,23 +17,19 @@ import { ProgressiveImage } from '@components/PhotoFrames/ProgressiveImage'
 import { FullscreenOverlay } from '@components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
 import { IconButton } from '@components/Buttons/IconButton'
 
-import {
-    getAllPhotoTags,
-    getPhotosByTag,
-} from '../../../firebase/firebase-firestore'
-
 import './tagsPage.css'
 
 export const TagsPage = () => {
     const [tags, setTags] = useState<string[]>([])
     const [photos, setPhotos] = useState<PhotoData[]>([])
     const [searchParams, setSearchParams] = useSearchParams()
+    const navigate = useNavigate()
+    const params = useParams()
     const _currentTag = searchParams.get('etikett')
 
     const tagsRef = useRef<HTMLFieldSetElement>(null)
-    const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
-        number | null
-    >(null)
+
+    const fullscreenPhotoName = params.photo?.toLowerCase()
 
     useEffect(() => {
         const getAllTags = async () => {
@@ -46,8 +47,23 @@ export const TagsPage = () => {
         _currentTag !== null && getPhotosForTag()
     }, [_currentTag])
 
+    /** Hook to keep fullscreen image and page scroll in sync */
+    useEffect(() => {
+        if (fullscreenPhotoName && photos.length > 0) {
+            const photoElementInGrid =
+                document.getElementById(fullscreenPhotoName)
+            setTimeout(() => {
+                photoElementInGrid?.scrollIntoView({
+                    block: 'center',
+                })
+            }, 100) // Delay to ensure the element is rendered
+        }
+    }, [photos, fullscreenPhotoName])
+
     const photosFirstHalf = photos?.filter((photo, index) => index % 2 === 0)
     const photosLastHalf = photos?.filter((photo, index) => index % 2 === 1)
+
+    const searchParam = _currentTag ? `?etikett=${_currentTag}` : ''
 
     return (
         <div className="main-grid tags-page">
@@ -77,36 +93,39 @@ export const TagsPage = () => {
                         </Tag>
                     ))}
                 </TagGroup>
-                <FullscreenOverlay
-                    photoUrls={photos.map((photo) => ({
-                        photo: photo.imageUrl,
-                        placeholder: photo.thumbnailUrl,
-                    }))}
-                    currentIndex={currentFullscreenIndex}
-                    onIndexChange={setCurrentFullscreenIndex}
-                />
                 {/* Photos are split into two columns to allow for moasic layout 
                     with even distribution of elements. */}
                 <div className="photo-element__container first-column">
-                    {photosFirstHalf?.map((photo, index) => (
+                    {photosFirstHalf?.map((photo) => (
                         <ProgressiveImage
                             src={photo.imageUrl}
                             placeholderSrc={photo.thumbnailUrl}
-                            focusable={currentFullscreenIndex === null}
-                            onClick={() => setCurrentFullscreenIndex(index * 2)}
+                            focusable={fullscreenPhotoName === undefined}
+                            onClick={() =>
+                                navigate(
+                                    `/foto/etiketter/${getFilenameForUrl(
+                                        photo.fileName,
+                                    )}${searchParam}`,
+                                )
+                            }
                             className="photo-element"
                             key={photo.documentRef.id}
+                            id={getFilenameForUrl(photo.fileName)}
                         />
                     ))}
                 </div>
                 <div className="photo-element__container second-column">
-                    {photosLastHalf.map((photo, index) => (
+                    {photosLastHalf.map((photo) => (
                         <ProgressiveImage
                             src={photo.imageUrl}
                             placeholderSrc={photo.thumbnailUrl}
-                            focusable={currentFullscreenIndex === null}
+                            focusable={fullscreenPhotoName === undefined}
                             onClick={() =>
-                                setCurrentFullscreenIndex(index * 2 + 1)
+                                navigate(
+                                    `/foto/etiketter/${getFilenameForUrl(
+                                        photo.fileName,
+                                    )}${searchParam}`,
+                                )
                             }
                             className="photo-element"
                             key={photo.documentRef.id}
@@ -122,6 +141,20 @@ export const TagsPage = () => {
                     </IconButton>
                 )}
             </main>
+            <FullscreenOverlay
+                photoUrls={photos.map((photo) => ({
+                    photo: photo.imageUrl,
+                    placeholder: photo.thumbnailUrl,
+                    photoName: getFilenameForUrl(photo.fileName),
+                }))}
+                currentPhoto={fullscreenPhotoName}
+                onNavigate={(nextPhotoName) => {
+                    if (nextPhotoName === null)
+                        return navigate(`/foto/etiketter${searchParam}`)
+
+                    navigate(`/foto/etiketter/${nextPhotoName}${searchParam}`)
+                }}
+            />
         </div>
     )
 }

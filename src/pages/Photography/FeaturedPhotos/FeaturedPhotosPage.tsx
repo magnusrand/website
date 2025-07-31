@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import classNames from 'classnames'
 import { MdArrowUpward } from 'react-icons/md'
 
 import { PhotoData } from 'src/types'
+import { getPhotosInAlbum } from 'src/firebase/firebase-firestore'
+import { getFilenameForUrl } from 'src/firebase/utils'
 
 import { SiteHeading } from '@components/SiteHeading/SiteHeading'
 
@@ -14,8 +16,6 @@ import { StoryFrame } from '@components/PhotoFrames/StoryFrame'
 import { FullscreenOverlay } from '@components/PhotoFrames/FullscreenOverlay/FullscreenOverlay'
 import { IconButton } from '@components/Buttons/IconButton'
 
-import { getPhotosInAlbum } from '../../../firebase/firebase-firestore'
-
 import Arrows from '../../../assets/images/arrows.svg'
 
 import './featuredPhotos.css'
@@ -23,10 +23,11 @@ import './featuredPhotos.css'
 export const FeaturedPhotosPage = () => {
     const headingRef = useRef<HTMLDivElement>(null)
     const [photos, setPhotos] = useState<PhotoData[]>([])
-    const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
-        number | null
-    >(null)
     const { hash } = useLocation()
+    const navigate = useNavigate()
+    const params = useParams()
+
+    const fullscreenPhotoName = params.photo?.toLowerCase()
 
     const ALBUM_NAME = 'featured'
     const PAGE_TITLE = 'Utvalgte'
@@ -61,6 +62,19 @@ export const FeaturedPhotosPage = () => {
         getPhotosForCurrentPage()
     }, [ALBUM_NAME])
 
+    /** Hook to keep fullscreen image and page scroll in sync */
+    useEffect(() => {
+        if (fullscreenPhotoName && photos.length > 0) {
+            const photoElementInGrid =
+                document.getElementById(fullscreenPhotoName)
+            setTimeout(() => {
+                photoElementInGrid?.scrollIntoView({
+                    block: 'center',
+                })
+            }, 100) // Delay to ensure the element is rendered
+        }
+    }, [photos, fullscreenPhotoName])
+
     const sortedPhotos = useMemo(
         () =>
             photos.sort((photoA, photoB) => photoA.priority - photoB.priority),
@@ -86,19 +100,11 @@ export const FeaturedPhotosPage = () => {
     return (
         <div
             className={classNames('main-grid featured-photos-page', {
-                'fullscreen-active': currentFullscreenIndex !== null,
+                'fullscreen-active': fullscreenPhotoName !== null,
             })}
         >
             <MainNavBar />
             <SiteHeading siteName={PAGE_TITLE} headingRef={headingRef} />
-            <FullscreenOverlay
-                photoUrls={photos.map((photo) => ({
-                    photo: photo.imageUrl,
-                    placeholder: photo.thumbnailUrl,
-                }))}
-                currentIndex={currentFullscreenIndex}
-                onIndexChange={setCurrentFullscreenIndex}
-            />
             {sortedPhotos.length > 0 && (
                 <button
                     className={classNames(
@@ -125,19 +131,33 @@ export const FeaturedPhotosPage = () => {
                     case 'story':
                         return (
                             <StoryFrame
+                                id={getFilenameForUrl(photo.fileName)}
                                 photo={photo}
                                 key={photo.fileName}
-                                onClick={() => setCurrentFullscreenIndex(index)}
-                                focusable={currentFullscreenIndex === null}
+                                onClick={() =>
+                                    navigate(
+                                        `/foto/utvalgte/${getFilenameForUrl(
+                                            photo.fileName,
+                                        )}`,
+                                    )
+                                }
+                                focusable={fullscreenPhotoName === undefined}
                             />
                         )
                     default:
                         return (
                             <SimpleFrame
+                                id={getFilenameForUrl(photo.fileName)}
                                 photo={photo}
                                 key={photo.fileName}
-                                onClick={() => setCurrentFullscreenIndex(index)}
-                                focusable={currentFullscreenIndex === null}
+                                onClick={() =>
+                                    navigate(
+                                        `/foto/utvalgte/${getFilenameForUrl(
+                                            photo.fileName,
+                                        )}`,
+                                    )
+                                }
+                                focusable={fullscreenPhotoName === undefined}
                             />
                         )
                 }
@@ -150,6 +170,20 @@ export const FeaturedPhotosPage = () => {
                     <MdArrowUpward />
                 </IconButton>
             )}
+            <FullscreenOverlay
+                photoUrls={photos.map((photo) => ({
+                    photo: photo.imageUrl,
+                    placeholder: photo.thumbnailUrl,
+                    photoName: getFilenameForUrl(photo.fileName),
+                }))}
+                currentPhoto={fullscreenPhotoName}
+                onNavigate={(nextPhotoName) => {
+                    if (nextPhotoName === null)
+                        return navigate(`/foto/utvalgte`)
+
+                    navigate(`/foto/utvalgte/${nextPhotoName}`)
+                }}
+            />
         </div>
     )
 }

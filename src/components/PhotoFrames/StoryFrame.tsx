@@ -21,11 +21,13 @@ export const StoryFrame = ({
     onClick,
     className,
     focusable,
+    id = photo.fileName.split('.')[0],
 }: {
     photo: PhotoData
     onClick: () => void
     className?: string
     focusable?: boolean
+    id?: string
 }) => {
     const descriptionRef = useRef<HTMLParagraphElement>(null)
     const cameraName = ` ${
@@ -61,6 +63,7 @@ export const StoryFrame = ({
                     alt={photo.fileName}
                     onClick={onClick}
                     focusable={focusable}
+                    id={id}
                 />
                 <div className="story-frame__text">
                     <h2 className="story-frame__text__heading type-garamond-bold">

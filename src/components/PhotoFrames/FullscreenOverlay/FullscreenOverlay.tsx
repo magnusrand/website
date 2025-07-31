@@ -10,35 +10,47 @@ import './fullscreenOverlay.css'
 
 export const FullscreenOverlay = ({
     photoUrls,
-    currentIndex,
-    onIndexChange,
+    currentPhoto,
+    onNavigate,
 }: {
-    photoUrls: Array<{ photo: string; placeholder: string }>
-    currentIndex: number | null
-    onIndexChange: (index: number | null) => void
+    photoUrls: Array<{ photo: string; placeholder: string; photoName?: string }>
+    currentPhoto?: string
+    onNavigate: (action: string | null) => void
 }) => {
-    useEffect(() => {
-        if (currentIndex !== null) {
-            document.body.style.overflow = 'hidden' // remove scrolling
-        } else {
-            document.body.style.overflow = 'visible' // activate scrolling
-        }
-    }, [currentIndex])
+    const showFullscreen = currentPhoto !== undefined
+    const currentPhotoIndex = photoUrls?.findIndex(
+        (photo) => photo.photoName === currentPhoto,
+    )
+    const currentPhotoData =
+        currentPhotoIndex !== -1 ? photoUrls?.[currentPhotoIndex] : null
 
     useEffect(() => {
-        if (currentIndex === null) return
+        // stop scrolling
+        if (showFullscreen) document.body.style.overflow = 'hidden'
+        // activate scrolling
+        else document.body.style.overflow = 'visible'
+    }, [showFullscreen])
+
+    useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onIndexChange(null)
+            if (e.key === 'Escape') {
+                onNavigate(null)
+            }
         }
         const handleArrowKeys = (e: KeyboardEvent) => {
-            if (currentIndex === null) return
             if (e.key == 'ArrowRight') {
-                if (currentIndex >= photoUrls.length - 1) return
-                onIndexChange(currentIndex + 1)
-            }
-            if (e.key == 'ArrowLeft') {
-                if (currentIndex <= 0) return
-                onIndexChange(currentIndex - 1)
+                if (
+                    currentPhotoData &&
+                    currentPhotoIndex < photoUrls?.length - 1
+                )
+                    onNavigate(
+                        photoUrls?.[currentPhotoIndex + 1].photoName ?? null,
+                    )
+            } else if (e.key == 'ArrowLeft') {
+                if (currentPhotoData && currentPhotoIndex > 0)
+                    onNavigate(
+                        photoUrls?.[currentPhotoIndex - 1].photoName ?? null,
+                    )
             }
         }
 
@@ -49,28 +61,28 @@ export const FullscreenOverlay = ({
             removeEventListener('keydown', handleArrowKeys)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentIndex])
+    }, [currentPhoto, currentPhotoData?.photoName, currentPhotoIndex])
 
     return (
         <div
             className={classNames('fullscreen-overlay', {
-                'fullscreen-overlay--active': currentIndex !== null,
+                'fullscreen-overlay--active': showFullscreen,
             })}
-            onClick={() => onIndexChange(null)}
+            onClick={() => onNavigate(null)}
         >
             <IconButton
                 className="fullscreen-overlay__close-button"
-                onClick={() => onIndexChange(null)}
-                tabIndex={currentIndex !== null ? 0 : -1}
+                onClick={() => onNavigate(null)}
+                tabIndex={currentPhoto ? 0 : -1}
             >
-                <MdClose size="2rem" />
+                <MdClose size="2rem" aria-label="Lukk fullskjermvisning" />
             </IconButton>
-            {currentIndex !== null && (
+            {currentPhotoData && (
                 <ProgressiveImage
                     className="fullscreen-overlay__image"
-                    src={photoUrls?.[currentIndex].photo}
-                    placeholderSrc={photoUrls?.[currentIndex].placeholder}
-                    focusable={currentIndex !== null}
+                    src={currentPhotoData?.photo}
+                    placeholderSrc={currentPhotoData?.placeholder}
+                    focusable={true}
                 />
             )}
         </div>

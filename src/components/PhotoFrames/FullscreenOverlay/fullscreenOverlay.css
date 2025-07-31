@@ -46,5 +46,15 @@
     left: 0rem;
     right: 0rem;
     z-index: 3;
+
+    transition: opacity ease 0.25s;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
