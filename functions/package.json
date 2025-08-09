@@ -1,5 +1,6 @@
 {
     "name": "functions",
+    "type": "module",
     "scripts": {
         "build": "tsc",
         "build:watch": "tsc --watch",
@@ -14,6 +15,7 @@
     },
     "main": "lib/index.js",
     "dependencies": {
+        "@octokit/core": "^7.0.2",
         "cors": "2.8.5",
         "exifr": "^7.1.3",
         "firebase-admin": "^12.2.0",

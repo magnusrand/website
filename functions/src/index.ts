@@ -8,7 +8,7 @@ import {
 import { getFirestore } from 'firebase-admin/firestore'
 import { error, log } from 'firebase-functions/logger'
 
-import * as sharp from 'sharp'
+import sharp from 'sharp'
 
 initializeApp()
 

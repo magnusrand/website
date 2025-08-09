@@ -6,6 +6,7 @@ dist/
 .firebase/*.cache
 *.log
 functions/lib
+.secret.local
 
 .cache/
 coverage/

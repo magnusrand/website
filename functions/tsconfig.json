@@ -1,14 +1,17 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "target": "es2021",
         "lib": ["es2021"],
-        "noImplicitReturns": true,
-        "noUnusedLocals": true,
         "outDir": "lib",
         "sourceMap": true,
         "strict": true,
-        "target": "es2021",
-        "skipLibCheck": true
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true
     },
     "compileOnSave": true,
     "include": ["src"]
