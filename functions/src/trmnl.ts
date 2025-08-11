@@ -17,6 +17,12 @@ type PullRequestType = {
         id: string
         avatar_url: string
     }
+    last_review_by_me:
+        | 'APPROVED'
+        | 'CHANGES_REQUESTED'
+        | 'COMMENTED'
+        | 'DISMISSED'
+        | null
 }
 
 type GithubPullRequestResponseType = {
@@ -40,6 +46,7 @@ type GithubPullRequestResponseType = {
         id: string
         avatar_url: string
     }
+    number: number
 }
 
 export const getTrmnlDisplayData = onRequest(
@@ -86,38 +93,60 @@ export const getTrmnlDisplayData = onRequest(
             return
         }
 
-        const pullRequests: PullRequestType[] = githubResponse.data.map(
-            (pr: GithubPullRequestResponseType) => {
-                const daysSinceUpdate = Math.floor(
-                    (new Date().getTime() - new Date(pr.updated_at).getTime()) /
-                        (1000 * 60 * 60 * 24),
-                )
-                return {
-                    title: pr.title,
-                    created_at: pr.created_at,
-                    updated_at: pr.updated_at,
-                    head: pr.head.ref,
-                    base: pr.base.ref,
-                    requested_reviewers: pr.requested_reviewers.map(
-                        (reviewer) => ({
-                            login: reviewer.login,
-                            id: reviewer.id,
-                            avatar_url: reviewer.avatar_url,
-                        }),
-                    ),
-                    draft: pr.draft,
-                    user: {
-                        login: pr.user.login,
-                        id: pr.user.id,
-                        avatar_url: pr.user.avatar_url,
-                    },
-                    days_since_update: daysSinceUpdate,
-                    days_since_update_text:
-                        daysSinceUpdate === 0
-                            ? 'i dag'
-                            : `${daysSinceUpdate} dager siden`,
-                }
-            },
+        const pullRequests: PullRequestType[] = await Promise.all(
+            githubResponse?.data?.map(
+                async (pr: GithubPullRequestResponseType) => {
+                    const reviewsForPRResponse = await octokit.request(
+                        'GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
+                        {
+                            owner: 'entur',
+                            repo: 'design-system',
+                            pull_number: pr.number,
+                            headers: { 'X-GitHub-Api-Version': '2022-11-28' },
+                        },
+                    )
+
+                    const MY_GITHUB_USERNAME = 'magnusrand'
+                    const lastReviewByMe = ([...reviewsForPRResponse.data]
+                        // we reverse the array to get the latest review first
+                        .reverse()
+                        .find((r) => r.user?.login === MY_GITHUB_USERNAME)
+                        ?.state ?? null) as PullRequestType['last_review_by_me']
+
+                    // 3) your existing mapping + our two new fields
+                    const daysSinceUpdate = Math.floor(
+                        (Date.now() - new Date(pr.updated_at).getTime()) /
+                            (1000 * 60 * 60 * 24),
+                    )
+
+                    return {
+                        title: pr.title,
+                        created_at: pr.created_at,
+                        updated_at: pr.updated_at,
+                        head: pr.head.ref,
+                        base: pr.base.ref,
+                        requested_reviewers: pr.requested_reviewers.map(
+                            (reviewer) => ({
+                                login: reviewer.login,
+                                id: reviewer.id,
+                                avatar_url: reviewer.avatar_url,
+                            }),
+                        ),
+                        draft: pr.draft,
+                        user: {
+                            login: pr.user.login,
+                            id: pr.user.id,
+                            avatar_url: pr.user.avatar_url,
+                        },
+                        days_since_update: daysSinceUpdate,
+                        days_since_update_text:
+                            daysSinceUpdate === 0
+                                ? 'i dag'
+                                : `${daysSinceUpdate} dager siden`,
+                        last_review_by_me: lastReviewByMe,
+                    }
+                },
+            ),
         )
 
         response.status(200).send(JSON.stringify({ pullRequests }))
