@@ -18,11 +18,8 @@
     align-items: center;
     justify-content: space-evenly;
 
-    transition: all 0.3s ease-in-out, 
-                transform 0.3s ease-in-out,
-                width 0.3s ease-in-out, 
-                height 0.5s ease-in-out, 
-                right 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out, transform 0.3s ease-in-out,
+        width 0.3s ease-in-out, height 0.5s ease-in-out, right 0.3s ease-in-out;
 
     &--animate-out {
         width: 3rem;
@@ -73,5 +70,13 @@
         background: transparent;
         color: inherit;
         font: inherit;
+    }
+
+    & + * {
+        margin-top: auto;
+    }
+
+    &:has(~ .fullscreen-overlay--active) {
+        opacity: 0;
     }
 }

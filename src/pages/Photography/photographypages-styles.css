@@ -110,6 +110,10 @@
                 margin-top: 2rem;
                 margin-bottom: 2rem;
             }
+
+            .divider-box {
+                grid-row: 3 / 4;
+            }
         }
     }
 }

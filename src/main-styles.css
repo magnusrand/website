@@ -16,14 +16,16 @@
 
 @font-face {
     font-family: 'Source Sans 3';
-    src: url('./assets/fonts/SourceSans3-VariableFont_wght.ttf') format("truetype-variations");
+    src: url('./assets/fonts/SourceSans3-VariableFont_wght.ttf')
+        format('truetype-variations');
     font-style: normal;
     font-weight: 1 999;
 }
 
 @font-face {
     font-family: 'Source Sans 3';
-    src: url('./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf') format("truetype-variations");
+    src: url('./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf')
+        format('truetype-variations');
     font-style: italic;
     font-weight: 1 999;
 }
@@ -40,7 +42,7 @@
     --white: #fffff2;
     --black: #161515;
 
-    --negative-color: #BD1D45;
+    --negative-color: #bd1d45;
 
     --font-size-small: 1.33rem;
     --font-size-medium: 2rem;

@@ -118,7 +118,10 @@ export const FeaturedPhotosPage = () => {
                         const firstPhoto =
                             document.getElementsByClassName('photo')?.[0]
                         if (firstPhoto) {
-                            firstPhoto.scrollIntoView({ behavior: 'smooth' })
+                            firstPhoto.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center',
+                            })
                         }
                     }}
                 >
