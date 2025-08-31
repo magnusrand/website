@@ -220,6 +220,14 @@ a {
     }
 }
 
+.fade-in {
+    animation: fade-in 0.6s ease-in-out;
+}
+
+.fade-out {
+    animation: fade-out 0.6s ease-in-out;
+}
+
 @keyframes fade-out {
     from {
         opacity: 1;

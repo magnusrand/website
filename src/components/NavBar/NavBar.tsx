@@ -95,12 +95,8 @@ interface MobileNavItemProps {
     children?: React.ReactNode
 }
 
-export const MobileNavItem = ({
-    title,
-    linkPath = '#',
-    icon,
-}: MobileNavItemProps) => (
-    <Link to={linkPath} className="mobile-navitem">
+export const MobileNavItem = ({ title, linkPath = '#', icon }: MobileNavItemProps) => (
+    <Link to={linkPath} className="mobile-navitem fade-in">
         {icon}
         {title !== undefined && (
             <span className=" type-sourcesans-regular">{title}</span>

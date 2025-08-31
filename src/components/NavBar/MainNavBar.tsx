@@ -18,21 +18,18 @@ export const MainNavBar = ({
     React.useEffect(() => {
         const mainGrid = document.querySelector('.main-grid')
         const handleNavbarCollapse = () => {
-            const header = document.querySelector('.header')
-            if (header) {
-                if (mainGrid && mainGrid.scrollTop > 0) {
-                    if (scrolled) return
-                    const timer = setTimeout(() => {
-                        setShowCollapsed(true)
-                    }, 500)
-                    return () => clearTimeout(timer)
-                } else {
-                    if (!scrolled) return
-                    const timer = setTimeout(() => {
-                        setShowCollapsed(false)
-                    }, 500)
-                    return () => clearTimeout(timer)
-                }
+            if (mainGrid && mainGrid.scrollTop > 0) {
+                if (scrolled) return
+                const timer = setTimeout(() => {
+                    setShowCollapsed(true)
+                }, 500)
+                return () => clearTimeout(timer)
+            } else {
+                if (!scrolled) return
+                const timer = setTimeout(() => {
+                    setShowCollapsed(false)
+                }, 500)
+                return () => clearTimeout(timer)
             }
         }
 
@@ -66,7 +63,20 @@ export const MainNavBar = ({
     }, [])
 
     if (width < BREAKPOINTS.mobile) {
-        return <MobileNavBar />
+        return (
+            <MobileNavBar
+                hideHomeLogo={hideHomeLogo}
+                hideNavbar={hideNavbar}
+                scrolled={scrolled}
+                showCollapsed={showCollapsed}
+                toggleCollapsed={() => {
+                    setScrolled(!showCollapsed)
+                    setTimeout(() => {
+                        setShowCollapsed(!showCollapsed)
+                    }, 500)
+                }}
+            />
+        )
     }
 
     return (

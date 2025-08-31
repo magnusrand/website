@@ -1,11 +1,13 @@
 .navbar.mobile-navbar {
     position: fixed;
     bottom: 5%;
-    left: 5%;
-    right: 5%;
+    right: 50%;
+    transform: translateX(50%);
     max-width: 20rem;
     margin-inline: auto;
     z-index: 4;
+    width: 20rem;
+    height: 4.5rem;
 
     background-color: var(--theme-color);
     color: var(--white);
@@ -15,7 +17,26 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding-inline: min(2.5%, 1rem);
+
+    transition: all 0.3s ease-in-out, 
+                transform 0.3s ease-in-out,
+                width 0.3s ease-in-out, 
+                height 0.5s ease-in-out, 
+                right 0.3s ease-in-out;
+
+    &--animate-out {
+        width: 3rem;
+        height: 3rem;
+        padding-inline: 0;
+        right: 5%;
+        transform: translateX(0%);
+        box-shadow: 0px 0px 0px 0px transparent;
+
+        .mobile-navitem {
+            opacity: 0;
+            animation: fade-out 0.1s ease-in-out;
+        }
+    }
 
     .mobile-navitem {
         display: flex;
@@ -32,5 +53,25 @@
             font-variant: small-caps;
             text-transform: lowercase;
         }
+
+        &:first-child {
+            padding-left: 2rem;
+        }
+        &:last-child {
+            padding-right: 2rem;
+        }
+    }
+
+    .mobile-navbar--collapsed__button {
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        height: 1.5rem;
+        overflow: visible;
+
+        background: transparent;
+        color: inherit;
+        font: inherit;
     }
 }
