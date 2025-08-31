@@ -16,13 +16,11 @@ interface NavBarProps {
 }
 
 export const NavBar = (props: NavBarProps) => (
-    <div className="header">
-        <nav
-            className={`navbar type-garamond-regular font-size-medium ${props.className}`}
-        >
-            {props.children}
-        </nav>
-    </div>
+    <nav
+        className={`navbar type-garamond-regular font-size-medium ${props.className}`}
+    >
+        {props.children}
+    </nav>
 )
 
 interface NavItemProps {
@@ -86,5 +84,26 @@ interface DropdownItemsProps {
 export const DropdownItem = (props: DropdownItemsProps) => (
     <Link to={props.linkPath} className="dropdown-item">
         {props.title}
+    </Link>
+)
+
+interface MobileNavItemProps {
+    title?: string
+    icon?: React.ReactNode
+    color?: Color
+    linkPath?: string
+    children?: React.ReactNode
+}
+
+export const MobileNavItem = ({
+    title,
+    linkPath = '#',
+    icon,
+}: MobileNavItemProps) => (
+    <Link to={linkPath} className="mobile-navitem">
+        {icon}
+        {title !== undefined && (
+            <span className=" type-sourcesans-regular">{title}</span>
+        )}
     </Link>
 )

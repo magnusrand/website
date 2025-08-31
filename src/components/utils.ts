@@ -1,6 +1,10 @@
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { PhotoData } from 'src/types'
+
+export const BREAKPOINTS = {
+    mobile: 800,
+}
 
 export function getShutterSpeedFraction(value: number | undefined) {
     if (value === undefined) return ''
@@ -65,4 +69,27 @@ export function moveToIndex(
     _array.splice(old_index, 1)
     _array.splice(new_index, 0, element)
     return _array
+}
+
+export function useWindowDimensions() {
+    const [windowDimensions, setWindowDimensions] = React.useState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+    })
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            setWindowDimensions({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            })
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+
+    return windowDimensions
 }
