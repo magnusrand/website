@@ -25,68 +25,58 @@ export const DesktopNavBar = ({
 
     if (showCollapsed)
         return (
-            <div className="header">
-                <NavBar
-                    className={classNames('main-navbar', 'fade-in', {
-                        'fade-out': !scrolled,
-                    })}
+            <NavBar
+                className={classNames('main-navbar', 'fade-in', {
+                    'fade-out': !scrolled,
+                })}
+            >
+                <div
+                    className={classNames(
+                        'main-navbar--collapsed font-size-small',
+                        {
+                            'main-navbar--collapsed--opened': !scrolled,
+                        },
+                    )}
                 >
-                    <div
-                        className={classNames(
-                            'main-navbar--collapsed font-size-small',
-                            {
-                                'main-navbar--collapsed--opened': !scrolled,
-                            },
-                        )}
+                    <button
+                        className="main-navbar--collapsed__button"
+                        onClick={toggleCollapsed}
                     >
-                        <button
-                            className="main-navbar--collapsed__button"
-                            onClick={toggleCollapsed}
-                        >
-                            Meny
-                        </button>
-                    </div>
-                </NavBar>
-            </div>
+                        Meny
+                    </button>
+                </div>
+            </NavBar>
         )
 
     return (
-        <div className="header">
-            <NavBar
-                className={classNames('main-navbar', 'fade-in', {
-                    'fade-out': scrolled,
-                })}
-            >
-                <NavItem title="Fotografi" color={Color.DARK1}>
-                    <Dropdown>
-                        <DropdownItem
-                            title="Utvalgte"
-                            linkPath="/foto/utvalgte"
-                        />
-                        <DropdownItem
-                            title="Alle album"
-                            linkPath="/foto/album"
-                        />
-                        <DropdownItem
-                            title="Etiketter"
-                            linkPath="/foto/etiketter"
-                        />
-                    </Dropdown>
-                </NavItem>
-                <NavItem
-                    title="GitHub"
-                    color={Color.DARK2}
-                    expandIcon={false}
-                    linkPath="/github"
-                />
-                <NavItem title="Annet" color={Color.DARK3}>
-                    <Dropdown>
-                        <DropdownItem title="LinkedIn" linkPath="/linkedin" />
-                        <DropdownItem title="Musikk" linkPath="/musikk" />
-                    </Dropdown>
-                </NavItem>
-                {!hideHomeLogo && <HomeLogo />}
-            </NavBar>
-        </div>
+        <NavBar
+            className={classNames('main-navbar', 'fade-in', {
+                'fade-out': scrolled,
+            })}
+        >
+            <NavItem title="Fotografi" color={Color.DARK1}>
+                <Dropdown>
+                    <DropdownItem title="Utvalgte" linkPath="/foto/utvalgte" />
+                    <DropdownItem title="Alle album" linkPath="/foto/album" />
+                    <DropdownItem
+                        title="Etiketter"
+                        linkPath="/foto/etiketter"
+                    />
+                </Dropdown>
+            </NavItem>
+            <NavItem
+                title="GitHub"
+                color={Color.DARK2}
+                expandIcon={false}
+                linkPath="/github"
+            />
+            <NavItem title="Annet" color={Color.DARK3}>
+                <Dropdown>
+                    <DropdownItem title="LinkedIn" linkPath="/linkedin" />
+                    <DropdownItem title="Musikk" linkPath="/musikk" />
+                </Dropdown>
+            </NavItem>
+            {!hideHomeLogo && <HomeLogo />}
+        </NavBar>
     )
 }

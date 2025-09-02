@@ -2,6 +2,7 @@
     position: fixed;
     bottom: 5%;
     right: 50%;
+    top: unset;
     transform: translateX(50%);
     max-width: 20rem;
     margin-inline: auto;
@@ -60,16 +61,11 @@
     }
 
     .mobile-navbar--collapsed__button {
-        border: none;
-        margin: 0;
-        padding: 0;
-        width: auto;
-        height: 1.5rem;
-        overflow: visible;
+        all: unset;
 
-        background: transparent;
-        color: inherit;
-        font: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     & + * {

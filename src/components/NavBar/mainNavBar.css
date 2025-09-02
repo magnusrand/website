@@ -1,16 +1,18 @@
-.header {
-    position: sticky;
-    align-self: start;
+.navbar {
+    position: fixed;
     top: 0;
-    
+    width: 100%;
+    height: calc(var(--row-height) - var(--row-gap));
+    margin-top: var(--margin-top-main);
+    transition: opacity 1s ease-in-out;
+
     &:has(.main-navbar--collapsed) {
-        height: 5vh;
         mix-blend-mode: difference;
     }
 
-    .navbar {
-        height: calc(var(--row-height) - var(--row-gap));
-        margin-top: var(--margin-top-main);
+    &:has(~ .main-grid .fullscreen-overlay--active) {
+        opacity: 0;
+        pointer-events: none;
     }
 }
 
@@ -22,12 +24,11 @@
     margin-inline: auto;
     display: flex;
     height: fit-content;
-    
+
     transition: all 0.5s ease-in-out;
     animation: expand-lines 0.5s ease-in-out;
 
     color: var(--navbar-color);
-    mix-blend-mode:difference;
 
     &:has(.main-navbar--collapsed__button:hover) {
         --line-width: 4vw;
@@ -48,30 +49,16 @@
         &:focus {
             outline: solid 2px var(--theme-color-difference);
         }
-
     }
-    &::after, &::before {
+    &::after,
+    &::before {
         content: '';
         display: block;
         width: var(--line-width);
         height: 2px;
-        background-color: var(--navbar-color);;
+        background-color: var(--navbar-color);
         margin-block: auto;
         transition: all 0.5s ease-in-out;
-    }
-}
-
-@media only screen and (max-width: 800px) {
-    .header {
-        position: sticky;
-        bottom: var(--margin-top-main);
-        margin-bottom: var(--margin-top-main);
-        align-self: start;
-        
-        &:has(.main-navbar--collapsed) {
-            height: 5vh;
-            mix-blend-mode: difference;
-        }
     }
 }
 
@@ -87,7 +74,8 @@
 @keyframes expand-in {
     from {
         transform: scale(0.9);
-    } to {
+    }
+    to {
         transform: scale(1);
     }
 }

@@ -56,7 +56,6 @@ export const AlbumsPage = () => {
 
     return (
         <div className="main-grid albums-page">
-            <MainNavBar />
             <div className="albums-page__list-wrapper">
                 {!loading && (
                     <>

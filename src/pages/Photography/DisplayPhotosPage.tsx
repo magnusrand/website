@@ -110,7 +110,6 @@ export const DisplayPhotosPage = () => {
 
     return (
         <div className="main-grid displayed-photos-page">
-            <MainNavBar hideNavbar={fullscreenPhotoName !== undefined} />
             <SiteHeading
                 siteName={displayedAlbumName()}
                 headingRef={headingRef}

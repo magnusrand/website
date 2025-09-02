@@ -1,9 +1,10 @@
 .site-heading__horizontal-bar {
     &-top {
         grid-column: 6 / 12;
-        grid-row: 2 / 3;
 
         height: var(--row-height);
+
+        margin-top: auto;
 
         background-color: var(--theme-color-secondary);
 
@@ -22,7 +23,7 @@
     }
     &-bottom {
         grid-column: 4 / 12;
-        grid-row: 3 / 4;
+        grid-row: 2;
 
         height: var(--row-height);
 
@@ -33,13 +34,16 @@
 
         &__text-container {
             grid-column: 4 / 12;
-            grid-row: 3 / 4;
+            grid-row: 2;
             width: 100%;
             height: var(--row-height);
 
             &__text {
                 --calculated-font-size: 200;
-                --font-size: min(var(--calculated-font-size), calc(var(--row-height) * 1.55));
+                --font-size: min(
+                    var(--calculated-font-size),
+                    calc(var(--row-height) * 1.55)
+                );
                 margin: 0; /* remove margin from h2 tag */
                 width: fit-content;
                 height: 100%;
@@ -75,7 +79,6 @@
     .site-heading__horizontal-bar {
         &-top {
             grid-column: 1 / -1;
-            grid-row: 1 / 2;
             &__text {
                 grid-column: 1 / -1;
                 grid-row: 1 / 2;
@@ -83,13 +86,10 @@
         }
         &-bottom {
             grid-column: 1 / -1;
-            grid-row: 2 / 3;
             &__text-container {
                 grid-column: 1 / -1;
-                grid-row: 2 / 3;
                 &__text {
                     grid-column: 1 / -1;
-                    grid-row: 2 / 3;
                 }
             }
         }

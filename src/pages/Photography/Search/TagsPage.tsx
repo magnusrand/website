@@ -67,7 +67,6 @@ export const TagsPage = () => {
 
     return (
         <div className="main-grid tags-page">
-            <MainNavBar />
             <main className="">
                 <TagGroup
                     className={`tags-page__tag-group${

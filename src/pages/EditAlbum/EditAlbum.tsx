@@ -165,7 +165,6 @@ export const EditAlbum = () => {
 
     return (
         <div className="main-grid">
-            <MainNavBar />
             <div className="edit-album-page">
                 {isAllowedToEdit ? (
                     <>

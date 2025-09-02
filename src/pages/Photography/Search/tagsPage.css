@@ -1,13 +1,15 @@
-.app {
+#app {
     height: 100vh;
     height: 100dvh;
 }
 
-.main-grid.tags-page {
+:root:has(.tags-page) {
     --theme-color: var(--light-color-2);
     --theme-color-secondary: var(--light-color-1);
     --theme-color-difference: var(--dark-color-2);
+}
 
+.main-grid.tags-page {
     --row-gap: 2rem;
 
     position: relative;
@@ -24,6 +26,8 @@
         grid-template-rows: auto;
         row-gap: var(--row-gap);
         column-gap: var(--row-gap);
+
+        margin-top: 10vh;
 
         .tags-page__tag-group {
             grid-column: 1 / -1;

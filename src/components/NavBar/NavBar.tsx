@@ -40,8 +40,14 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
 
     const debounceMouseLeave = useDebounce(() => setOpen(false), 300)
 
+    const Element = props.linkPath !== undefined ? Link : 'button'
+
+    const conditionalProps = {
+        ...(props.linkPath !== undefined && { to: props.linkPath ?? '' }),
+    }
+
     return (
-        <div
+        <Element
             className={`navitem ${open ? 'hover' : ''}`}
             style={{
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,17 +58,17 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
             onClick={() => {
                 if (!props.linkPath) onClick()
             }}
+            to=""
+            {...conditionalProps}
         >
-            <Link to={props.linkPath ?? ''}>
-                {props.title}
-                {expandIcon && (
-                    <IoTriangleSharp
-                        className={`expand-icon ${open ? 'open' : ''}`}
-                    />
-                )}
-            </Link>
+            {props.title}
+            {expandIcon && (
+                <IoTriangleSharp
+                    className={`expand-icon ${open ? 'open' : ''}`}
+                />
+            )}
             {open && props.children}
-        </div>
+        </Element>
     )
 }
 
@@ -95,11 +101,15 @@ interface MobileNavItemProps {
     children?: React.ReactNode
 }
 
-export const MobileNavItem = ({ title, linkPath = '#', icon }: MobileNavItemProps) => (
+export const MobileNavItem = ({
+    title,
+    linkPath = '#',
+    icon,
+}: MobileNavItemProps) => (
     <Link to={linkPath} className="mobile-navitem fade-in">
         {icon}
         {title !== undefined && (
-            <span className=" type-sourcesans-regular">{title}</span>
+            <span className="type-sourcesans-regular">{title}</span>
         )}
     </Link>
 )
