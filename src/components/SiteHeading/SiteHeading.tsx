@@ -1,51 +1,76 @@
 import React, { useEffect } from 'react'
 
 import './siteHeading.css'
+import { useWindowDimensions } from '@components/utils'
 
 export const SiteHeading = (props: {
     siteName: string
     headingRef?: React.RefObject<HTMLDivElement>
 }) => {
-    const MAX_FONT_SIZE = 200
-    const containerRef = React.useRef<HTMLDivElement | null>(null)
-    const textRef = React.useRef<HTMLDivElement | null>(null)
-    const [fontSize, setFontSize] = React.useState(MAX_FONT_SIZE)
+    const containerRef = React.useRef<HTMLDivElement>(null)
+    const headingRef = React.useRef<HTMLHeadingElement>(null)
+    const canvasRef = React.useRef<HTMLCanvasElement>(
+        document.createElement('canvas'),
+    )
 
-    React.useEffect(() => {
-        const adjustFontSize = () => {
-            if (!containerRef.current || !textRef.current) return
+    React.useLayoutEffect(() => {
+        const container = containerRef.current
+        const heading = headingRef.current
+        if (!container || !heading) return
 
-            const containerWidth = containerRef.current.offsetWidth
-            const textWidth = textRef.current.offsetWidth
+        // Measure with canvas and fit font-size to both width and cap-height
+        const computeFontSize = () => {
+            const text = (heading.textContent || '').trim()
+            if (!text) return
 
-            if (textWidth > containerWidth) {
-                let newFontSize = MAX_FONT_SIZE
-                while (
-                    textRef.current.offsetWidth > containerWidth &&
-                    newFontSize > 5
-                ) {
-                    newFontSize -= 1
-                    setFontSize(newFontSize)
-                }
+            const {
+                clientWidth: containerWidth,
+                clientHeight: containerHeight,
+            } = container
+            if (containerWidth <= 0 || containerHeight <= 0) return
+
+            const ctx = canvasRef.current.getContext('2d')
+            if (!ctx) return
+
+            const measureSize = 100
+            const headingStyle = getComputedStyle(heading)
+
+            ctx.font = `${headingStyle.fontStyle} ${headingStyle.fontVariant} ${headingStyle.fontWeight} '100%' ${measureSize}px ${headingStyle.fontFamily}`
+
+            const widthInActualPx = ctx.measureText(text).width / measureSize
+
+            // Cap height proxy via 'H'
+            const capitalLetter = ctx.measureText('H')
+            const capHeightRelativeToMeasure =
+                capitalLetter.actualBoundingBoxAscent ??
+                capitalLetter.fontBoundingBoxAscent ??
+                measureSize * 0.7
+            const capHeightInActualPx = capHeightRelativeToMeasure / measureSize
+
+            const fromHeight = containerHeight / capHeightInActualPx
+            const fromWidth = containerWidth / widthInActualPx
+            const calculatedFontSize = Math.floor(
+                Math.min(fromHeight, fromWidth) / 9,
+            )
+
+            if (Number.isFinite(calculatedFontSize)) {
+                heading.style.setProperty(
+                    '--calculated-font-size',
+                    `${calculatedFontSize}px`,
+                )
             }
         }
 
-        const observer = new ResizeObserver(adjustFontSize)
-        if (containerRef.current) {
-            observer.observe(containerRef.current)
-        }
+        const ro = new ResizeObserver(() =>
+            // Request animation frame to avoid two updates in same frame
+            requestAnimationFrame(computeFontSize),
+        )
+        ro.observe(container)
+        document.fonts?.ready?.then(computeFontSize)
+        computeFontSize()
 
-        return () => observer.disconnect()
+        return () => ro.disconnect()
     }, [])
-
-    useEffect(() => {
-        if (textRef.current) {
-            textRef.current.style.setProperty(
-                '--calculated-font-size',
-                `${fontSize}px`,
-            )
-        }
-    }, [fontSize])
 
     const formatedSiteName = props.siteName
         .toLowerCase()
@@ -69,7 +94,7 @@ export const SiteHeading = (props: {
             >
                 <h2
                     className="site-heading__horizontal-bar-bottom__text-container__text type-garamond-regular font-size-extralarge"
-                    ref={textRef}
+                    ref={headingRef}
                 >
                     {`– ${formatedSiteName}`}
                 </h2>
