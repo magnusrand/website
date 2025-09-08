@@ -1,17 +1,15 @@
-.edit-album-page {
-    grid-column: 2 / -2;
+.main-grid.edit-album-page {
+    padding-top: 12vh;
+    grid-template-rows: unset;
+    height: calc(100dvh - 12vh);
+    overflow: auto;
 
-    display: grid;
-    grid-template-columns: subgrid;
-    row-gap: 2rem;
+    > * {
+        grid-column: 2 / -2;
+    }
 
     .header {
         height: 5vh;
-    }
-
-    .edit-album-page__album-select {
-        grid-column: span 12;
-        margin-top: 2.5rem;
     }
 
     .edit-album-page__album-collection-settings {
@@ -31,7 +29,6 @@
     }
 
     .edit-album-page__current-album-header {
-        grid-column: span 12;
         text-transform: capitalize;
 
         > * {
@@ -39,8 +36,16 @@
         }
     }
 
-    .edit-photo-data-card{
-        grid-column: span 4;
+    .edit-album-page__photo-list {
+        grid-column: 2 / -2;
+        display: grid;
+        grid-template-columns: subgrid;
+        gap: 1rem;
+
+        .edit-photo-data-card {
+            box-sizing: border-box;
+            grid-column: span 4;
+        }
     }
 
     .edit-album-page__not-logged-in {
@@ -48,9 +53,9 @@
     }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     .edit-album-page {
-        .edit-photo-data-card{
+        .edit-photo-data-card {
             grid-column: span 12;
         }
     }

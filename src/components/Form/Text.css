@@ -9,6 +9,7 @@
 
 .mr-textfield,
 .mr-textarea {
+    display: block;
     background: var(--theme-color-secondary);
     color: var(--dark-color-3);
     padding-inline: 0.5rem;
@@ -22,6 +23,7 @@
 }
 
 .mr-form-label {
+    display: block;
     font-family: "Source Sans 3";
     font-variant: small-caps;
     font-weight: 400;

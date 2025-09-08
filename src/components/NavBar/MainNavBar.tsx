@@ -6,6 +6,7 @@ import { DesktopNavBar } from './DesktopNavBar'
 import { BREAKPOINTS, useWindowDimensions } from '@components/utils'
 
 import './mainNavBar.css'
+import { useLocation } from 'react-router-dom'
 
 export const MainNavBar = ({
     hideHomeLogo = false,
@@ -14,6 +15,7 @@ export const MainNavBar = ({
     const [scrolled, setScrolled] = React.useState(false)
     const [showCollapsed, setShowCollapsed] = React.useState(false)
     const { width } = useWindowDimensions()
+    const { pathname } = useLocation()
 
     React.useEffect(() => {
         const mainGrid = document.querySelector('.main-grid')
@@ -41,10 +43,11 @@ export const MainNavBar = ({
                 mainGrid.removeEventListener('scroll', handleNavbarCollapse)
             }
         }
-    }, [scrolled])
+    }, [scrolled, pathname])
 
     React.useEffect(() => {
         const mainGrid = document.querySelector('.main-grid')
+
         const handleScrollState = () => {
             if (mainGrid && mainGrid.scrollTop > 0) {
                 setScrolled(true)
@@ -60,7 +63,7 @@ export const MainNavBar = ({
                 mainGrid.removeEventListener('scroll', handleScrollState)
             }
         }
-    }, [])
+    }, [pathname])
 
     if (width < BREAKPOINTS.mobile) {
         return (

@@ -212,7 +212,6 @@
             grid-column-start: 2;
             grid-row-start: 1;
 
-            margin-top: 1vw;
             margin-left: calc(100vw * -0.7);
 
             font-size: calc(100vw * 3.8);
