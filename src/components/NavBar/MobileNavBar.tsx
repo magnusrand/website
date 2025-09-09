@@ -1,13 +1,25 @@
 import React from 'react'
-import { MobileNavItem, NavBar } from './NavBar'
+import classNames from 'classnames'
+import {
+    MobileNavDropdown,
+    MobileNavDropdownItem,
+    MobileNavItem,
+    NavBar,
+} from './NavBar'
 
 import './mobile-navbar-styles.css'
-import { MdCamera, MdMenu, MdOutlineGridView } from 'react-icons/md'
-import { FaGithub } from 'react-icons/fa'
+import {
+    MdAlbum,
+    MdCamera,
+    MdMenu,
+    MdOutlineGridView,
+    MdOutlinePhotoLibrary,
+    MdTag,
+} from 'react-icons/md'
+import { FaGithub, FaLinkedin, FaSoundcloud, FaTags } from 'react-icons/fa'
+import { TbPhotoStar } from 'react-icons/tb'
 
 import HomeLogoSvg from '@assets/images/magnusrand.svg'
-import { useLocation } from 'react-router-dom'
-import classNames from 'classnames'
 
 export const MobileNavBar = ({
     hideHomeLogo = false,
@@ -37,21 +49,43 @@ export const MobileNavBar = ({
                             linkPath="/"
                         />
                     )}
-                    <MobileNavItem
-                        title="Foto"
-                        icon={<MdCamera />}
-                        linkPath="/foto/album"
-                    />
+                    <MobileNavDropdown title="Foto" icon={<MdCamera />}>
+                        <MobileNavDropdownItem
+                            title="Etiketter"
+                            icon={<FaTags />}
+                            linkPath="foto/etiketter"
+                        />
+                        <MobileNavDropdownItem
+                            title="Album"
+                            icon={<MdAlbum />}
+                            linkPath="foto/album"
+                        />
+                        <MobileNavDropdownItem
+                            title="Utvalgte"
+                            icon={<MdOutlinePhotoLibrary />}
+                            linkPath="foto/utvalgte"
+                        />
+                    </MobileNavDropdown>
                     <MobileNavItem
                         title="Github"
                         icon={<FaGithub />}
                         linkPath="/github"
                     />
-                    <MobileNavItem
+                    <MobileNavDropdown
                         title="Annet"
                         icon={<MdOutlineGridView />}
-                        linkPath="/annet"
-                    />
+                    >
+                        <MobileNavDropdownItem
+                            title="LinkedIn"
+                            icon={<FaLinkedin />}
+                            linkPath="linkedin"
+                        />
+                        <MobileNavDropdownItem
+                            title="Musikk"
+                            icon={<FaSoundcloud />}
+                            linkPath="musikk"
+                        />
+                    </MobileNavDropdown>
                 </>
             )}
             {showCollapsed && (

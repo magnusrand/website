@@ -34,6 +34,9 @@
     --light-color-1: rgba(234, 226, 183, 0.8);
     --light-color-2: rgba(252, 191, 73, 0.8);
     --light-color-3: rgba(251, 133, 0, 0.8);
+    --light-color-1--solid: rgb(234, 226, 183);
+    --light-color-2--solid: rgb(252, 191, 73);
+    --light-color-3--solid: rgb(251, 133, 0);
     --dark-color-1: #219ebc;
     --dark-color-2: #116783;
     --dark-color-3: #003049;
@@ -57,7 +60,7 @@
     --row-gap: 2.5rem;
     --column-gap: 1.25rem;
 
-    --theme-color: var(--light-color-2);
+    --theme-color: var(--light-color-2--solid);
     --theme-color-secondary: var(--light-color-1);
     --theme-color-difference: var(--dark-color-2);
 }

@@ -1,5 +1,5 @@
 :root:has(.albums-page) {
-    --theme-color: var(--light-color-2);
+    --theme-color: var(--light-color-2--solid);
     --theme-color-secondary: var(--light-color-1);
     --theme-color-difference: var(--dark-color-2);
 }

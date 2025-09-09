@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 
 import { IoTriangleSharp } from 'react-icons/io5'
 
@@ -109,7 +110,52 @@ export const MobileNavItem = ({
     <Link to={linkPath} className="mobile-navitem fade-in">
         {icon}
         {title !== undefined && (
-            <span className="type-sourcesans-regular">{title}</span>
+            <span className="mobile-navitem__title type-sourcesans-regular">
+                {title}
+            </span>
+        )}
+    </Link>
+)
+
+export const MobileNavDropdown = ({
+    title,
+    icon,
+    children,
+}: MobileNavItemProps) => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    return (
+        <div
+            className={classNames(
+                'mobile-navitem mobile-navitem--dropdown fade-in',
+                { 'mobile-navitem--dropdown--open': isOpen },
+            )}
+            onClick={() => setIsOpen(!isOpen)}
+        >
+            <span className="mobile-navitem--dropdown__item fade-in">
+                {icon}
+                {title !== undefined && (
+                    <span className="mobile-navitem__title type-sourcesans-regular">
+                        {title}
+                    </span>
+                )}
+            </span>
+            {isOpen && <>{children}</>}
+        </div>
+    )
+}
+
+export const MobileNavDropdownItem = ({
+    title,
+    linkPath = '#',
+    icon,
+}: MobileNavItemProps) => (
+    <Link to={linkPath} className="mobile-navitem--dropdown__item fade-in">
+        {icon}
+        {title !== undefined && (
+            <span className="mobile-navitem__title type-sourcesans-regular">
+                {title}
+            </span>
         )}
     </Link>
 )
