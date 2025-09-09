@@ -94,7 +94,7 @@ export const DropdownItem = (props: DropdownItemsProps) => (
     </Link>
 )
 
-interface MobileNavItemProps {
+type MobileNavItemProps = {
     title?: string
     icon?: React.ReactNode
     color?: Color

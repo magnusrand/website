@@ -1,6 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
 import {
+    MdAlbum,
+    MdCamera,
+    MdMenu,
+    MdOutlineGridView,
+    MdOutlinePhotoLibrary,
+} from 'react-icons/md'
+import { FaGithub, FaLinkedin, FaSoundcloud, FaTags } from 'react-icons/fa'
+import {
     MobileNavDropdown,
     MobileNavDropdownItem,
     MobileNavItem,
@@ -8,16 +16,6 @@ import {
 } from './NavBar'
 
 import './mobile-navbar-styles.css'
-import {
-    MdAlbum,
-    MdCamera,
-    MdMenu,
-    MdOutlineGridView,
-    MdOutlinePhotoLibrary,
-    MdTag,
-} from 'react-icons/md'
-import { FaGithub, FaLinkedin, FaSoundcloud, FaTags } from 'react-icons/fa'
-import { TbPhotoStar } from 'react-icons/tb'
 
 import HomeLogoSvg from '@assets/images/magnusrand.svg'
 
