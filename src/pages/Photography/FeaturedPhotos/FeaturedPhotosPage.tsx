@@ -103,7 +103,6 @@ export const FeaturedPhotosPage = () => {
                 'fullscreen-active': fullscreenPhotoName !== null,
             })}
         >
-            <MainNavBar />
             <SiteHeading siteName={PAGE_TITLE} headingRef={headingRef} />
             {sortedPhotos.length > 0 && (
                 <button
@@ -118,7 +117,10 @@ export const FeaturedPhotosPage = () => {
                         const firstPhoto =
                             document.getElementsByClassName('photo')?.[0]
                         if (firstPhoto) {
-                            firstPhoto.scrollIntoView({ behavior: 'smooth' })
+                            firstPhoto.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center',
+                            })
                         }
                     }}
                 >

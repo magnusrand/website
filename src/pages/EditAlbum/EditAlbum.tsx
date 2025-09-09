@@ -164,83 +164,78 @@ export const EditAlbum = () => {
     }
 
     return (
-        <div className="main-grid">
-            <MainNavBar />
-            <div className="edit-album-page">
-                {isAllowedToEdit ? (
-                    <>
-                        <div className="edit-album-page__upload">
-                            <Label>Velg bilder</Label>
-                            <input
-                                name="photo_upload"
-                                type="file"
-                                multiple
-                                onChange={handleFileSelected}
-                                style={{ marginBottom: '1rem' }}
-                            />
-                            <Label>Velg album</Label>
-                            <TextField
-                                name="photo_album_name"
-                                value={photosForUploadAlbumName}
-                                onChange={(e) =>
-                                    setPhotosForUploadAlbumName(e.target.value)
-                                }
-                                style={{ marginBottom: '1rem' }}
-                            />
-                            <Button onClick={uploadPhotos}>Last opp</Button>
-                            {uploadFeedback !== '' && (
-                                <div>{uploadFeedback}</div>
+        <div className="main-grid edit-album-page">
+            {isAllowedToEdit ? (
+                <>
+                    <div className="edit-album-page__upload">
+                        <Label>Velg bilder</Label>
+                        <input
+                            name="photo_upload"
+                            type="file"
+                            multiple
+                            onChange={handleFileSelected}
+                            style={{ marginBottom: '1rem' }}
+                        />
+                        <Label>Velg album</Label>
+                        <TextField
+                            name="photo_album_name"
+                            value={photosForUploadAlbumName}
+                            onChange={(e) =>
+                                setPhotosForUploadAlbumName(e.target.value)
+                            }
+                            style={{ marginBottom: '1rem' }}
+                        />
+                        <Button onClick={uploadPhotos}>Last opp</Button>
+                        {uploadFeedback !== '' && <div>{uploadFeedback}</div>}
+                    </div>
+                    <div className="edit-album-page__album-select">
+                        <Label htmlFor="album-select">Album: </Label>
+                        <select
+                            name="album"
+                            id="album-select"
+                            onChange={(e) =>
+                                setSearchParams({
+                                    album: e.currentTarget.value,
+                                })
+                            }
+                            value={currentAlbumName ?? '-'}
+                        >
+                            {currentAlbumName === null && (
+                                <option key="nothing" value="-">
+                                    -
+                                </option>
                             )}
-                        </div>
-                        <div className="edit-album-page__album-select">
-                            <Label htmlFor="album-select">Album: </Label>
-                            <select
-                                name="album"
-                                id="album-select"
-                                onChange={(e) =>
-                                    setSearchParams({
-                                        album: e.currentTarget.value,
-                                    })
-                                }
-                                value={currentAlbumName ?? '-'}
-                            >
-                                {currentAlbumName === null && (
-                                    <option key="nothing" value="-">
-                                        -
-                                    </option>
-                                )}
-                                {albums.map((album) => (
-                                    <option
-                                        key={album?.documentRef.id}
-                                        value={album.name}
-                                    >
-                                        {album.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                            {albums.map((album) => (
+                                <option
+                                    key={album?.documentRef.id}
+                                    value={album.name}
+                                >
+                                    {album.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                        <div className="edit-album-page__current-album-header type-garamond-regular font-size-medium">
-                            <h1>{currentAlbumName ?? 'Velg album'}</h1>
-                            <div className="edit-album-page__album-collection-settings">
-                                <div>
-                                    <Label htmlFor="albumCollection">
-                                        Albumsamling
-                                    </Label>
-                                    <div className="edit-album-page__album-collection-settings__field">
-                                        <TextField id="albumCollection" />
-                                        <Button
-                                            className="type-sourcesans-regular"
-                                            onClick={updateAlbumCollection}
-                                        >
-                                            Oppdater
-                                        </Button>
-                                    </div>
+                    <div className="edit-album-page__current-album-header type-garamond-regular font-size-medium">
+                        <h1>{currentAlbumName ?? 'Velg album'}</h1>
+                        <div className="edit-album-page__album-collection-settings">
+                            <div>
+                                <Label htmlFor="albumCollection">
+                                    Albumsamling
+                                </Label>
+                                <div className="edit-album-page__album-collection-settings__field">
+                                    <TextField id="albumCollection" />
+                                    <Button
+                                        className="type-sourcesans-regular"
+                                        onClick={updateAlbumCollection}
+                                    >
+                                        Oppdater
+                                    </Button>
                                 </div>
-                                <div className="edit-album-page__album-sort">
-                                    <Label htmlFor="album-sort">
-                                        Sortering:{' '}
-                                    </Label>
+                            </div>
+                            <div className="edit-album-page__album-sort">
+                                <Label htmlFor="album-sort">Sortering: </Label>
+                                <div className="edit-album-page__album-collection-settings__field">
                                     <select
                                         name="sort"
                                         id="album-sort"
@@ -262,12 +257,14 @@ export const EditAlbum = () => {
                                             ),
                                         )}
                                     </select>
-                                    <button onClick={updateSortingOrder}>
+                                    <Button onClick={updateSortingOrder}>
                                         Oppdater
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className="edit-album-page__photo-list">
                         {currentAlbumName !== null &&
                             sortedPhotos.map((photo, index) => (
                                 <EditPhotoDataCard
@@ -289,14 +286,14 @@ export const EditAlbum = () => {
                                     }
                                 />
                             ))}
-                    </>
-                ) : (
-                    <div className="edit-album-page__not-logged-in">
-                        <h1>Du må logge inn som admin for å redigere</h1>
-                        <Link to="/login">Login-side</Link>
                     </div>
-                )}
-            </div>
+                </>
+            ) : (
+                <div className="edit-album-page__not-logged-in">
+                    <h1>Du må logge inn som admin for å redigere</h1>
+                    <Link to="/login">Login-side</Link>
+                </div>
+            )}
         </div>
     )
 }

@@ -1,6 +1,13 @@
 /* eslint import/order: 0 */
 import React from 'react'
-import { Route, BrowserRouter, Routes, Link } from 'react-router-dom'
+import {
+    Route,
+    BrowserRouter,
+    Routes,
+    Link,
+    useLocation,
+    useParams,
+} from 'react-router-dom'
 
 import './main-styles.css'
 
@@ -14,67 +21,77 @@ import { TagsPage } from '@pages/Photography/Search/TagsPage'
 
 import { Redirect } from '@components/Redirect'
 import { VisualBackgroundGrid } from '@components/BackgroundGrid'
+import { MainNavBar } from '@components/NavBar/MainNavBar'
 
 export const App = () => (
     <BrowserRouter>
-        <div className="app">
+        <StaticUI />
+        <Routing />
+    </BrowserRouter>
+)
+
+const StaticUI = () => {
+    const location = useLocation()
+    const params = useParams()
+
+    console.log('params', params)
+
+    const fullscreenPhotoName = params.photo?.toLowerCase()
+    return (
+        <>
             <VisualBackgroundGrid
                 numberOfRows={Math.ceil(window.innerHeight / (10.5 * 16))}
                 numberOfColumns={3}
                 visible={false}
             />
+            <MainNavBar
+                hideHomeLogo={location.pathname === '/'}
+                hideNavbar={fullscreenPhotoName !== undefined}
+            />
+        </>
+    )
+}
 
-            <Routes>
-                <Route index element={<LandingPage />} />
-                <Route path="admin" element={<EditAlbum />} />
-                <Route path="foto/album" element={<AlbumsPage />} />
-                <Route path="foto/etiketter/:photo" element={<TagsPage />} />
-                <Route path="foto/etiketter" element={<TagsPage />} />
-                <Route
-                    path="foto/utvalgte/:photo"
-                    element={<FeaturedPhotosPage />}
-                />
-                <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
-                <Route
-                    path="foto/album/:albumName/:photo"
-                    element={<DisplayPhotosPage />}
-                />
-                <Route
-                    path="foto/album/:albumName"
-                    element={<DisplayPhotosPage />}
-                />
-                <Route
-                    path="github"
-                    element={
-                        <Redirect linkPath="https://github.com/magnusrand" />
-                    }
-                />
-                <Route
-                    path="linkedin"
-                    element={
-                        <Redirect linkPath="https://www.linkedin.com/in/magnus-rand-363489122/" />
-                    }
-                />
-                <Route
-                    path="musikk"
-                    element={
-                        <Redirect linkPath="https://soundcloud.com/magnus-rand" />
-                    }
-                />
-                <Route path="login" element={<LogIn />} />
-                <Route
-                    path="*"
-                    element={
-                        <div>
-                            <h1>404 – Not found </h1>
-                            <img src="https://c.tenor.com/_BiwWBWhYucAAAAd/what-huh.gif" />
-                            <Link to="/">
-                                <a>Ta meg til startsiden</a>
-                            </Link>
-                        </div>
-                    }
-                />
-            </Routes>
-        </div>
-    </BrowserRouter>
+const Routing = () => (
+    <Routes>
+        <Route index element={<LandingPage />} />
+        <Route path="admin" element={<EditAlbum />} />
+        <Route path="foto/album" element={<AlbumsPage />} />
+        <Route path="foto/etiketter/:photo" element={<TagsPage />} />
+        <Route path="foto/etiketter" element={<TagsPage />} />
+        <Route path="foto/utvalgte/:photo" element={<FeaturedPhotosPage />} />
+        <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
+        <Route
+            path="foto/album/:albumName/:photo"
+            element={<DisplayPhotosPage />}
+        />
+        <Route path="foto/album/:albumName" element={<DisplayPhotosPage />} />
+        <Route
+            path="github"
+            element={<Redirect linkPath="https://github.com/magnusrand" />}
+        />
+        <Route
+            path="linkedin"
+            element={
+                <Redirect linkPath="https://www.linkedin.com/in/magnus-rand-363489122/" />
+            }
+        />
+        <Route
+            path="musikk"
+            element={<Redirect linkPath="https://soundcloud.com/magnus-rand" />}
+        />
+        <Route path="login" element={<LogIn />} />
+        <Route
+            path="*"
+            element={
+                <div>
+                    <h1>404 – Not found </h1>
+                    <img src="https://c.tenor.com/_BiwWBWhYucAAAAd/what-huh.gif" />
+                    <Link to="/">
+                        <a>Ta meg til startsiden</a>
+                    </Link>
+                </div>
+            }
+        />
+    </Routes>
 )

@@ -1,13 +1,12 @@
 import React from 'react'
 
-import classNames from 'classnames'
+import { MobileNavBar } from './MobileNavBar'
+import { DesktopNavBar } from './DesktopNavBar'
 
-import { Color } from 'src/types'
-
-import { NavBar, NavItem, Dropdown, DropdownItem } from './NavBar'
-import { HomeLogo } from './HomeLogo'
+import { BREAKPOINTS, useWindowDimensions } from '@components/utils'
 
 import './mainNavBar.css'
+import { useLocation } from 'react-router-dom'
 
 export const MainNavBar = ({
     hideHomeLogo = false,
@@ -15,25 +14,24 @@ export const MainNavBar = ({
 }): JSX.Element => {
     const [scrolled, setScrolled] = React.useState(false)
     const [showCollapsed, setShowCollapsed] = React.useState(false)
+    const { width } = useWindowDimensions()
+    const { pathname } = useLocation()
 
     React.useEffect(() => {
         const mainGrid = document.querySelector('.main-grid')
         const handleNavbarCollapse = () => {
-            const header = document.querySelector('.header')
-            if (header) {
-                if (mainGrid && mainGrid.scrollTop > 0) {
-                    if (scrolled) return
-                    const timer = setTimeout(() => {
-                        setShowCollapsed(true)
-                    }, 500)
-                    return () => clearTimeout(timer)
-                } else {
-                    if (!scrolled) return
-                    const timer = setTimeout(() => {
-                        setShowCollapsed(false)
-                    }, 500)
-                    return () => clearTimeout(timer)
-                }
+            if (mainGrid && mainGrid.scrollTop > 0) {
+                if (scrolled) return
+                const timer = setTimeout(() => {
+                    setShowCollapsed(true)
+                }, 500)
+                return () => clearTimeout(timer)
+            } else {
+                if (!scrolled) return
+                const timer = setTimeout(() => {
+                    setShowCollapsed(false)
+                }, 500)
+                return () => clearTimeout(timer)
             }
         }
 
@@ -45,10 +43,11 @@ export const MainNavBar = ({
                 mainGrid.removeEventListener('scroll', handleNavbarCollapse)
             }
         }
-    }, [scrolled])
+    }, [scrolled, pathname])
 
     React.useEffect(() => {
         const mainGrid = document.querySelector('.main-grid')
+
         const handleScrollState = () => {
             if (mainGrid && mainGrid.scrollTop > 0) {
                 setScrolled(true)
@@ -64,65 +63,37 @@ export const MainNavBar = ({
                 mainGrid.removeEventListener('scroll', handleScrollState)
             }
         }
-    }, [])
+    }, [pathname])
 
-    if (hideNavbar) return <NavBar></NavBar>
-
-    if (showCollapsed)
+    if (width < BREAKPOINTS.mobile) {
         return (
-            <NavBar
-                className={classNames('fade-in', {
-                    'fade-out': !scrolled,
-                })}
-            >
-                <div
-                    className={classNames(
-                        'main-navbar--collapsed font-size-small',
-                        {
-                            'main-navbar--collapsed--opened': !scrolled,
-                        },
-                    )}
-                >
-                    <button
-                        className="main-navbar--collapsed__button"
-                        onClick={() => {
-                            setScrolled(false)
-                            setTimeout(() => {
-                                setShowCollapsed(false)
-                            }, 500)
-                        }}
-                    >
-                        Meny
-                    </button>
-                </div>
-            </NavBar>
+            <MobileNavBar
+                hideHomeLogo={hideHomeLogo}
+                hideNavbar={hideNavbar}
+                scrolled={scrolled}
+                showCollapsed={showCollapsed}
+                toggleCollapsed={() => {
+                    setScrolled(!showCollapsed)
+                    setTimeout(() => {
+                        setShowCollapsed(!showCollapsed)
+                    }, 500)
+                }}
+            />
         )
+    }
 
     return (
-        <NavBar className={classNames('fade-in', { 'fade-out': scrolled })}>
-            <NavItem title="Fotografi" color={Color.DARK1}>
-                <Dropdown>
-                    <DropdownItem title="Utvalgte" linkPath="/foto/utvalgte" />
-                    <DropdownItem title="Alle album" linkPath="/foto/album" />
-                    <DropdownItem
-                        title="Etiketter"
-                        linkPath="/foto/etiketter"
-                    />
-                </Dropdown>
-            </NavItem>
-            <NavItem
-                title="GitHub"
-                color={Color.DARK2}
-                expandIcon={false}
-                linkPath="/github"
-            />
-            <NavItem title="Annet" color={Color.DARK3}>
-                <Dropdown>
-                    <DropdownItem title="LinkedIn" linkPath="/linkedin" />
-                    <DropdownItem title="Musikk" linkPath="/musikk" />
-                </Dropdown>
-            </NavItem>
-            {!hideHomeLogo && <HomeLogo />}
-        </NavBar>
+        <DesktopNavBar
+            hideHomeLogo={hideHomeLogo}
+            hideNavbar={hideNavbar}
+            scrolled={scrolled}
+            showCollapsed={showCollapsed}
+            toggleCollapsed={() => {
+                setScrolled(!showCollapsed)
+                setTimeout(() => {
+                    setShowCollapsed(!showCollapsed)
+                }, 500)
+            }}
+        />
     )
 }

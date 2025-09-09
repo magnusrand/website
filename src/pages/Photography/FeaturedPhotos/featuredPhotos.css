@@ -1,20 +1,22 @@
-.app {
+#app {
     height: 100vh;
     height: 100dvh;
 }
 
+:root:has(.featured-photos-page) {
+    --theme-color: var(--dark-color-3);
+    --theme-color-secondary: var(--dark-color-2);
+    --theme-color-difference: var(--light-color-2);
+}
+
 .main-grid {
     &.featured-photos-page {
-        --theme-color: var(--dark-color-3);
-        --theme-color-secondary: var(--dark-color-2);
-        --theme-color-difference: var(--light-color-2);
-
         --frame-width: 1.5%;
         --row-height: 5rem;
         --row-gap: 1.25rem;
         --image-gap: max(50vh, 50rem);
 
-        grid-template-rows: 25vh repeat(2, var(--row-height));
+        grid-template-rows: 25vh;
 
         height: 100%;
 
@@ -49,13 +51,17 @@
             align-items: center;
             /* this makes scroll indicator the size of the remaining viewport height 
                height: calc(100vh - size-of-horizontal-texts - size-of-gaps - size-of-navbar); */
-            height: calc(100vh - (var(--row-height) * 2) - (var(--row-gap) * 3) - 25vh);
+            height: calc(
+                100vh - (var(--row-height) * 2) - (var(--row-gap) * 3) - 25vh
+            );
             margin: auto;
 
             cursor: pointer;
             white-space: nowrap;
 
-            #arrow1, #arrow2, #arrow3 {
+            #arrow1,
+            #arrow2,
+            #arrow3 {
                 stroke: var(--dark-color-3);
                 opacity: 0;
             }
@@ -64,7 +70,7 @@
             }
             #arrow2 {
                 animation: blinking 3s ease 1s infinite;
-            }   
+            }
             #arrow3 {
                 animation: blinking 3s ease 2s infinite;
             }
@@ -76,7 +82,7 @@
         .featured-photos-page__scroll-indicator--show {
             opacity: 1;
         }
-        
+
         .scroll-to-top-button {
             grid-column: 7 / -7;
             margin: auto;
@@ -94,7 +100,6 @@
             animation: fade-out 1s ease-out;
             animation-fill-mode: both;
         }
-
     }
 
     @media only screen and (max-width: 1080px) {

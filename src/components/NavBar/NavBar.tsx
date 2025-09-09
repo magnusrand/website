@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 
 import { IoTriangleSharp } from 'react-icons/io5'
 
@@ -16,13 +17,11 @@ interface NavBarProps {
 }
 
 export const NavBar = (props: NavBarProps) => (
-    <div className="header">
-        <nav
-            className={`navbar type-garamond-regular font-size-medium ${props.className}`}
-        >
-            {props.children}
-        </nav>
-    </div>
+    <nav
+        className={`navbar type-garamond-regular font-size-medium ${props.className}`}
+    >
+        {props.children}
+    </nav>
 )
 
 interface NavItemProps {
@@ -42,8 +41,14 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
 
     const debounceMouseLeave = useDebounce(() => setOpen(false), 300)
 
+    const Element = props.linkPath !== undefined ? Link : 'button'
+
+    const conditionalProps = {
+        ...(props.linkPath !== undefined && { to: props.linkPath ?? '' }),
+    }
+
     return (
-        <div
+        <Element
             className={`navitem ${open ? 'hover' : ''}`}
             style={{
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,17 +59,17 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
             onClick={() => {
                 if (!props.linkPath) onClick()
             }}
+            to=""
+            {...conditionalProps}
         >
-            <Link to={props.linkPath ?? ''}>
-                {props.title}
-                {expandIcon && (
-                    <IoTriangleSharp
-                        className={`expand-icon ${open ? 'open' : ''}`}
-                    />
-                )}
-            </Link>
+            {props.title}
+            {expandIcon && (
+                <IoTriangleSharp
+                    className={`expand-icon ${open ? 'open' : ''}`}
+                />
+            )}
             {open && props.children}
-        </div>
+        </Element>
     )
 }
 
@@ -86,5 +91,71 @@ interface DropdownItemsProps {
 export const DropdownItem = (props: DropdownItemsProps) => (
     <Link to={props.linkPath} className="dropdown-item">
         {props.title}
+    </Link>
+)
+
+interface MobileNavItemProps {
+    title?: string
+    icon?: React.ReactNode
+    color?: Color
+    linkPath?: string
+    children?: React.ReactNode
+}
+
+export const MobileNavItem = ({
+    title,
+    linkPath = '#',
+    icon,
+}: MobileNavItemProps) => (
+    <Link to={linkPath} className="mobile-navitem fade-in">
+        {icon}
+        {title !== undefined && (
+            <span className="mobile-navitem__title type-sourcesans-regular">
+                {title}
+            </span>
+        )}
+    </Link>
+)
+
+export const MobileNavDropdown = ({
+    title,
+    icon,
+    children,
+}: MobileNavItemProps) => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    return (
+        <div
+            className={classNames(
+                'mobile-navitem mobile-navitem--dropdown fade-in',
+                { 'mobile-navitem--dropdown--open': isOpen },
+            )}
+            onClick={() => setIsOpen(!isOpen)}
+        >
+            <span className="mobile-navitem--dropdown__item fade-in">
+                {icon}
+                {title !== undefined && (
+                    <span className="mobile-navitem__title type-sourcesans-regular">
+                        {title}
+                    </span>
+                )}
+            </span>
+            {isOpen && <>{children}</>}
+        </div>
+    )
+}
+
+export const MobileNavDropdownItem = ({
+    title,
+    linkPath = '#',
+    icon,
+}: MobileNavItemProps) => (
+    <Link to={linkPath} className="mobile-navitem--dropdown__item fade-in">
+        {icon}
+        {title !== undefined && (
+            <span className="mobile-navitem__title type-sourcesans-regular">
+                {title}
+            </span>
+        )}
     </Link>
 )

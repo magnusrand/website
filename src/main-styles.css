@@ -16,14 +16,16 @@
 
 @font-face {
     font-family: 'Source Sans 3';
-    src: url('./assets/fonts/SourceSans3-VariableFont_wght.ttf') format("truetype-variations");
+    src: url('./assets/fonts/SourceSans3-VariableFont_wght.ttf')
+        format('truetype-variations');
     font-style: normal;
     font-weight: 1 999;
 }
 
 @font-face {
     font-family: 'Source Sans 3';
-    src: url('./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf') format("truetype-variations");
+    src: url('./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf')
+        format('truetype-variations');
     font-style: italic;
     font-weight: 1 999;
 }
@@ -32,6 +34,9 @@
     --light-color-1: rgba(234, 226, 183, 0.8);
     --light-color-2: rgba(252, 191, 73, 0.8);
     --light-color-3: rgba(251, 133, 0, 0.8);
+    --light-color-1--solid: rgb(234, 226, 183);
+    --light-color-2--solid: rgb(252, 191, 73);
+    --light-color-3--solid: rgb(251, 133, 0);
     --dark-color-1: #219ebc;
     --dark-color-2: #116783;
     --dark-color-3: #003049;
@@ -40,7 +45,7 @@
     --white: #fffff2;
     --black: #161515;
 
-    --negative-color: #BD1D45;
+    --negative-color: #bd1d45;
 
     --font-size-small: 1.33rem;
     --font-size-medium: 2rem;
@@ -55,7 +60,7 @@
     --row-gap: 2.5rem;
     --column-gap: 1.25rem;
 
-    --theme-color: var(--light-color-2);
+    --theme-color: var(--light-color-2--solid);
     --theme-color-secondary: var(--light-color-1);
     --theme-color-difference: var(--dark-color-2);
 }
@@ -71,7 +76,7 @@ body {
     color: var(--black);
 }
 
-.app {
+#app {
     position: relative;
 }
 
@@ -175,6 +180,10 @@ a {
     row-gap: var(--row-gap);
 
     animation: fade-in 2s ease;
+
+    .spacing-box {
+        height: 10vh;
+    }
 }
 
 @media only screen and (max-width: 1080px) {
@@ -194,9 +203,10 @@ a {
         }
     }
 
-    .main-grid {
+    .main-gri:not(.landing-page) {
         padding-left: 2rem;
         padding-right: 2rem;
+        padding-bottom: 12vh;
     }
 }
 
@@ -218,6 +228,14 @@ a {
             width: calc(100% - 4rem);
         }
     }
+}
+
+.fade-in {
+    animation: fade-in 0.6s ease-in-out !important;
+}
+
+.fade-out {
+    animation: fade-out 0.6s ease-in-out !important;
 }
 
 @keyframes fade-out {

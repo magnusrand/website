@@ -1,8 +1,10 @@
-.main-grid.albums-page {
-    --theme-color: var(--light-color-2);
+:root:has(.albums-page) {
+    --theme-color: var(--light-color-2--solid);
     --theme-color-secondary: var(--light-color-1);
     --theme-color-difference: var(--dark-color-2);
+}
 
+.main-grid.albums-page {
     --row-gap: 2rem;
 
     position: relative;
@@ -32,6 +34,8 @@
         grid-template-columns: subgrid;
         grid-template-rows: auto;
         row-gap: var(--row-gap);
+
+        margin-top: 10vh;
     }
 
     .albums-page__list__album-card {
@@ -40,12 +44,11 @@
 
         margin-inline: -6%;
 
-
         .albums-page__list__album-card__image-container,
         .albums-page__list__album-card__image-container--collection,
         img {
             will-change: transform;
-            transition: all .3s;
+            transition: all 0.3s;
             transform: scale(1.111);
 
             height: 12rem;
@@ -67,11 +70,12 @@
             }
         }
 
-
         &:hover .albums-page__list__album-card__image-container,
         &:hover .albums-page__list__album-card__image-container img,
         &:hover .albums-page__list__album-card__image-container--collection,
-        &:hover .albums-page__list__album-card__image-container--collection img:hover {
+        &:hover
+            .albums-page__list__album-card__image-container--collection
+            img:hover {
             transform: scale(1);
             flex: 2;
         }
