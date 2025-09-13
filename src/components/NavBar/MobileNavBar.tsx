@@ -25,6 +25,14 @@ export const MobileNavBar = ({
     scrolled = false,
     showCollapsed = false,
     toggleCollapsed = () => {},
+    navRef,
+}: {
+    hideHomeLogo?: boolean
+    hideNavbar?: boolean
+    scrolled?: boolean
+    showCollapsed?: boolean
+    toggleCollapsed?: () => void
+    navRef?: React.RefObject<HTMLDivElement>
 }) => {
     return (
         <NavBar
@@ -32,6 +40,7 @@ export const MobileNavBar = ({
                 'mobile-navbar--collapsed': showCollapsed,
                 'mobile-navbar--animate-out': scrolled,
             })}
+            navRef={navRef}
         >
             {!showCollapsed && (
                 <>

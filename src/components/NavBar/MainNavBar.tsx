@@ -14,6 +14,7 @@ export const MainNavBar = ({
 }): JSX.Element => {
     const [scrolled, setScrolled] = React.useState(false)
     const [showCollapsed, setShowCollapsed] = React.useState(false)
+    const navRef = React.useRef<HTMLDivElement>(null)
     const { width } = useWindowDimensions()
     const { pathname } = useLocation()
 
@@ -65,6 +66,27 @@ export const MainNavBar = ({
         }
     }, [pathname])
 
+    const handleClickOutside = (event: MouseEvent) => {
+        const mainGrid = document.querySelector('.main-grid')
+
+        if (
+            navRef.current &&
+            !navRef.current.contains(event.target as Node) &&
+            mainGrid &&
+            mainGrid.scrollTop > 0
+        ) {
+            setShowCollapsed(true)
+            setScrolled(true)
+        }
+    }
+
+    React.useEffect(() => {
+        document.addEventListener('click', handleClickOutside)
+        return () => {
+            document.removeEventListener('click', handleClickOutside)
+        }
+    }, [pathname])
+
     if (width < BREAKPOINTS.mobile) {
         return (
             <MobileNavBar
@@ -78,6 +100,7 @@ export const MainNavBar = ({
                         setShowCollapsed(!showCollapsed)
                     }, 500)
                 }}
+                navRef={navRef}
             />
         )
     }

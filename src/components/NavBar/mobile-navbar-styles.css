@@ -28,6 +28,7 @@
         
         > :not(.mobile-navitem--dropdown--open) {
             opacity: 0;
+            pointer-events: none;
         }
     }
 
