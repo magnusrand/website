@@ -41,16 +41,15 @@
     .albums-page__list__album-card {
         grid-column-start: span 8;
         transition: all 0.3s ease;
-
+        animation: fade-in 2s ease;
         margin-inline: -6%;
 
         .albums-page__list__album-card__image-container,
+        .albums-page__list__album-card__image-container img,
         .albums-page__list__album-card__image-container--collection,
-        img {
-            will-change: transform;
-            transition: all 0.3s;
-            transform: scale(1.111);
-
+        .albums-page__list__album-card__image-container--collection img {
+            will-change: transform, flex;
+            transition: flex 0.3s ease-out, transform 0.3s;
             height: 12rem;
         }
 
@@ -59,32 +58,41 @@
             transform: scale(0.9);
         }
 
+        .albums-page__list__album-card__image-container img {
+            transform: scale(1.111);
+        }
+
         .albums-page__list__album-card__image-container--collection {
             overflow: hidden;
             transform: scale(0.9);
             display: flex;
 
             > * {
-                flex: 1;
+                flex: 2;
                 overflow: hidden;
             }
         }
 
+        .albums-page__list__album-card__image-container--collection img {
+            transform: scale(1.05);
+            margin-inline: -1px;
+        }
+
         &:hover .albums-page__list__album-card__image-container,
         &:hover .albums-page__list__album-card__image-container img,
-        &:hover .albums-page__list__album-card__image-container--collection,
-        &:hover
-            .albums-page__list__album-card__image-container--collection
-            img:hover {
+        .albums-page__list__album-card__image-container--collection:hover,
+        .albums-page__list__album-card__image-container--collection:hover img
+        {
             transform: scale(1);
-            flex: 2;
+        }
+
+        .albums-page__list__album-card__image-container--collection img:hover {
+            flex: 3;
         }
 
         &:hover {
             filter: opacity(0.9);
         }
-
-        animation: fade-in 2s ease;
 
         .albums-page__list__album-card__title {
             width: 100%;

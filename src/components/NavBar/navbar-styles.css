@@ -34,6 +34,10 @@
             color: white;
         }
 
+        &:focus-visible {
+            outline: solid var(--theme-color-difference) 2px;
+        }
+
         .expand-icon {
             font-size: calc(var(--font-size-medium) * 0.5);
             margin-left: 0.5rem;
