@@ -1,4 +1,4 @@
-import { DocumentReference } from 'firebase/firestore'
+import { DocumentReference, Timestamp } from 'firebase/firestore'
 
 export enum Color {
     DARK1 = '--dark-color-1',
@@ -51,7 +51,7 @@ export interface metaData {
     RecommendedExposureIndex?: number
     ExifVersion?: string
     DateTimeOriginal?: Date
-    CreateDate?: Date
+    CreateDate?: Timestamp
     OffsetTime?: string
     ShutterSpeedValue?: number
     ApertureValue?: number

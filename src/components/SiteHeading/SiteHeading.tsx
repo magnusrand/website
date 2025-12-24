@@ -6,6 +6,7 @@ import { useWindowDimensions } from '@components/utils'
 export const SiteHeading = (props: {
     siteName: string
     headingRef?: React.RefObject<HTMLDivElement>
+    caption?: string
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null)
     const headingRef = React.useRef<HTMLHeadingElement>(null)
@@ -98,6 +99,9 @@ export const SiteHeading = (props: {
                 >
                     {`– ${formatedSiteName}`}
                 </h2>
+                <div className="fade-in site-heading__horizontal-bar-bottom__text-container__date-range">
+                    {props.caption}
+                </div>
             </div>
         </>
     )

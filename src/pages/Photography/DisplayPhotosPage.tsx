@@ -108,13 +108,41 @@ export const DisplayPhotosPage = () => {
         return newNameCapitalized
     }
 
+    const getDateRange = () => {
+        const allDatesSorted = sortedPhotos
+            .map((photo) => photo.metaData?.CreateDate?.seconds)
+            .filter((date) => date !== undefined)
+            .sort((a, b) => (a! > b! ? 1 : -1))
+            .map((date) => {
+                const _date = new Date(date! * 1000)
+                const humanReadable = new Intl.DateTimeFormat('nb-NO', {
+                    dateStyle: 'long',
+                }).format(_date)
+
+                return humanReadable
+            })
+
+        const firstDate = allDatesSorted[0]
+        const lastDate = allDatesSorted[allDatesSorted.length - 1]
+
+        if (firstDate === lastDate) {
+            return firstDate
+        } else {
+            return `${firstDate}–${lastDate}`
+        }
+    }
+
     return (
         <div className="main-grid displayed-photos-page">
             <SiteHeading
                 siteName={displayedAlbumName()}
                 headingRef={headingRef}
+                caption={getDateRange()}
             />
-            <div className="divider-box" />
+            {/** Add some whitespace unless first photo is story photo */}
+            {sortedPhotos?.[0]?.displayMode !== 'story' && (
+                <div className="divider-box" />
+            )}
             {sortedPhotos?.map((photo, index) =>
                 photo.displayMode === 'story' ? (
                     <StoryFrame

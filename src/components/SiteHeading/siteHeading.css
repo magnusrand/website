@@ -59,6 +59,11 @@
 
                 top: calc(45% - var(--font-size) / 2);
             }
+
+            &__date-range {
+                float: right;
+                margin-top: 1rem;
+            }
         }
     }
 }
