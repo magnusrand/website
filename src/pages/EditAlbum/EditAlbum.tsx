@@ -118,6 +118,9 @@ export const EditAlbum = () => {
                 (photoA, photoB) => photoA.priority - photoB.priority,
             )
         }
+        if (albumSort === 'desc') {
+            return photos.reverse()
+        }
 
         return photos
     }, [photos, newPhotosOrder, albumSort])
