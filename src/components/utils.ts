@@ -32,7 +32,7 @@ export function useDebounce<T extends (...args: any[]) => any>(
     callBack: T,
     debounceTime: number,
 ) {
-    const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
     useEffect(
         () => () => {

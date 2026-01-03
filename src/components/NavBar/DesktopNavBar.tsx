@@ -15,7 +15,7 @@ export const DesktopNavBar = ({
     scrolled = false,
     showCollapsed = false,
     toggleCollapsed = () => {},
-}): JSX.Element => {
+}): React.ReactElement => {
     if (hideNavbar)
         return (
             <div className="header">

@@ -32,7 +32,7 @@ export const MobileNavBar = ({
     scrolled?: boolean
     showCollapsed?: boolean
     toggleCollapsed?: () => void
-    navRef?: React.RefObject<HTMLDivElement>
+    navRef?: React.RefObject<HTMLDivElement | null>
 }) => {
     return (
         <NavBar

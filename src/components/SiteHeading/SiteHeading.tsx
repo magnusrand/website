@@ -5,7 +5,7 @@ import { useWindowDimensions } from '@components/utils'
 
 export const SiteHeading = (props: {
     siteName: string
-    headingRef?: React.RefObject<HTMLDivElement>
+    headingRef?: React.RefObject<HTMLDivElement | null>
     caption?: string
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null)

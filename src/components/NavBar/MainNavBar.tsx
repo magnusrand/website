@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom'
 export const MainNavBar = ({
     hideHomeLogo = false,
     hideNavbar = false,
-}): JSX.Element => {
+}): React.ReactElement => {
     const [scrolled, setScrolled] = React.useState(false)
     const [showCollapsed, setShowCollapsed] = React.useState(false)
     const navRef = React.useRef<HTMLDivElement>(null)

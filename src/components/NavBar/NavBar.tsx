@@ -14,7 +14,7 @@ import './navbar-styles.css'
 interface NavBarProps {
     children?: React.ReactNode
     className?: string
-    navRef?: React.RefObject<HTMLElement>
+    navRef?: React.RefObject<HTMLElement | null>
 }
 
 export const NavBar = (props: NavBarProps) => (
