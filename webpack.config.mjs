@@ -37,7 +37,7 @@ const config = (env, args) => ({
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
-                test: /\.(png|woff2?)$/,
+                test: /\.(png|woff2?|ttf)$/,
                 type: 'asset',
                 generator: {
                     filename: 'assets/fonts/[hash][ext][query]',
