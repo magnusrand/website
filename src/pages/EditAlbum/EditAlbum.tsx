@@ -7,7 +7,6 @@ import { PhotoData } from 'src/types'
 
 import { db } from 'src/firebase/firebase-init'
 
-import { MainNavBar } from '@components/NavBar/MainNavBar'
 import EditPhotoDataCard from '@components/Admin/EditPhotoDataCard'
 import { Label, TextField } from '@components/Form/Text'
 import { Button } from '@components/Buttons/Button'
@@ -141,18 +140,20 @@ export const EditAlbum = () => {
 
     async function updateSortingOrder() {
         let numberOfPhotosUpdated = 0
-        if (newPhotosOrder === null) return
+        if (albumSort === 'custom' && newPhotosOrder !== null) {
+            newPhotosOrder.forEach((photo, index) => {
+                if (photo.priority === index) return
+
+                const photoRef = photo.documentRef
+                batchForSortingOrder.update(photoRef, {
+                    priority: index,
+                })
+                numberOfPhotosUpdated++
+            })
+        }
+
         const albumRef = photos?.[0].albumRef
         if (!albumRef) return
-        newPhotosOrder.forEach((photo, index) => {
-            if (photo.priority === index) return
-
-            const photoRef = photo.documentRef
-            batchForSortingOrder.update(photoRef, {
-                priority: index,
-            })
-            numberOfPhotosUpdated++
-        })
         batchForSortingOrder.update(albumRef, {
             sort: albumSort,
         })
