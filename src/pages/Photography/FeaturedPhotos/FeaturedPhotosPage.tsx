@@ -161,7 +161,9 @@ export const FeaturedPhotosPage = () => {
                     if (nextPhotoName === null)
                         return navigate(`/foto/utvalgte`)
 
-                    navigate(`/foto/utvalgte/${nextPhotoName}`)
+                    navigate(`/foto/utvalgte/${nextPhotoName}`, {
+                        replace: true,
+                    })
                 }}
             />
         </div>

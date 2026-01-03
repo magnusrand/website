@@ -194,9 +194,13 @@ export const DisplayPhotosPage = () => {
                 currentPhoto={fullscreenPhotoName}
                 onNavigate={(nextPhotoName) => {
                     if (nextPhotoName === null)
-                        return navigate(`/foto/album/${albumName}`)
+                        return navigate(`/foto/album/${albumName}`, {
+                            replace: true,
+                        })
 
-                    navigate(`/foto/album/${albumName}/${nextPhotoName}`)
+                    navigate(`/foto/album/${albumName}/${nextPhotoName}`, {
+                        replace: true,
+                    })
                 }}
             />
         </div>
