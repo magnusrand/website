@@ -22,28 +22,29 @@ export const ProgressiveImage = ({
 }: ProgressiveImageProps) => {
     const [imageSrc, setImageSrc] = React.useState(placeholderSrc)
     const [imageIsLoading, setImageIsLoading] = React.useState(true)
+    const [imageInView, setImageInView] = React.useState(false)
     const imageRef = React.useRef<HTMLImageElement>(null)
 
     React.useEffect(
         function loadImageWithCache() {
-            const observer = new IntersectionObserver(
+            const observerLoading = new IntersectionObserver(
                 (entries) => {
                     entries.forEach((entry) => {
                         if (entry.isIntersecting) {
                             loadImage()
                             // Stop observing the image once it is loaded
-                            observer.unobserve(entry.target)
+                            observerLoading.unobserve(entry.target)
                         }
                     })
                 },
-                { rootMargin: '200px' },
+                { rootMargin: '300px' },
             )
 
             async function loadImage() {
-                setImageIsLoading(true)
                 try {
                     const image = await getImage(src)
                     setImageSrc(image.src)
+                    imageRef.current?.setAttribute('data-image-loaded', 'true')
 
                     imageRef.current?.style.setProperty(
                         '--image-height',
@@ -57,14 +58,32 @@ export const ProgressiveImage = ({
                 } catch (error) {
                     console.error(error)
                 }
-                setImageIsLoading(false)
             }
 
-            if (imageRef.current) {
-                observer.observe(imageRef.current)
-            }
+            if (imageRef.current) observerLoading.observe(imageRef.current)
 
-            return () => observer.disconnect()
+            return () => observerLoading.disconnect()
+        },
+        [src],
+    )
+    React.useEffect(
+        function addFadeInAnimation() {
+            const observerVisible = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (imageRef.current && entry.isIntersecting) {
+                            setImageInView(true)
+                            // Stop observing the image once it is visible
+                            observerVisible.unobserve(entry.target)
+                        }
+                    })
+                },
+                { rootMargin: '0px' },
+            )
+
+            if (imageRef.current) observerVisible.observe(imageRef.current)
+
+            return () => observerVisible.disconnect()
         },
         [src],
     )
@@ -78,6 +97,16 @@ export const ProgressiveImage = ({
         return () => currentRef?.removeEventListener('keydown', handleKeyDown)
     }, [rest])
 
+    React.useEffect(() => {
+        const currentRef = imageRef?.current
+        setImageIsLoading(true)
+        if (currentRef) {
+            currentRef.onload = function () {
+                setImageIsLoading(false)
+            }
+        }
+    }, [])
+
     const blankImgSrc =
         'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='
 
@@ -89,6 +118,7 @@ export const ProgressiveImage = ({
             className={
                 'progressive-img ' +
                 `${imageIsLoading ? 'progressive-img--loading ' : ' '}` +
+                `${!imageIsLoading && imageInView ? 'animation-in ' : ' '}` +
                 className
             }
             loading="lazy"

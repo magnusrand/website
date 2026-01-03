@@ -89,9 +89,6 @@
             margin-bottom: 2rem;
         }
 
-        .simple-frame__photo-wrapper__image {
-            opacity: 0;
-        }
         .animation-in {
             animation: fade-in 1s ease-out;
             animation-fill-mode: both;
