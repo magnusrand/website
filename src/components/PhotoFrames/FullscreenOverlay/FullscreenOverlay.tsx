@@ -31,37 +31,81 @@ export const FullscreenOverlay = ({
         else document.body.style.overflow = 'visible'
     }, [showFullscreen])
 
-    useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                onNavigate(null)
+    useEffect(
+        function handleFullscreenNavigation() {
+            const handleEscape = (e: KeyboardEvent) => {
+                if (e.key === 'Escape') {
+                    onNavigate(null)
+                }
             }
-        }
-        const handleArrowKeys = (e: KeyboardEvent) => {
-            if (e.key == 'ArrowRight') {
-                if (
-                    currentPhotoData &&
-                    currentPhotoIndex < photoUrls?.length - 1
-                )
-                    onNavigate(
-                        photoUrls?.[currentPhotoIndex + 1].photoName ?? null,
+            const handleArrowKeys = (e: KeyboardEvent) => {
+                if (e.key == 'ArrowRight') {
+                    if (
+                        currentPhotoData &&
+                        currentPhotoIndex < photoUrls?.length - 1
                     )
-            } else if (e.key == 'ArrowLeft') {
-                if (currentPhotoData && currentPhotoIndex > 0)
-                    onNavigate(
-                        photoUrls?.[currentPhotoIndex - 1].photoName ?? null,
-                    )
+                        onNavigate(
+                            photoUrls?.[currentPhotoIndex + 1].photoName ??
+                                null,
+                        )
+                } else if (e.key == 'ArrowLeft') {
+                    if (currentPhotoData && currentPhotoIndex > 0)
+                        onNavigate(
+                            photoUrls?.[currentPhotoIndex - 1].photoName ??
+                                null,
+                        )
+                }
             }
-        }
 
-        addEventListener('keyup', handleEscape)
-        addEventListener('keydown', handleArrowKeys)
-        return () => {
-            removeEventListener('keyup', handleEscape)
-            removeEventListener('keydown', handleArrowKeys)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPhoto, currentPhotoData?.photoName, currentPhotoIndex])
+            let touchStartX = 0
+            let touchEndX = 0
+
+            const handleTouchMove = (e: TouchEvent) => {
+                e.preventDefault()
+            }
+            const handleTouchStart = (e: TouchEvent) => {
+                touchStartX = e.changedTouches[0].pageX
+            }
+            const handleTouchEnd = (e: TouchEvent) => {
+                touchEndX = e.changedTouches[0].pageX
+                const touchDeltaX = touchEndX - touchStartX
+                console.log(touchStartX, touchEndX, touchDeltaX)
+                // Swipe towards right
+                if (touchDeltaX > 100) {
+                    if (currentPhotoData && currentPhotoIndex > 0)
+                        onNavigate(
+                            photoUrls?.[currentPhotoIndex - 1].photoName ??
+                                null,
+                        )
+                    // Swipe towards left
+                } else if (touchDeltaX < -100) {
+                    if (
+                        currentPhotoData &&
+                        currentPhotoIndex < photoUrls?.length - 1
+                    )
+                        onNavigate(
+                            photoUrls?.[currentPhotoIndex + 1].photoName ??
+                                null,
+                        )
+                }
+            }
+
+            addEventListener('touchstart', handleTouchStart)
+            addEventListener('touchend', handleTouchEnd)
+            addEventListener('touchmove', handleTouchMove)
+            addEventListener('keyup', handleEscape)
+            addEventListener('keydown', handleArrowKeys)
+            return () => {
+                removeEventListener('keyup', handleEscape)
+                removeEventListener('keydown', handleArrowKeys)
+                removeEventListener('touchstart', handleTouchStart)
+                removeEventListener('touchend', handleTouchEnd)
+                removeEventListener('touchmove', handleTouchMove)
+            }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        },
+        [currentPhoto, currentPhotoData?.photoName, currentPhotoIndex],
+    )
 
     return (
         <div

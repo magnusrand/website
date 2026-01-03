@@ -186,7 +186,7 @@ export const DisplayPhotosPage = () => {
                 <MdArrowUpward />
             </IconButton>
             <FullscreenOverlay
-                photoUrls={photos.map((photo) => ({
+                photoUrls={sortedPhotos.map((photo) => ({
                     photo: photo.imageUrl,
                     placeholder: photo.thumbnailUrl,
                     photoName: getFilenameForUrl(photo.fileName),
