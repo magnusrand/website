@@ -1,4 +1,4 @@
-.main-grid.edit-album-page {
+.edit-album-page {
     padding-top: 12vh;
     grid-template-rows: unset;
     height: calc(100dvh - 12vh);
@@ -42,7 +42,7 @@
         grid-template-columns: subgrid;
         gap: 1rem;
 
-        .edit-photo-data-card {
+        :where(.edit-photo-data-card) {
             box-sizing: border-box;
             grid-column: span 4;
         }
