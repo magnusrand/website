@@ -108,7 +108,7 @@ export const DisplayPhotosPage = () => {
         return newNameCapitalized
     }
 
-    const getDateRange = () => {
+    const dateRange = useMemo(() => {
         const allDatesSorted = sortedPhotos
             .map((photo) => photo.metaData?.CreateDate?.seconds)
             .filter((date) => date !== undefined)
@@ -128,16 +128,24 @@ export const DisplayPhotosPage = () => {
         if (firstDate === lastDate) {
             return firstDate
         } else {
+            const firstDateYear = firstDate.split(' ').at(-1) ?? ''
+            const lastDateYear = lastDate.split(' ').at(-1)
+            if (firstDateYear === lastDateYear) {
+                return `${firstDate.substring(
+                    0,
+                    firstDate.indexOf(firstDateYear) - 1,
+                )}–${lastDate}`
+            }
             return `${firstDate}–${lastDate}`
         }
-    }
+    }, [sortedPhotos.length])
 
     return (
         <div className="main-grid displayed-photos-page">
             <SiteHeading
                 siteName={displayedAlbumName()}
                 headingRef={headingRef}
-                caption={getDateRange()}
+                caption={dateRange}
             />
             {/** Add some whitespace unless first photo is story photo */}
             {sortedPhotos?.[0]?.displayMode !== 'story' && (
