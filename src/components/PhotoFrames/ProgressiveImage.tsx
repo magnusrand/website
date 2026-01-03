@@ -1,4 +1,7 @@
 import React from 'react'
+import { getImage } from 'src/utils/imageCache'
+
+import './ProgressiveImage.css'
 
 type ProgressiveImageProps = {
     src: string
@@ -21,25 +24,50 @@ export const ProgressiveImage = ({
     const [imageIsLoading, setImageIsLoading] = React.useState(true)
     const imageRef = React.useRef<HTMLImageElement>(null)
 
-    React.useEffect(() => {
-        // TODO this needs to implement functionality to
-        // delay loading untill image is close to be scrolled into view
-        const imageToLoad = new Image()
-        imageToLoad.src = src
-        imageToLoad.onload = function () {
-            setImageSrc(src)
-            setImageIsLoading(false)
-            imageRef.current?.style.setProperty(
-                '--image-height',
-                // @ts-expect-error height does indeed exist
-                this.height + 'px',
+    React.useEffect(
+        function loadImageWithCache() {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            loadImage()
+                            // Stop observing the image once it is loaded
+                            observer.unobserve(entry.target)
+                        }
+                    })
+                },
+                { rootMargin: '200px' },
             )
-            // @ts-expect-error height and width does indeed exist
-            if (this.width / this.height >= 2.7)
-                imageRef.current &&
-                    imageRef.current.classList.add('progressive-img--ultrawide')
-        }
-    }, [src])
+
+            async function loadImage() {
+                setImageIsLoading(true)
+                try {
+                    const image = await getImage(src)
+                    setImageSrc(image.src)
+
+                    imageRef.current?.style.setProperty(
+                        '--image-height',
+                        image.height + 'px',
+                    )
+                    if (image.width / image.height >= 2.7)
+                        imageRef.current &&
+                            imageRef.current.classList.add(
+                                'progressive-img--ultrawide',
+                            )
+                } catch (error) {
+                    console.error(error)
+                }
+                setImageIsLoading(false)
+            }
+
+            if (imageRef.current) {
+                observer.observe(imageRef.current)
+            }
+
+            return () => observer.disconnect()
+        },
+        [src],
+    )
 
     React.useEffect(() => {
         const currentRef = imageRef?.current
