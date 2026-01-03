@@ -1,3 +1,5 @@
-:where(.progressive-img--loading) {
-    aspect-ratio: 3 / 2;
+@layer base {
+    :where(.progressive-img--loading) {
+        aspect-ratio: 3 / 2;
+    }
 }

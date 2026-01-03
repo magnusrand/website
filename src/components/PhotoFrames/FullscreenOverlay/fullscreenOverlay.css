@@ -21,7 +21,6 @@
         pointer-events: all;
         opacity: 1;
     }
-    
 }
 
 .fullscreen-overlay__close-button {
@@ -48,8 +47,6 @@
     z-index: 3;
 
     transition: opacity ease 0.25s;
-    opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
 }
 
 @keyframes fadeIn {
@@ -57,4 +54,3 @@
         opacity: 1;
     }
 }
-

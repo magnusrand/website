@@ -30,94 +30,100 @@
     font-weight: 1 999;
 }
 
-:root {
-    --light-color-1: rgba(234, 226, 183, 0.8);
-    --light-color-2: rgba(252, 191, 73, 0.8);
-    --light-color-3: rgba(251, 133, 0, 0.8);
-    --light-color-1--solid: rgb(234, 226, 183);
-    --light-color-2--solid: rgb(252, 191, 73);
-    --light-color-3--solid: rgb(251, 133, 0);
-    --dark-color-1: #219ebc;
-    --dark-color-2: #116783;
-    --dark-color-3: #003049;
-    --dark-color-3-rgb: 0, 48, 73;
+@layer reset, tokens, base, components, overrides;
 
-    --white: #fffff2;
-    --black: #161515;
+@layer reset {
+    body {
+        margin: 0;
 
-    --negative-color: #bd1d45;
+        /*  setting default font */
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
 
-    --font-size-small: 1.33rem;
-    --font-size-medium: 2rem;
-    --font-size-extralarge: 10.5rem;
+        background-color: var(--white);
+        color: var(--black);
+    }
 
-    --nav-item-color: var(--dark-color-1);
+    #app {
+        position: relative;
+    }
 
-    --margin-top-main: 2rem;
-    --padding-sides: 0;
-
-    --row-height: 7rem;
-    --row-gap: 2.5rem;
-    --column-gap: 1.25rem;
-
-    --theme-color: var(--light-color-2--solid);
-    --theme-color-secondary: var(--light-color-1);
-    --theme-color-difference: var(--dark-color-2);
+    a {
+        color: inherit;
+        text-decoration: inherit; /* no underline */
+    }
 }
 
-body {
-    margin: 0;
+@layer tokens {
+    :root {
+        --light-color-1: rgba(234, 226, 183, 0.8);
+        --light-color-2: rgba(252, 191, 73, 0.8);
+        --light-color-3: rgba(251, 133, 0, 0.8);
+        --light-color-1--solid: rgb(234, 226, 183);
+        --light-color-2--solid: rgb(252, 191, 73);
+        --light-color-3--solid: rgb(251, 133, 0);
+        --dark-color-1: #219ebc;
+        --dark-color-2: #116783;
+        --dark-color-3: #003049;
+        --dark-color-3-rgb: 0, 48, 73;
+    
+        --white: #fffff2;
+        --black: #161515;
+    
+        --negative-color: #bd1d45;
+    
+        --font-size-small: 1.33rem;
+        --font-size-medium: 2rem;
+        --font-size-extralarge: 10.5rem;
+    
+        --nav-item-color: var(--dark-color-1);
+    
+        --margin-top-main: 2rem;
+        --padding-sides: 0;
+    
+        --row-height: 7rem;
+        --row-gap: 2.5rem;
+        --column-gap: 1.25rem;
+    
+        --theme-color: var(--light-color-2--solid);
+        --theme-color-secondary: var(--light-color-1);
+        --theme-color-difference: var(--dark-color-2);
+    }
+    
+    .type-garamond-regular {
+        font-family: 'EB Garamond', serif;
+        font-weight: 400;
+        font-style: normal;
+    }
 
-    /*  setting default font */
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 400;
+    .type-garamond-bold {
+        font-family: 'EB Garamond', serif;
+        font-weight: 800;
+        font-style: normal;
+    }
 
-    background-color: var(--white);
-    color: var(--black);
-}
+    .type-sourcesans-regular {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
+    }
 
-#app {
-    position: relative;
-}
+    .type-sourcesans-italic {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
+        font-style: italic;
+    }
 
-a {
-    color: inherit;
-    text-decoration: inherit; /* no underline */
-}
+    .font-size-small {
+        font-size: var(--font-size-small);
+    }
 
-.type-garamond-regular {
-    font-family: 'EB Garamond', serif;
-    font-weight: 400;
-    font-style: normal;
-}
+    .font-size-medium {
+        font-size: var(--font-size-medium);
+    }
 
-.type-garamond-bold {
-    font-family: 'EB Garamond', serif;
-    font-weight: 800;
-    font-style: normal;
-}
-
-.type-sourcesans-regular {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 400;
-}
-
-.type-sourcesans-italic {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 400;
-    font-style: italic;
-}
-
-.font-size-small {
-    font-size: var(--font-size-small);
-}
-
-.font-size-medium {
-    font-size: var(--font-size-medium);
-}
-
-.font-size-extralarge {
-    font-size: var(--font-size-extralarge);
+    .font-size-extralarge {
+        font-size: var(--font-size-extralarge);
+    }
 }
 
 .visual-background-grid {
