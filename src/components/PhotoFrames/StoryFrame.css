@@ -46,11 +46,11 @@
 
     &__text {
         grid-column:  9 / -2;
-        align-self: start;
+        align-self: center;
 
         &__heading {
             margin-top: -0.25rem;
-            color: var(--theme-color-secondary);
+            color: var(--dark-color-3);
             transition: color 1s ease;
 
             .story-frame__image:hover + .story-frame__text > & {
