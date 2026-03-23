@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import {
     MdAlbum,
     MdCamera,
+    MdLightbulb,
     MdMenu,
     MdOutlineGridView,
     MdOutlinePhotoLibrary,
@@ -18,6 +19,7 @@ import {
 import './mobile-navbar-styles.css'
 
 import HomeLogoSvg from '@assets/images/magnusrand.svg'
+import LunsjguidenFavicon from '@assets/images/lunsjguiden-favicon.svg'
 
 export const MobileNavBar = ({
     hideHomeLogo = false,
@@ -73,11 +75,21 @@ export const MobileNavBar = ({
                             linkPath="foto/utvalgte"
                         />
                     </MobileNavDropdown>
-                    <MobileNavItem
-                        title="Github"
-                        icon={<FaGithub />}
-                        linkPath="/github"
-                    />
+                    <MobileNavDropdown
+                        title="Prosjekter"
+                        icon={<MdLightbulb />}
+                    >
+                        <MobileNavDropdownItem
+                            title="Lunsj-guiden"
+                            icon={<LunsjguidenFavicon />}
+                            linkPath="https://lunsjguiden.no"
+                        />
+                        <MobileNavDropdownItem
+                            title="Github"
+                            icon={<FaGithub />}
+                            linkPath="/github"
+                        />
+                    </MobileNavDropdown>
                     <MobileNavDropdown
                         title="Annet"
                         icon={<MdOutlineGridView />}

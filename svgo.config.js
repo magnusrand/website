@@ -7,6 +7,7 @@ const config = {
                     // disable merging paths in svg
                     mergePaths: false,
                     cleanupIDs: false,
+                    removeUnknownsAndDefaults: false,
                 },
             },
         },

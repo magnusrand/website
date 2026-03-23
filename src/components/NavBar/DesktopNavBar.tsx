@@ -64,16 +64,28 @@ export const DesktopNavBar = ({
                     />
                 </Dropdown>
             </NavItem>
-            <NavItem
-                title="GitHub"
-                color={Color.DARK2}
-                expandIcon={false}
-                linkPath="/github"
-            />
+            <NavItem title="Prosjekter" color={Color.DARK2}>
+                <Dropdown>
+                    <DropdownItem
+                        title="Github"
+                        linkPath="https://github.com/magnusrand"
+                    />
+                    <DropdownItem
+                        title="Lunsjguiden"
+                        linkPath="https://lunsjguiden.no"
+                    />
+                </Dropdown>
+            </NavItem>
             <NavItem title="Annet" color={Color.DARK3}>
                 <Dropdown>
-                    <DropdownItem title="LinkedIn" linkPath="/linkedin" />
-                    <DropdownItem title="Musikk" linkPath="/musikk" />
+                    <DropdownItem
+                        title="LinkedIn"
+                        linkPath="https://www.linkedin.com/in/magnus-rand-363489122/"
+                    />
+                    <DropdownItem
+                        title="Musikk"
+                        linkPath="https://soundcloud.com/magnus-rand"
+                    />
                 </Dropdown>
             </NavItem>
             {!hideHomeLogo && <HomeLogo />}

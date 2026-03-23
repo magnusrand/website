@@ -62,7 +62,7 @@
             background-color: var(--nav-item-color);
 
             .dropdown-item {
-                padding-left: 1.25rem;
+                padding-left: 0.75rem;
                 padding-top: 0.25rem;
                 padding-bottom: 0.5rem;
 
