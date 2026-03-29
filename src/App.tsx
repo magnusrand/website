@@ -12,11 +12,12 @@ import {
 import './main-styles.css'
 
 import { LandingPage } from '@pages/LandingPage/LandingPage'
+import { LandingPage as PhotographyLandingPage } from '@pages/Photography/LandingPage/LandingPage'
 import { DisplayPhotosPage } from '@pages/Photography/DisplayPhotosPage'
 import { LogIn } from '@pages/LoginAndAdmin/LogIn'
 import { FeaturedPhotosPage } from '@pages/Photography/FeaturedPhotos/FeaturedPhotosPage'
 import { AlbumsPage } from '@pages/Photography/Albums/AlbumsPage'
-import { EditAlbum } from '@pages/EditAlbum/EditAlbum'
+import { EditAlbum } from '@pages/LoginAndAdmin/EditAlbum/EditAlbum'
 import { TagsPage } from '@pages/Photography/Search/TagsPage'
 
 import { Redirect } from '@components/Redirect'
@@ -56,6 +57,7 @@ const Routing = () => (
     <Routes>
         <Route index element={<LandingPage />} />
         <Route path="admin" element={<EditAlbum />} />
+        <Route path="foto" element={<PhotographyLandingPage />} />
         <Route path="foto/album" element={<AlbumsPage />} />
         <Route path="foto/etiketter/:photo" element={<TagsPage />} />
         <Route path="foto/etiketter" element={<TagsPage />} />

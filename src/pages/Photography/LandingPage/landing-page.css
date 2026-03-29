@@ -1,0 +1,5 @@
+.photo-landing-page__background-image {
+    height: 100dvh;
+    width: 100dvw;
+    object-fit: cover;
+}

@@ -19,8 +19,8 @@ import {
     updatePhotoData,
     uploadPhotosFromWeb,
     useAlbumsList,
-} from '../../firebase/firebase-firestore'
-import { isAdmin, useAuth } from '../../firebase/firebase-auth'
+} from '@firebase-utils/firebase-firestore'
+import { isAdmin, useAuth } from '@firebase-utils/firebase-auth'
 
 import './editAlbum.css'
 
@@ -133,8 +133,8 @@ export const EditAlbum = () => {
             operation === 'increase'
                 ? prevIndex - 1
                 : operation === 'decrease'
-                ? prevIndex + 1
-                : operation ?? prevIndex
+                  ? prevIndex + 1
+                  : (operation ?? prevIndex)
         setNewPhotosOrder(moveToIndex(sortedPhotos, prevIndex, newIndex))
     }
 
