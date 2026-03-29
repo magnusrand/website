@@ -28,7 +28,7 @@ import * as exifr from 'exifr'
 import type { AlbumData, PhotoData, metaData } from '../types'
 
 import { db, functions, storage } from './firebase-init'
-import { META_DATA_FIELDS } from './utils'
+import { getOrientationFromHeightAndWidth, META_DATA_FIELDS } from './utils'
 
 const ALBUM_COLLECTION = 'albums'
 const PHOTOS_COLLECTION = 'photos'
@@ -157,6 +157,33 @@ export const getAlbums = async ({
 
     return albums
 }
+
+export async function getPhotoForPhotographyLandingPage() {
+    const albumQuery = query(
+        collection(db, ALBUM_COLLECTION),
+        where('name', '==', 'featured'),
+    )
+
+    const albumSnapshot = await getDocs(albumQuery)
+    if (albumSnapshot.empty) return
+    const albumRef = albumSnapshot.docs[0].ref
+
+    const photosQuery = query(
+        collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
+        where('metaData.orientation', '==', 'landscape'),
+        orderBy(new FieldPath('metaData', 'CreateDate'), 'desc'),
+    )
+
+    const docSnap = await getDocs(photosQuery)
+    const photosData = docSnap.docs.map((photo) => ({
+        ...photo.data(),
+    })) as PhotoData[]
+
+    const randomIndex = Math.floor(Math.random() * (photosData.length - 1))
+
+    return photosData[randomIndex]
+}
+
 
 export const updatePhotoData = async (
     documentRef: DocumentReference,
@@ -292,21 +319,17 @@ export async function updateDocumentWithPhotoData(
             return {}
         })
 
-    let orientation =
-        metaData?.ExifImageHeight && metaData.ExifImageWidth
-            ? metaData.ExifImageWidth >= metaData.ExifImageHeight
-                ? 'landscape'
-                : 'portrait'
-            : 'unknown'
+    let orientation = getOrientationFromHeightAndWidth(
+        metaData?.ExifImageHeight,
+        metaData?.ExifImageWidth,
+    )
 
     if (orientation === 'unknown') {
         const dimensions = await getImageDimensions(file)
-        orientation =
-            dimensions.width && dimensions.height
-                ? dimensions.width >= dimensions.height
-                    ? 'landscape'
-                    : 'portrait'
-                : 'truly unknown'
+        orientation = getOrientationFromHeightAndWidth(
+            dimensions.height,
+            dimensions.width,
+        )
     }
 
     updateDoc(photoDocumentRef, {

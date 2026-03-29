@@ -77,3 +77,12 @@ export function getFilenameForUrl(fileName?: string) {
         }
     })
 }
+
+export function getOrientationFromHeightAndWidth(
+    height?: number,
+    width?: number,
+) {
+    if (!height || !width) return 'truly unknown'
+    if (width >= height) return 'landscape'
+    return 'portrait'
+}
