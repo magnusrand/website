@@ -16,6 +16,7 @@
             "@components/*": ["src/components/*"],
             "@pages/*": ["src/pages/*"],
             "@assets/*": ["src/assets/*"],
+            "@firebase-utils/*": ["src/firebase/*"],
             "src/*": ["src/*"]
         }
     },
