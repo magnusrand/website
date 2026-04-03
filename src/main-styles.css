@@ -76,6 +76,8 @@
     
         --font-size-small: 1.33rem;
         --font-size-medium: 2rem;
+        --font-size-medium-large: 3rem;
+        --font-size-large: 5rem;
         --font-size-extralarge: 10.5rem;
     
         --nav-item-color: var(--dark-color-1);
@@ -121,6 +123,10 @@
 
     .font-size-medium {
         font-size: var(--font-size-medium);
+    }
+    
+    .font-size-medium-large {
+        font-size: var(--font-size-medium-large);
     }
 
     .font-size-extralarge {

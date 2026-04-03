@@ -23,14 +23,14 @@ import LunsjguidenFavicon from '@assets/images/lunsjguiden-favicon.svg'
 
 export const MobileNavBar = ({
     hideHomeLogo = false,
-    hideNavbar = false,
+    hideHeader = false,
     scrolled = false,
     showCollapsed = false,
     toggleCollapsed = () => {},
     navRef,
 }: {
     hideHomeLogo?: boolean
-    hideNavbar?: boolean
+    hideHeader?: boolean
     scrolled?: boolean
     showCollapsed?: boolean
     toggleCollapsed?: () => void

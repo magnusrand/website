@@ -1,4 +1,6 @@
 .photo-landing-page {
+    --title-row: 2;
+
     height: 100dvh;
     width: 100dvw;
 }
@@ -12,24 +14,23 @@
     grid-column: 1 / -1;
 }
 
-.photo-landing-page__title {
+.photo-landing-page__title__background {
     grid-column: 6 / -6;
     z-index: 3;
     margin-block: auto;
-    grid-row: 1 / -1;
+    grid-row-start: var(--title-row);
     width: 100%;
+    height: 5rem;
     background: rgba(var(--dark-color-2-rgb), 0.8);
     text-align: center;
     mix-blend-mode: difference;
-
-    height: 5rem;
-
 }
-h1 {
+
+.photo-landing-page__title__text {
     filter: invert();
     grid-column: 6 / -6;
     z-index: 3;
     margin-block: auto;
-    grid-row: 1 / -1;
+    grid-row-start: var(--title-row);
     margin-inline: auto;
 }

@@ -35,9 +35,10 @@ const StaticUI = () => {
     const location = useLocation()
     const params = useParams()
 
-    console.log('params', params)
-
     const fullscreenPhotoName = params.photo?.toLowerCase()
+
+    const hideHeader = fullscreenPhotoName !== undefined
+    const hideNavbar = location.pathname === '/foto'
     return (
         <>
             <VisualBackgroundGrid
@@ -47,7 +48,8 @@ const StaticUI = () => {
             />
             <MainNavBar
                 hideHomeLogo={location.pathname === '/'}
-                hideNavbar={fullscreenPhotoName !== undefined}
+                hideHeader={hideHeader}
+                hideNavbar={hideNavbar}
             />
         </>
     )

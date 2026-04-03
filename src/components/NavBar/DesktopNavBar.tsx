@@ -11,15 +11,29 @@ import './mainNavBar.css'
 
 export const DesktopNavBar = ({
     hideHomeLogo = false,
+    hideHeader = false,
     hideNavbar = false,
     scrolled = false,
     showCollapsed = false,
     toggleCollapsed = () => {},
 }): React.ReactElement => {
-    if (hideNavbar)
+    if (hideHeader)
         return (
             <div className="header">
                 <NavBar />
+            </div>
+        )
+
+    if (hideNavbar)
+        return (
+            <div className="header">
+                <NavBar
+                    className={classNames('main-navbar', 'fade-in', {
+                        'fade-out': scrolled,
+                    })}
+                >
+                    {!hideHomeLogo && <HomeLogo />}
+                </NavBar>
             </div>
         )
 
@@ -56,6 +70,7 @@ export const DesktopNavBar = ({
         >
             <NavItem title="Fotografi" color={Color.DARK1}>
                 <Dropdown>
+                    <DropdownItem title="Startside" linkPath="/foto" />
                     <DropdownItem title="Utvalgte" linkPath="/foto/utvalgte" />
                     <DropdownItem title="Alle album" linkPath="/foto/album" />
                     <DropdownItem
