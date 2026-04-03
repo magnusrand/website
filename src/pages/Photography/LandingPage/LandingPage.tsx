@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { getPhotoForPhotographyLandingPage } from '@firebase-utils/firebase-firestore'
 import { PhotoData } from 'src/types'
+import { Filters } from './Filters'
 
 import './landing-page.css'
 
@@ -21,6 +22,9 @@ export const LandingPage = () => {
                 src={backgroundPhoto?.imageUrl}
                 alt=""
             />
+            <div className="photo-landing-page__title"></div>
+            <h1 className="font-size-medium">Fotografi</h1>
+            <Filters />
         </div>
     )
 }
