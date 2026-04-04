@@ -8,7 +8,13 @@ import {
     MdOutlineGridView,
     MdOutlinePhotoLibrary,
 } from 'react-icons/md'
-import { FaGithub, FaLinkedin, FaSoundcloud, FaTags } from 'react-icons/fa'
+import {
+    FaGithub,
+    FaHome,
+    FaLinkedin,
+    FaSoundcloud,
+    FaTags,
+} from 'react-icons/fa'
 import {
     MobileNavDropdown,
     MobileNavDropdownItem,
@@ -59,6 +65,11 @@ export const MobileNavBar = ({
                         />
                     )}
                     <MobileNavDropdown title="Foto" icon={<MdCamera />}>
+                        <MobileNavDropdownItem
+                            title="Startside"
+                            icon={<FaHome />}
+                            linkPath="foto"
+                        />
                         <MobileNavDropdownItem
                             title="Etiketter"
                             icon={<FaTags />}

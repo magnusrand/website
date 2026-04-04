@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { getPhotoForPhotographyLandingPage } from '@firebase-utils/firebase-firestore'
 import { ButtonLink } from '@components/Buttons/ButtonLink'
+import { useWindowDimensions } from '@components/utils'
 import { PhotoData } from 'src/types'
 import { Filters } from './Filters'
 
@@ -9,13 +10,21 @@ import './landing-page.css'
 
 export const LandingPage = () => {
     const [backgroundPhoto, setBackgroundPhoto] = useState<PhotoData>()
-    useEffect(function getBackgroundPhoto() {
-        async function fetchPhoto() {
-            const _photo = await getPhotoForPhotographyLandingPage()
-            if (_photo) setBackgroundPhoto(_photo)
-        }
-        fetchPhoto()
-    }, [])
+    const { width } = useWindowDimensions()
+    const isDesktop = width > 800
+
+    useEffect(
+        function getBackgroundPhoto() {
+            async function fetchPhoto() {
+                const _photo = await getPhotoForPhotographyLandingPage(
+                    isDesktop ? 'desktop' : 'mobile',
+                )
+                if (_photo) setBackgroundPhoto(_photo)
+            }
+            fetchPhoto()
+        },
+        [isDesktop],
+    )
     return (
         <div className="photo-landing-page main-grid">
             <img
@@ -29,40 +38,24 @@ export const LandingPage = () => {
             </h1>
             <ButtonLink
                 to="/foto/utvalgte"
-                style={{
-                    '--button-color': 'var(--dark-color-1)',
-                    gridColumn: '5',
-                    gridRowStart: '3',
-                    zIndex: '10',
-                    width: 'fit-content',
-                    alignSelf: 'start',
-                }}
+                className="photo-landing-page__link-button"
             >
                 Utvalgte
             </ButtonLink>
             <ButtonLink
                 to="/foto/album"
+                className="photo-landing-page__link-button"
                 style={{
                     '--button-color': 'var(--dark-color-1)',
-                    gridColumn: '6',
-                    gridRowStart: '3',
-                    zIndex: '10',
-                    width: 'fit-content',
-                    alignSelf: 'center',
-                    justifySelf: 'center',
                 }}
             >
                 Album
             </ButtonLink>
             <ButtonLink
                 to="/foto/etiketter"
+                className="photo-landing-page__link-button"
                 style={{
                     '--button-color': 'var(--dark-color-1)',
-                    gridColumn: '7',
-                    gridRowStart: '3',
-                    zIndex: '10',
-                    width: 'fit-content',
-                    alignSelf: 'end',
                 }}
             >
                 Etiketter

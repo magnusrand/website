@@ -158,7 +158,9 @@ export const getAlbums = async ({
     return albums
 }
 
-export async function getPhotoForPhotographyLandingPage() {
+export async function getPhotoForPhotographyLandingPage(
+    device: 'desktop' | 'mobile' = 'desktop',
+) {
     const albumQuery = query(
         collection(db, ALBUM_COLLECTION),
         where('name', '==', 'featured'),
@@ -168,9 +170,11 @@ export async function getPhotoForPhotographyLandingPage() {
     if (albumSnapshot.empty) return
     const albumRef = albumSnapshot.docs[0].ref
 
+    const orientation = device === 'mobile' ? 'portrait' : 'landscape'
+
     const photosQuery = query(
         collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
-        where('metaData.orientation', '==', 'landscape'),
+        where('metaData.orientation', '==', orientation),
         orderBy(new FieldPath('metaData', 'CreateDate'), 'desc'),
     )
 
