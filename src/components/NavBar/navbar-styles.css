@@ -3,6 +3,7 @@
 .main-navbar {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-columns: 1fr minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) 1fr;
     grid-template-rows: 8rem;
     column-gap: 1.25rem;
     height: 100%;
@@ -10,8 +11,8 @@
     z-index: 10;
 
     .navitem:first-child {
-        grid-column-start: 3;
-        grid-column-end: 5;
+        grid-column-start: 4;
+        grid-column-end: 6;
     }
 
     .navitem {

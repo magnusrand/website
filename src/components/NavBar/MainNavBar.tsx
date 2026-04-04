@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom'
 
 export const MainNavBar = ({
     hideHomeLogo = false,
+    hideHeader = false,
     hideNavbar = false,
 }): React.ReactElement => {
     const [scrolled, setScrolled] = React.useState(false)
@@ -91,7 +92,7 @@ export const MainNavBar = ({
         return (
             <MobileNavBar
                 hideHomeLogo={hideHomeLogo}
-                hideNavbar={hideNavbar}
+                hideHeader={hideHeader}
                 scrolled={scrolled}
                 showCollapsed={showCollapsed}
                 toggleCollapsed={() => {
@@ -108,6 +109,7 @@ export const MainNavBar = ({
     return (
         <DesktopNavBar
             hideHomeLogo={hideHomeLogo}
+            hideHeader={hideHeader}
             hideNavbar={hideNavbar}
             scrolled={scrolled}
             showCollapsed={showCollapsed}

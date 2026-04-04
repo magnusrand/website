@@ -32,6 +32,7 @@ interface NavItemProps {
     color?: Color
     linkPath?: string
     children?: React.ReactNode
+    style?: React.CSSProperties
 }
 
 export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
@@ -55,6 +56,7 @@ export const NavItem = ({ expandIcon = true, ...props }: NavItemProps) => {
             style={{
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ['--nav-item-color' as any]: `var(${props.color})`,
+                ...props.style,
             }}
             onMouseEnter={debounceMouseLeave.cancel}
             onMouseLeave={debounceMouseLeave.func}

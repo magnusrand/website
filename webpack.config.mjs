@@ -68,6 +68,7 @@ const config = (env, args) => ({
             '@components': path.resolve(__dirname, 'src/components'),
             '@pages': path.resolve(__dirname, 'src/pages'),
             '@assets': path.resolve(__dirname, 'src/assets'),
+            '@firebase-utils': path.resolve(__dirname, 'src/firebase'),
             src: path.resolve(__dirname, 'src'),
         },
     },
