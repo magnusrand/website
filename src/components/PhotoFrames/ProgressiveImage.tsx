@@ -4,7 +4,7 @@ import { getImage } from 'src/utils/imageCache'
 import './ProgressiveImage.css'
 
 type ProgressiveImageProps = {
-    src: string
+    src?: string
     placeholderSrc?: string
     alt?: string
     className?: string
@@ -43,6 +43,7 @@ export const ProgressiveImage = ({
             async function loadImage() {
                 try {
                     const image = await getImage(src)
+                    if (!image) return
                     setImageSrc(image.src)
                     imageRef.current?.setAttribute('data-image-loaded', 'true')
 

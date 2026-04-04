@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { getPhotoForPhotographyLandingPage } from '@firebase-utils/firebase-firestore'
 import { ButtonLink } from '@components/Buttons/ButtonLink'
 import { useWindowDimensions } from '@components/utils'
+import { ProgressiveImage } from '@components/PhotoFrames/ProgressiveImage'
 import { PhotoData } from 'src/types'
 import { Filters } from './Filters'
 
@@ -27,9 +28,10 @@ export const LandingPage = () => {
     )
     return (
         <div className="photo-landing-page main-grid">
-            <img
+            <ProgressiveImage
                 className="photo-landing-page__background-image"
                 src={backgroundPhoto?.imageUrl}
+                placeholderSrc={backgroundPhoto?.thumbnailUrl}
                 alt=""
             />
             <div className="photo-landing-page__title__background"></div>
