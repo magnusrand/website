@@ -6,7 +6,8 @@ type ImageCache = {
 
 const imageCache = new Map<string, Promise<ImageCache>>()
 
-export function getImage(src: string) {
+export function getImage(src?: string) {
+    if (!src) return undefined
     if (imageCache.has(src)) {
         const cached = imageCache.get(src)
         if (cached) return cached

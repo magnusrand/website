@@ -4,7 +4,7 @@ import { getImage } from 'src/utils/imageCache'
 import './ProgressiveImage.css'
 
 type ProgressiveImageProps = {
-    src: string
+    src?: string
     placeholderSrc?: string
     alt?: string
     className?: string
@@ -20,10 +20,17 @@ export const ProgressiveImage = ({
     focusable,
     ...rest
 }: ProgressiveImageProps) => {
-    const [imageSrc, setImageSrc] = React.useState(placeholderSrc)
+    const [imageSrc, setImageSrc] = React.useState<string>()
     const [imageIsLoading, setImageIsLoading] = React.useState(true)
     const [imageInView, setImageInView] = React.useState(false)
     const imageRef = React.useRef<HTMLImageElement>(null)
+
+    React.useEffect(
+        function setThumbnail() {
+            setImageSrc(placeholderSrc ?? src)
+        },
+        [placeholderSrc, src],
+    )
 
     React.useEffect(
         function loadImageWithCache() {
@@ -43,6 +50,7 @@ export const ProgressiveImage = ({
             async function loadImage() {
                 try {
                     const image = await getImage(src)
+                    if (!image) return
                     setImageSrc(image.src)
                     imageRef.current?.setAttribute('data-image-loaded', 'true')
 
@@ -51,10 +59,9 @@ export const ProgressiveImage = ({
                         image.height + 'px',
                     )
                     if (image.width / image.height >= 2.7)
-                        imageRef.current &&
-                            imageRef.current.classList.add(
-                                'progressive-img--ultrawide',
-                            )
+                        imageRef.current?.classList.add(
+                            'progressive-img--ultrawide',
+                        )
                 } catch (error) {
                     console.error(error)
                 }
@@ -66,27 +73,24 @@ export const ProgressiveImage = ({
         },
         [src],
     )
-    React.useEffect(
-        function addFadeInAnimation() {
-            const observerVisible = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (imageRef.current && entry.isIntersecting) {
-                            setImageInView(true)
-                            // Stop observing the image once it is visible
-                            observerVisible.unobserve(entry.target)
-                        }
-                    })
-                },
-                { rootMargin: '0px' },
-            )
+    React.useEffect(function addFadeInAnimation() {
+        const observerVisible = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (imageRef.current && entry.isIntersecting) {
+                        setImageInView(true)
+                        // Stop observing the image once it is visible
+                        observerVisible.unobserve(entry.target)
+                    }
+                })
+            },
+            { rootMargin: '0px' },
+        )
 
-            if (imageRef.current) observerVisible.observe(imageRef.current)
+        if (imageRef.current) observerVisible.observe(imageRef.current)
 
-            return () => observerVisible.disconnect()
-        },
-        [src],
-    )
+        return () => observerVisible.disconnect()
+    }, [])
 
     React.useEffect(() => {
         const currentRef = imageRef?.current
