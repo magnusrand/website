@@ -148,7 +148,7 @@ export const getAlbums = async ({
                   where('albumCollection', '==', collectionName.toLowerCase()),
               ),
           )
-        : await getDocs(collection(db, ALBUM_COLLECTION))
+        : await getDocs(query(collection(db, ALBUM_COLLECTION), where("hidden", "!=", "false")))
 
     if (albumSnapshot.empty) return []
     const albums = albumSnapshot.docs.map(
@@ -156,6 +156,26 @@ export const getAlbums = async ({
     )
 
     return albums
+}
+
+export const getAlbum = async ({
+    name,
+}: {
+    name: string
+}) => {
+    const albumSnapshot = await getDocs(
+              query(
+                  collection(db, ALBUM_COLLECTION),
+                  where('name', '==', name.toLowerCase()),
+              ),
+          )
+
+    if (albumSnapshot.empty) return null
+    const album = albumSnapshot.docs.map(
+        (album) => ({ ...album.data(), documentRef: album.ref } as AlbumData),
+    ).at(0)
+
+    return album
 }
 
 export async function getPhotoForPhotographyLandingPage(

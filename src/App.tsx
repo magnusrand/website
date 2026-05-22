@@ -23,6 +23,7 @@ import { TagsPage } from '@pages/Photography/Search/TagsPage'
 import { Redirect } from '@components/Redirect'
 import { VisualBackgroundGrid } from '@components/BackgroundGrid'
 import { MainNavBar } from '@components/NavBar/MainNavBar'
+import { PrintShop } from '@pages/Photography/PrintShop/PrintShop'
 
 export const App = () => (
     <BrowserRouter>
@@ -65,6 +66,7 @@ const Routing = () => (
         <Route path="foto/etiketter" element={<TagsPage />} />
         <Route path="foto/utvalgte/:photo" element={<FeaturedPhotosPage />} />
         <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
+        <Route path="foto/butikk" element={<PrintShop />} />
         <Route
             path="foto/album/:albumName/:photo"
             element={<DisplayPhotosPage />}
