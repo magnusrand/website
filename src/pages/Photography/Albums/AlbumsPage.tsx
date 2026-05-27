@@ -26,7 +26,8 @@ export const AlbumsPage = () => {
             const albumData = await getAlbums({
                 collectionName: currentAlbumCollection,
             })
-            setAlbums(albumData ?? [])
+
+            setAlbums(albumData.filter((album) => album.hidden !== true) ?? [])
             setLoading(false)
         }
         runGetAlbums()
