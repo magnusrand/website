@@ -12,6 +12,7 @@ export function PrintShop(props: {}) {
     useEffect(function getPrints() {
         async function fetchPrintPhotos() {
             const result = await getPhotosInAlbum("prints");
+            console.log('res', result)
             if (result) setPhotos(result)
                 
             console.log(result)
@@ -22,8 +23,9 @@ export function PrintShop(props: {}) {
     return (
         <div className="print-shop main-grid">
             <SiteHeading siteName="Butikk" />
-            {photos?.map(photo => (
-                <ShopFrame photo={photo} />
+            HEI
+            {photos?.map((photo) => (
+                <ShopFrame photo={photo} key={photo.documentRef.id} />
             ))}
         </div>
     )
