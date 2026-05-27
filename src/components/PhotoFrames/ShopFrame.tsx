@@ -6,11 +6,12 @@ import { PhotoData } from "src/types";
 export function ShopFrame(props: { photo: PhotoData }) {
     return (
         <div className="shop-frame">
-            <ProgressiveImage />
+            <ProgressiveImage
+                src={props.photo.imageUrl}
+                placeholderSrc={props.photo.thumbnailUrl}
+            />
             HEI
-            <div className="shop-frame__info">
-
-            </div>
+            <div className="shop-frame__info"></div>
         </div>
     )
 }
