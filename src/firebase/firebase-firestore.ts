@@ -148,7 +148,12 @@ export const getAlbums = async ({
                   where('albumCollection', '==', collectionName.toLowerCase()),
               ),
           )
-        : await getDocs(collection(db, ALBUM_COLLECTION))
+        : await getDocs(
+              query(
+                  collection(db, ALBUM_COLLECTION),
+                  where('hidden', '!=', 'false'),
+              ),
+          )
 
     if (albumSnapshot.empty) return []
     const albums = albumSnapshot.docs.map(
