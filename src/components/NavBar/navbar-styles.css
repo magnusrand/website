@@ -3,7 +3,17 @@
 .main-navbar {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-columns: 1fr minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) 1fr;
+    grid-template-columns:
+        1fr minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px)
+        minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(
+            0px,
+            100px
+        )
+        minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px) minmax(
+            0px,
+            100px
+        )
+        minmax(0px, 100px) 1fr;
     grid-template-rows: 8rem;
     column-gap: 1.25rem;
     height: 100%;
@@ -66,6 +76,8 @@
                 padding-left: 0.75rem;
                 padding-top: 0.25rem;
                 padding-bottom: 0.5rem;
+
+                text-transform: lowercase;
 
                 &:first-child {
                     margin-top: 0.25rem;

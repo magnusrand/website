@@ -66,7 +66,7 @@ export const MobileNavBar = ({
                     )}
                     <MobileNavDropdown title="Foto" icon={<MdCamera />}>
                         <MobileNavDropdownItem
-                            title="Startside"
+                            title="Forside"
                             icon={<FaHome />}
                             linkPath="foto"
                         />

@@ -95,21 +95,6 @@
         word-wrap: break-word;
         line-height: 9.45rem;
     }
-
-    .background-letter {
-        grid-column-start: 4;
-        grid-row-start: 1;
-        margin-left: -21rem;
-        z-index: -1;
-
-        font-size: 150rem;
-        line-height: 52rem;
-
-        color: var(--light-color-1);
-        opacity: 0.4125;
-
-        animation: color-cycle 20s linear infinite;
-    }
 }
 
 @media only screen and (max-width: 1080px) {
@@ -132,13 +117,6 @@
             }
             margin-top: -2.55rem;
             margin-left: -17.6rem;
-        }
-
-        .background-letter {
-            grid-column-start: 3;
-            grid-row-start: 1;
-            margin-left: -21rem;
-            margin-top: -7rem;
         }
 
         .horizontal-bar1 {
@@ -206,15 +184,6 @@
                 margin-top: calc((100vw - 4rem) * -0.08);
                 margin-left: 0rem;
             }
-        }
-
-        .background-letter {
-            grid-column-start: 2;
-            grid-row-start: 1;
-
-            margin-left: calc(100vw * -0.7);
-
-            font-size: calc(100vw * 3.8);
         }
 
         .horizontal-bar1 {

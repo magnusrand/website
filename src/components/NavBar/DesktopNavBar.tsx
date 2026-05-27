@@ -70,7 +70,7 @@ export const DesktopNavBar = ({
         >
             <NavItem title="Fotografi" color={Color.DARK1}>
                 <Dropdown>
-                    <DropdownItem title="Startside" linkPath="/foto" />
+                    <DropdownItem title="Forside" linkPath="/foto" />
                     <DropdownItem title="Utvalgte" linkPath="/foto/utvalgte" />
                     <DropdownItem title="Alle album" linkPath="/foto/album" />
                     <DropdownItem

@@ -22,7 +22,6 @@ export const LandingPage = () => {
 
     return (
         <div ref={gridRef} className="landing-page main-grid">
-            <div className="background-letter type-garamond-regular">R</div>
             <div className="horizontal-bar1" />
             <div className="horizontal-bar2" />
             <div className="horizontal-bar3" />
