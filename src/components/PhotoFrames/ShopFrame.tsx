@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { ProgressiveImage } from "./ProgressiveImage";
-import { getPhotosInAlbum } from "@firebase-utils/firebase-firestore";
-import { PhotoData } from "src/types";
+import { PhotoData } from 'src/types'
+
+import { ProgressiveImage } from './ProgressiveImage'
+import './shopFrame.css'
 
 export function ShopFrame(props: { photo: PhotoData }) {
     return (
@@ -10,8 +10,7 @@ export function ShopFrame(props: { photo: PhotoData }) {
                 src={props.photo.imageUrl}
                 placeholderSrc={props.photo.thumbnailUrl}
             />
-            HEI
-            <div className="shop-frame__info"></div>
+            <div className="shop-frame__info">test</div>
         </div>
     )
 }
