@@ -32,6 +32,7 @@ export interface PhotoData {
     albumRef?: DocumentReference
     tags?: string[]
     displayMode?: 'normal' | 'story'
+    alternativeVersion?: { albumName: string; fileName: string }
 }
 
 export interface metaData {
