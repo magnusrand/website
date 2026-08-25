@@ -28,6 +28,14 @@ export function getISO(value: number | undefined) {
     return 'ISO ' + value
 }
 
+export function getCameraName(photo: PhotoData | null) {
+    return ` ${
+        photo?.metaData?.Make !== photo?.metaData?.Model?.split(' ')[0]
+            ? `${photo?.metaData?.Make} `
+            : ''
+    }${photo?.metaData?.Model}`
+}
+
 export function useDebounce<T extends (...args: any[]) => any>(
     callBack: T,
     debounceTime: number,
@@ -92,4 +100,22 @@ export function useWindowDimensions() {
     }, [])
 
     return windowDimensions
+}
+
+/** Hook to keep fullscreen image and page scroll in sync */
+export function useSyncScrollWithFullscreen(
+    fullscreenPhotoName: string | undefined,
+    photos: PhotoData[],
+) {
+    useEffect(() => {
+        if (fullscreenPhotoName && photos.length > 0) {
+            const photoElementInGrid =
+                document.getElementById(fullscreenPhotoName)
+            setTimeout(() => {
+                photoElementInGrid?.scrollIntoView({
+                    block: 'center',
+                })
+            }, 100) // Delay to ensure the element is rendered
+        }
+    }, [photos, fullscreenPhotoName])
 }

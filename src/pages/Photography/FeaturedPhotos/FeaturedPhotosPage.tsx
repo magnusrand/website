@@ -40,19 +40,6 @@ export const FeaturedPhotosPage = () => {
         getPhotosForCurrentPage()
     }, [ALBUM_NAME])
 
-    /** Hook to keep fullscreen image and page scroll in sync */
-    useEffect(() => {
-        if (fullscreenPhotoName && photos.length > 0) {
-            const photoElementInGrid =
-                document.getElementById(fullscreenPhotoName)
-            setTimeout(() => {
-                photoElementInGrid?.scrollIntoView({
-                    block: 'center',
-                })
-            }, 100) // Delay to ensure the element is rendered
-        }
-    }, [photos, fullscreenPhotoName])
-
     const sortedPhotos = useMemo(
         () =>
             photos.sort((photoA, photoB) => photoA.priority - photoB.priority),
@@ -151,20 +138,12 @@ export const FeaturedPhotosPage = () => {
                 </IconButton>
             )}
             <FullscreenOverlay
-                photoUrls={sortedPhotos.map((photo) => ({
-                    photo: photo.imageUrl,
-                    placeholder: photo.thumbnailUrl,
-                    photoName: getFilenameForUrl(photo.fileName),
-                }))}
+                photos={sortedPhotos}
                 currentPhoto={fullscreenPhotoName}
-                onNavigate={(nextPhotoName) => {
-                    if (nextPhotoName === null)
-                        return navigate(`/foto/utvalgte`)
-
-                    navigate(`/foto/utvalgte/${nextPhotoName}`, {
-                        replace: true,
-                    })
-                }}
+                nextPhotoPath={(nextPhotoName) =>
+                    `/foto/utvalgte/${nextPhotoName}`
+                }
+                dismissFullscreenPath="/foto/utvalgte"
             />
         </div>
     )
