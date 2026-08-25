@@ -2,21 +2,37 @@ import React, { useEffect } from 'react'
 
 import classNames from 'classnames'
 import { MdClose } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
+
+import { useSyncScrollWithFullscreen } from '@components/utils'
 
 import { IconButton } from '../../Buttons/IconButton'
 import { ProgressiveImage } from '../ProgressiveImage'
 
+import { PhotoData } from 'src/types'
+import { getFilenameForUrl } from '@firebase-utils/utils'
+
 import './fullscreenOverlay.css'
 
 export const FullscreenOverlay = ({
-    photoUrls,
+    photos,
     currentPhoto,
-    onNavigate,
+    nextPhotoPath,
+    dismissFullscreenPath,
 }: {
-    photoUrls: Array<{ photo: string; placeholder: string; photoName?: string }>
+    photos: PhotoData[]
     currentPhoto?: string
-    onNavigate: (action: string | null) => void
+    nextPhotoPath: (nextPhotoName: string | null) => string
+    dismissFullscreenPath: string
 }) => {
+    const navigate = useNavigate()
+
+    const photoUrls = photos.map((photo) => ({
+        photo: photo.imageUrl,
+        placeholder: photo.thumbnailUrl,
+        photoName: getFilenameForUrl(photo.fileName),
+    }))
+
     const showFullscreen = currentPhoto !== undefined
     const currentPhotoIndex = photoUrls?.findIndex(
         (photo) => photo.photoName === currentPhoto,
@@ -33,27 +49,37 @@ export const FullscreenOverlay = ({
 
     useEffect(
         function handleFullscreenNavigation() {
+            const dismissFullscreen = () => {
+                navigate(dismissFullscreenPath, { replace: true })
+            }
+
+            const goToNextFullscreenPhoto = () => {
+                const nextPhotoName =
+                    photoUrls?.[currentPhotoIndex + 1].photoName
+                if (
+                    nextPhotoName &&
+                    currentPhotoData &&
+                    currentPhotoIndex < photoUrls?.length - 1
+                )
+                    navigate(nextPhotoPath(nextPhotoName), { replace: true })
+            }
+
+            const goToPrevFullscreenPhoto = () => {
+                const prevPhotoName =
+                    photoUrls?.[currentPhotoIndex - 1].photoName
+                if (prevPhotoName && currentPhotoData && currentPhotoIndex > 0)
+                    navigate(nextPhotoPath(prevPhotoName), { replace: true })
+            }
             const handleEscape = (e: KeyboardEvent) => {
                 if (e.key === 'Escape') {
-                    onNavigate(null)
+                    dismissFullscreen()
                 }
             }
             const handleArrowKeys = (e: KeyboardEvent) => {
                 if (e.key == 'ArrowRight') {
-                    if (
-                        currentPhotoData &&
-                        currentPhotoIndex < photoUrls?.length - 1
-                    )
-                        onNavigate(
-                            photoUrls?.[currentPhotoIndex + 1].photoName ??
-                                null,
-                        )
+                    goToNextFullscreenPhoto()
                 } else if (e.key == 'ArrowLeft') {
-                    if (currentPhotoData && currentPhotoIndex > 0)
-                        onNavigate(
-                            photoUrls?.[currentPhotoIndex - 1].photoName ??
-                                null,
-                        )
+                    goToPrevFullscreenPhoto()
                 }
             }
 
@@ -69,24 +95,14 @@ export const FullscreenOverlay = ({
             const handleTouchEnd = (e: TouchEvent) => {
                 touchEndX = e.changedTouches[0].pageX
                 const touchDeltaX = touchEndX - touchStartX
-                console.log(touchStartX, touchEndX, touchDeltaX)
+
                 // Swipe towards right
                 if (touchDeltaX > 100) {
-                    if (currentPhotoData && currentPhotoIndex > 0)
-                        onNavigate(
-                            photoUrls?.[currentPhotoIndex - 1].photoName ??
-                                null,
-                        )
-                    // Swipe towards left
-                } else if (touchDeltaX < -100) {
-                    if (
-                        currentPhotoData &&
-                        currentPhotoIndex < photoUrls?.length - 1
-                    )
-                        onNavigate(
-                            photoUrls?.[currentPhotoIndex + 1].photoName ??
-                                null,
-                        )
+                    goToNextFullscreenPhoto()
+                }
+                // Swipe towards left
+                else if (touchDeltaX < -100) {
+                    goToPrevFullscreenPhoto()
                 }
             }
 
@@ -107,16 +123,18 @@ export const FullscreenOverlay = ({
         [currentPhoto, currentPhotoData?.photoName, currentPhotoIndex],
     )
 
+    useSyncScrollWithFullscreen(currentPhoto, photos)
+
     return (
         <div
             className={classNames('fullscreen-overlay', {
                 'fullscreen-overlay--active': showFullscreen,
             })}
-            onClick={() => onNavigate(null)}
+            onClick={() => navigate(dismissFullscreenPath)}
         >
             <IconButton
                 className="fullscreen-overlay__close-button"
-                onClick={() => onNavigate(null)}
+                onClick={() => navigate(dismissFullscreenPath)}
                 tabIndex={currentPhoto ? 0 : -1}
             >
                 <MdClose size="2rem" aria-label="Lukk fullskjermvisning" />

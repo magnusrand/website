@@ -25,11 +25,11 @@ export const DisplayPhotosPage = () => {
     const headingRef = useRef<HTMLDivElement>(null)
     const params = useParams()
     const [photos, setPhotos] = useState<PhotoData[]>([])
+    const albumName = params.albumName?.toLowerCase()
     const currentAlbum = useAlbumsList().find(
         (album) => album.name.toLowerCase() === params.albumName?.toLowerCase(),
     )
 
-    const albumName = params.albumName?.toLowerCase()
     const fullscreenPhotoName = params.photo?.toLowerCase()
 
     const sortedPhotos = useMemo(
@@ -49,19 +49,6 @@ export const DisplayPhotosPage = () => {
         }
         getPhotosForCurrentPage()
     }, [albumName])
-
-    /** Hook to keep fullscreen image and page scroll in sync */
-    useEffect(() => {
-        if (fullscreenPhotoName && photos.length > 0) {
-            const photoElementInGrid =
-                document.getElementById(fullscreenPhotoName)
-            setTimeout(() => {
-                photoElementInGrid?.scrollIntoView({
-                    block: 'center',
-                })
-            }, 100) // Delay to ensure the element is rendered
-        }
-    }, [photos, fullscreenPhotoName])
 
     const photoLayout = useMemo(() => {
         const _photoLayout: string[] = []
@@ -160,7 +147,6 @@ export const DisplayPhotosPage = () => {
                             const _photoName = getFilenameForUrl(photo.fileName)
                             navigate(`/foto/album/${albumName}/${_photoName}`)
                         }}
-                        // className={`photo-element photo-element--${photoLayout[index]} photo-element--${photo.metaData?.orientation}`}
                         key={photo.imageUrl}
                     />
                 ) : (
@@ -186,22 +172,12 @@ export const DisplayPhotosPage = () => {
                 <MdArrowUpward />
             </IconButton>
             <FullscreenOverlay
-                photoUrls={sortedPhotos.map((photo) => ({
-                    photo: photo.imageUrl,
-                    placeholder: photo.thumbnailUrl,
-                    photoName: getFilenameForUrl(photo.fileName),
-                }))}
+                photos={sortedPhotos}
                 currentPhoto={fullscreenPhotoName}
-                onNavigate={(nextPhotoName) => {
-                    if (nextPhotoName === null)
-                        return navigate(`/foto/album/${albumName}`, {
-                            replace: true,
-                        })
-
-                    navigate(`/foto/album/${albumName}/${nextPhotoName}`, {
-                        replace: true,
-                    })
-                }}
+                nextPhotoPath={(nextPhotoName) =>
+                    `/foto/album/${albumName}/${nextPhotoName}`
+                }
+                dismissFullscreenPath={`/foto/album/${albumName}`}
             />
         </div>
     )
