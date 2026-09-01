@@ -1,57 +1,97 @@
-import { IoMdStopwatch, IoMdAperture } from 'react-icons/io'
-import { MdCameraAlt, MdIso } from 'react-icons/md'
+import { useEffect, useRef, useState } from 'react'
 
-import { PhotoData } from 'src/types'
+import { useNavigate } from 'react-router-dom'
 import { getPhotoInAlbum } from '@firebase-utils/firebase-firestore'
 
+import { MetaText } from '@components/MetaText/MetaText'
+import { Button } from '@components/Buttons/Button'
+import { ButtonLink } from '@components/Buttons/ButtonLink'
 import {
-    getAperture,
-    getCameraName,
-    getISO,
-    getShutterSpeedFraction,
-} from '../utils'
+    formatDescriptionForHTML,
+    getFilenameForUrl,
+} from '@firebase-utils/utils'
+
+import { PhotoData } from 'src/types'
 
 import { ProgressiveImage } from './ProgressiveImage'
-import './shopFrame.css'
-import { useEffect, useState } from 'react'
 
-export function ShopFrame(props: { photo: PhotoData }) {
+import './shopFrame.css'
+
+export function ShopFrame({
+    photo,
+    className,
+    ...rest
+}: {
+    photo: PhotoData
+    className?: string
+    onClick?: () => void
+}) {
+    const descriptionRef = useRef<HTMLParagraphElement>(null)
+    const navigate = useNavigate()
+
+    const description = formatDescriptionForHTML(photo.description)
+
+    useEffect(() => {
+        descriptionRef.current &&
+            descriptionRef.current.insertAdjacentHTML('afterbegin', description)
+    }, [description])
     const [originalImage, setOriginalImage] = useState<PhotoData | null>(null)
+
     useEffect(function getOriginalImage() {
         async function fetchPhotoData() {
             const photoData = await getPhotoInAlbum(
-                props.photo.alternativeVersion?.albumName,
-                props.photo.alternativeVersion?.fileName,
+                photo.alternativeVersion?.albumName,
+                photo.alternativeVersion?.fileName,
             )
-            // if (!photoData) return
+            if (!photoData) return
             setOriginalImage(photoData)
-            console.log('test', photoData)
         }
         fetchPhotoData()
     }, [])
-    const cameraName = getCameraName(originalImage)
+
+    const originalImageFullscreenPath = (() => {
+        const album = photo.alternativeVersion?.albumName
+        if (!album) return
+        if (album?.toLowerCase() === 'utvalgte')
+            return `/foto/utvalgte/${getFilenameForUrl(photo.alternativeVersion?.fileName)}`
+        return `/foto/album/${photo.alternativeVersion?.albumName.toLowerCase()}/${getFilenameForUrl(photo.alternativeVersion?.fileName)}`
+    })()
 
     return (
-        <div className="shop-frame">
+        <div className={`shop-frame ${className}`}>
             <ProgressiveImage
                 className="shop-frame__image"
-                src={props.photo.imageUrl}
-                placeholderSrc={props.photo.thumbnailUrl}
+                src={photo.imageUrl}
+                placeholderSrc={photo.thumbnailUrl}
+                onClick={() => {
+                    const _photoName = getFilenameForUrl(
+                        originalImage?.fileName,
+                    )
+                    navigate(`/foto/butikk/${_photoName}`)
+                    rest.onClick?.()
+                }}
             />
             <div className="shop-frame__info">
-                <h2>Bildenavn</h2>
-                <small className="story-frame__text__meta">
-                    <IoMdAperture />
-                    {getAperture(originalImage?.metaData?.FNumber)}
-                    <IoMdStopwatch style={{ marginLeft: '0.5rem' }} />
-                    {getShutterSpeedFraction(
-                        originalImage?.metaData?.ExposureTime,
-                    )}
-                    <MdIso style={{ marginLeft: '0.5rem' }} />
-                    {getISO(originalImage?.metaData?.ISO)}
-                    <MdCameraAlt style={{ marginLeft: '0.5rem' }} />
-                    {cameraName}
-                </small>
+                <h2 className="shop-frame__photo-name">
+                    {photo.title ? photo.title : 'Uten navn'}
+                </h2>
+                <MetaText photo={originalImage} />
+                <div
+                    className="shop-frame__photo-description"
+                    ref={descriptionRef}
+                />
+                <Button className="shop-frame__order-button">
+                    Bestill trykk
+                </Button>
+                {originalImageFullscreenPath && (
+                    <ButtonLink
+                        className="shop-frame__original-image-button"
+                        variant="secondary"
+                        to={originalImageFullscreenPath}
+                    >
+                        Vis bildet i album
+                    </ButtonLink>
+                )}
             </div>
         </div>
     )

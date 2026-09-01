@@ -1,3 +1,7 @@
 .print-shop {
     padding-top: 10rem;
+
+    &__section {
+        margin-top: 5rem;
+    }
 }

@@ -67,6 +67,7 @@ const Routing = () => (
         <Route path="foto/utvalgte/:photo" element={<FeaturedPhotosPage />} />
         <Route path="foto/utvalgte" element={<FeaturedPhotosPage />} />
         <Route path="foto/butikk" element={<PrintShop />} />
+        <Route path="foto/butikk/:photo" element={<PrintShop />} />
         <Route
             path="foto/album/:albumName/:photo"
             element={<DisplayPhotosPage />}

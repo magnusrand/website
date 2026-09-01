@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import classNames from 'classnames'
 import { MdClose } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useSyncScrollWithFullscreen } from '@components/utils'
 
@@ -16,7 +16,7 @@ import './fullscreenOverlay.css'
 
 export const FullscreenOverlay = ({
     photos,
-    currentPhoto,
+    currentPhoto: _currentPhoto,
     nextPhotoPath,
     dismissFullscreenPath,
 }: {
@@ -32,6 +32,9 @@ export const FullscreenOverlay = ({
         placeholder: photo.thumbnailUrl,
         photoName: getFilenameForUrl(photo.fileName),
     }))
+
+    const params = useParams()
+    const currentPhoto = _currentPhoto ?? params.photo?.toLowerCase()
 
     const showFullscreen = currentPhoto !== undefined
     const currentPhotoIndex = photoUrls?.findIndex(

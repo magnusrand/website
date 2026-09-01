@@ -29,6 +29,7 @@ export function getISO(value: number | undefined) {
 }
 
 export function getCameraName(photo: PhotoData | null) {
+    if (!photo?.metaData?.Model || !photo.metaData.Make) return ''
     return ` ${
         photo?.metaData?.Make !== photo?.metaData?.Model?.split(' ')[0]
             ? `${photo?.metaData?.Make} `
