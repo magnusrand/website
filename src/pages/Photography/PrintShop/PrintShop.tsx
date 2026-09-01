@@ -10,7 +10,7 @@ import { ShopFrame } from '@components/PhotoFrames/ShopFrame'
 import './printShop.css'
 
 export function PrintShop(props: {}) {
-    const [photos, setPhotos] = useState<PhotoData[]>()
+    const [photos, setPhotos] = useState<PhotoData[]>([])
 
     useEffect(function getPrints() {
         async function fetchPrintPhotos() {
@@ -24,7 +24,11 @@ export function PrintShop(props: {}) {
         <div className="print-shop main-grid">
             <SiteHeading siteName="Butikk" />
             {photos?.map((photo) => (
-                <ShopFrame photo={photo} key={photo.documentRef.id} />
+                <ShopFrame
+                    photo={photo}
+                    className="print-shop__section"
+                    key={photo.documentRef.id}
+                />
             ))}
         </div>
     )
