@@ -40,6 +40,7 @@ export function ShopFrame({
 
     useEffect(function getOriginalImage() {
         async function fetchPhotoData() {
+            console.dir(photo.alternativeVersion)
             const photoData = await getPhotoInAlbum(
                 photo.alternativeVersion?.albumName,
                 photo.alternativeVersion?.fileName,

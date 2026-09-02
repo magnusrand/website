@@ -5,7 +5,11 @@
 }
 
 .print-shop {
+    position: relative;
+    height: 100%;
+
     padding-top: 10rem;
+    padding-bottom: 10rem;
 
     &__section {
         margin-top: 5rem;

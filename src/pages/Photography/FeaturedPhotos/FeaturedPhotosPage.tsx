@@ -29,7 +29,7 @@ export const FeaturedPhotosPage = () => {
 
     const fullscreenPhotoName = params.photo?.toLowerCase()
 
-    const ALBUM_NAME = 'featured'
+    const ALBUM_NAME = 'utvalgte'
     const PAGE_TITLE = 'Utvalgte'
 
     useEffect(() => {
