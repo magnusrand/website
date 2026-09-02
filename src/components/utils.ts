@@ -120,3 +120,17 @@ export function useSyncScrollWithFullscreen(
         }
     }, [photos, fullscreenPhotoName])
 }
+
+export function getEmailTemplate(
+    photoName: string,
+    fileName: string,
+    album: string,
+) {
+    return encodeURIComponent(`Jeg er interessert i å bestille et trykk av følgende foto:
+
+Navn: ${photoName}
+
+Teknisk info:
+Fil: ${fileName}, album: ${album}.
+  `)
+}

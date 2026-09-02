@@ -1,8 +1,3 @@
-#app {
-    height: 100vh;
-    height: 100dvh;
-}
-
 :root:has(.displayed-photos-page) {
     --theme-color: var(--light-color-2--solid);
     --theme-color-secondary: var(--light-color-1);

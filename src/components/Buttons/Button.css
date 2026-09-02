@@ -3,7 +3,7 @@
 }
 
 .mr-button--secondary {
-    --button-color: var(--light-color-3);
+    --button-color: var(--theme-color-secondary, var(--light-color-3));
 }
 
 .mr-button--negative {
@@ -20,7 +20,9 @@
     padding: 0.5rem;
     padding-bottom: 0.875rem;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition:
+        background-color 0.2s ease-in-out,
+        color 0.2s ease-in-out;
 
     color: var(--button-color);
 

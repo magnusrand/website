@@ -17,6 +17,7 @@ export interface AlbumData {
     albumCollection: string
     documentRef: DocumentReference
     sort?: string
+    hidden?: boolean
 }
 
 export interface PhotoData {
