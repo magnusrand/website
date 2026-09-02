@@ -16,6 +16,7 @@ import { PhotoData } from 'src/types'
 import { ProgressiveImage } from './ProgressiveImage'
 
 import './shopFrame.css'
+import { getEmailTemplate } from '@components/utils'
 
 export function ShopFrame({
     photo,
@@ -80,9 +81,16 @@ export function ShopFrame({
                     className="shop-frame__photo-description"
                     ref={descriptionRef}
                 />
-                <Button className="shop-frame__order-button">
+                <ButtonLink
+                    href={`mailto:magnus.rand+fotobutikk@gmail.com?subject=Bestilling%20av%20foto%20til%20trykk&body=${getEmailTemplate(
+                        photo.title ?? 'ukjent',
+                        photo.alternativeVersion?.fileName ?? 'ukjent',
+                        photo.alternativeVersion?.albumName ?? 'ukjent',
+                    )}`}
+                    className="shop-frame__order-button"
+                >
                     Bestill trykk
-                </Button>
+                </ButtonLink>
                 {originalImageFullscreenPath && (
                     <ButtonLink
                         className="shop-frame__original-image-button"

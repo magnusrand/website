@@ -46,6 +46,7 @@
 
     #app {
         position: relative;
+        height: 100dvh;
     }
 
     a {
@@ -68,32 +69,32 @@
         --dark-color-1-rgb: 33, 158, 188;
         --dark-color-2-rgb: 17, 103, 131;
         --dark-color-3-rgb: 0, 48, 73;
-    
+
         --white: #fffff2;
         --black: #161515;
-    
+
         --negative-color: #bd1d45;
-    
+
         --font-size-small: 1.33rem;
         --font-size-medium: 2rem;
         --font-size-medium-large: 3rem;
         --font-size-large: 5rem;
         --font-size-extralarge: 10.5rem;
-    
+
         --nav-item-color: var(--dark-color-1);
-    
+
         --margin-top-main: 2rem;
         --padding-sides: 0;
-    
+
         --row-height: 7rem;
         --row-gap: 2.5rem;
         --column-gap: 1.25rem;
-    
+
         --theme-color: var(--light-color-2--solid);
         --theme-color-secondary: var(--light-color-1);
         --theme-color-difference: var(--dark-color-2);
     }
-    
+
     .type-garamond-regular {
         font-family: 'EB Garamond', serif;
         font-weight: 400;
@@ -124,7 +125,7 @@
     .font-size-medium {
         font-size: var(--font-size-medium);
     }
-    
+
     .font-size-medium-large {
         font-size: var(--font-size-medium-large);
     }
@@ -177,6 +178,9 @@
 }
 
 .main-grid {
+    height: 100%;
+    overflow-y: scroll;
+
     position: relative;
     padding-left: var(--padding-sides);
     padding-right: var(--padding-sides);
@@ -189,7 +193,7 @@
         minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px)
         minmax(0px, 100px) minmax(0px, 100px) minmax(0px, 100px)
         minmax(0px, 100px) 1fr;
-    grid-template-rows: repeat(auto-fill, var(--row-height));
+    /*grid-template-rows: repeat(auto-fill, var(--row-height));*/
     column-gap: var(--column-gap);
     row-gap: var(--row-gap);
 

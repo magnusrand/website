@@ -77,6 +77,7 @@ export const DesktopNavBar = ({
                         title="Etiketter"
                         linkPath="/foto/etiketter"
                     />
+                    <DropdownItem title="Butikk" linkPath="/foto/butikk" />
                 </Dropdown>
             </NavItem>
             <NavItem title="Prosjekter" color={Color.DARK2}>

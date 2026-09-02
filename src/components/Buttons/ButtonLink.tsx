@@ -8,6 +8,7 @@ export const ButtonLink = ({
     className,
     variant = 'primary',
     to,
+    href,
     ...rest
 }: {
     children: React.ReactNode
@@ -16,17 +17,31 @@ export const ButtonLink = ({
     style?: CSSProperties & Record<`--${string}`, string>
     variant?: 'primary' | 'secondary' | 'negative'
     tabIndex?: number
-    to: string
+    to?: string
+    href?: string
 }) => {
+    if (to)
+        return (
+            <Link
+                className={`mr-button type-garamond-regular mr-button--${variant} ${className}`}
+                type="button"
+                tabIndex={0}
+                to={to}
+                {...rest}
+            >
+                {children}
+            </Link>
+        )
+
     return (
-        <Link
+        <a
             className={`mr-button type-garamond-regular mr-button--${variant} ${className}`}
             type="button"
             tabIndex={0}
-            to={to}
+            href={href}
             {...rest}
         >
             {children}
-        </Link>
+        </a>
     )
 }
