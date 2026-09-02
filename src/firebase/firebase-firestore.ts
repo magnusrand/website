@@ -59,15 +59,21 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
     )
 
     let docSnap
-    if (
-        getCountFromServer(photosQuery) ===
-        getCountFromServer(photosQueryUnsorted)
-    ) {
+    const numberOfSortedPhotos = (await getCountFromServer(photosQuery)).data()
+        .count
+    const numberOfUnsortedPhotos = (
+        await getCountFromServer(photosQueryUnsorted)
+    ).data().count
+
+    if (numberOfSortedPhotos === numberOfUnsortedPhotos) {
         docSnap = await getDocs(photosQuery)
     }
     // If count doesnt match it means some photos dont have the CreateDate field and are skipped.
     // We then query the photos unsorted instead
     else {
+        console.warn(
+            `${numberOfUnsortedPhotos - numberOfSortedPhotos} photos in album ${albumName} does not have a CreateDate.`,
+        )
         docSnap = await getDocs(photosQueryUnsorted)
     }
 
@@ -94,14 +100,20 @@ export const getPhotoInAlbum = async (
 
     const albumSnapshot = await getDocs(albumQuery)
     if (albumSnapshot.empty) return null
+    console.log(albumName, 'not empty')
     const albumRef = albumSnapshot.docs[0].ref
 
     const photoQuery = query(
         collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
         where('fileName', '==', fileName + '.jpg'), // Assuming the fileName is stored with .jpg extension
     )
+    console.log(
+        'album path',
+        `${albumRef.path}/${PHOTOS_COLLECTION}/${fileName}`,
+    )
     const photoSnapshot = await getDocs(photoQuery)
     if (photoSnapshot.empty) return null
+    console.log('foto', 'not empty')
 
     const photoData = {
         ...photoSnapshot.docs[0].data(),
@@ -201,7 +213,7 @@ export async function getPhotoForPhotographyLandingPage(
 ) {
     const albumQuery = query(
         collection(db, ALBUM_COLLECTION),
-        where('name', '==', 'featured'),
+        where('name', '==', 'utvalgte'),
     )
 
     const albumSnapshot = await getDocs(albumQuery)

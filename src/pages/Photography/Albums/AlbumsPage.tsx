@@ -77,7 +77,7 @@ export const AlbumsPage = () => {
                         )}
                         <AlbumCard
                             album={albums.find(
-                                (album) => album.name === 'featured',
+                                (album) => album.name === 'utvalgte',
                             )}
                             to="/foto/utvalgte"
                         />
@@ -97,7 +97,7 @@ export const AlbumsPage = () => {
                         {albums
                             .filter(
                                 (album) =>
-                                    album.name !== 'featured' &&
+                                    album.name !== 'utvalgte' &&
                                     !Object.keys(albumCollections).includes(
                                         album.albumCollection,
                                     ) &&
@@ -118,7 +118,7 @@ export const AlbumsPage = () => {
 
 const AlbumCard = ({ album, to }: { album?: AlbumData; to?: string }) => {
     if (album === undefined) return <></>
-    const albumName = album.name === 'featured' ? 'Utvalgte' : album.name
+    const albumName = album.name === 'utvalgte' ? 'Utvalgte' : album.name
     return (
         <Link
             to={to ?? `/foto/album/${albumName.toLowerCase()}`}

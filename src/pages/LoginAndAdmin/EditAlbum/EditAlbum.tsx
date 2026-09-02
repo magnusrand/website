@@ -288,6 +288,12 @@ export const EditAlbum = () => {
                                             operation,
                                         )
                                     }
+                                    albums={
+                                        currentAlbumName.toLowerCase() ===
+                                        'prints'
+                                            ? albums
+                                            : undefined
+                                    }
                                 />
                             ))}
                     </div>
