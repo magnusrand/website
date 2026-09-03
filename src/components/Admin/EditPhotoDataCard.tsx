@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { MdArrowBack, MdArrowForward } from 'react-icons/md'
 
-import { PhotoData } from 'src/types'
+import { AlbumData, PhotoData } from 'src/types'
 
 import { IconButton } from '@components/Buttons/IconButton'
 
@@ -26,6 +26,7 @@ const EditPhotoDataCard = ({
     index,
     maxIndex,
     onPositionChange,
+    albums,
 }: {
     photo: PhotoData
     albumName: string
@@ -33,6 +34,7 @@ const EditPhotoDataCard = ({
     index?: number
     maxIndex?: number
     onPositionChange: (operation: 'increase' | 'decrease' | number) => void
+    albums?: AlbumData[]
 }) => {
     const [photoTitle, setPhotoTitle] = useState<string>(photo.title ?? '')
     const [photoDescription, setPhotoDescription] = useState<string>(
@@ -42,6 +44,10 @@ const EditPhotoDataCard = ({
     const [photoDisplayMode, setPhotoDisplayMode] = useState<
         undefined | '' | 'story' | 'normal'
     >(photo?.displayMode ?? '')
+    const [altVersion, setAltVersion] = useState({
+        albumName: photo.alternativeVersion?.albumName,
+        fileName: photo.alternativeVersion?.fileName,
+    })
 
     return (
         <div className="edit-photo-data-card">
@@ -112,6 +118,44 @@ const EditPhotoDataCard = ({
                     onChange={(e) => setPhotoDisplayMode(e.target.value)}
                 />
             </div>
+            {albums?.length && (
+                <div className="edit-photo-data-card__input">
+                    <Label htmlFor="photoAltVersion">Alternativ versjon</Label>
+                    <select
+                        name="altVersionAlbum"
+                        id="altVersionAlbum-select"
+                        onChange={(e) => {
+                            if (e.target.value === '-') return
+
+                            setAltVersion({
+                                albumName: e.target.value,
+                                fileName: altVersion.fileName,
+                            })
+                        }}
+                        value={altVersion.albumName ?? 'velg album …'}
+                    >
+                        <option key="nothing" value="-">
+                            velg album …
+                        </option>
+                        {albums?.map((album) => (
+                            <option key={album.name} value={album.name}>
+                                {album.name}
+                            </option>
+                        ))}
+                    </select>
+                    <TextField
+                        id="photoAltVersion"
+                        value={altVersion.fileName ?? ''}
+                        placeholder="Filnavn"
+                        onChange={(e) =>
+                            setAltVersion({
+                                albumName: altVersion.albumName,
+                                fileName: e.target.value,
+                            })
+                        }
+                    />
+                </div>
+            )}
             {index !== undefined && (
                 <div className="edit-photo-data-card__order">
                     {index > 0 && (
@@ -172,6 +216,10 @@ const EditPhotoDataCard = ({
                             tags: photoTags,
                             // @ts-expect-error type checking not implemented yet
                             displayMode: photoDisplayMode,
+                            ...(altVersion.albumName &&
+                                altVersion.fileName && {
+                                    alternativeVersion: altVersion,
+                                }),
                         })
                     }
                 >

@@ -14,6 +14,7 @@ import {
     addDoc,
     collectionGroup,
     limit,
+    getCountFromServer,
 } from 'firebase/firestore'
 import {
     StorageReference,
@@ -53,7 +54,29 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
         collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
         orderBy(new FieldPath('metaData', 'CreateDate'), usedSortPreference),
     )
-    const docSnap = await getDocs(photosQuery)
+    const photosQueryUnsorted = query(
+        collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
+    )
+
+    let docSnap
+    const numberOfSortedPhotos = (await getCountFromServer(photosQuery)).data()
+        .count
+    const numberOfUnsortedPhotos = (
+        await getCountFromServer(photosQueryUnsorted)
+    ).data().count
+
+    if (numberOfSortedPhotos === numberOfUnsortedPhotos) {
+        docSnap = await getDocs(photosQuery)
+    }
+    // If count doesnt match it means some photos dont have the CreateDate field and are skipped.
+    // We then query the photos unsorted instead
+    else {
+        console.warn(
+            `${numberOfUnsortedPhotos - numberOfSortedPhotos} photos in album ${albumName} does not have a CreateDate.`,
+        )
+        docSnap = await getDocs(photosQueryUnsorted)
+    }
+
     const photosData = docSnap.docs.map((photo) => ({
         ...photo.data(),
         documentRef: photo.ref,
@@ -77,14 +100,20 @@ export const getPhotoInAlbum = async (
 
     const albumSnapshot = await getDocs(albumQuery)
     if (albumSnapshot.empty) return null
+    console.log(albumName, 'not empty')
     const albumRef = albumSnapshot.docs[0].ref
 
     const photoQuery = query(
         collection(db, `${albumRef.path}/${PHOTOS_COLLECTION}`),
         where('fileName', '==', fileName + '.jpg'), // Assuming the fileName is stored with .jpg extension
     )
+    console.log(
+        'album path',
+        `${albumRef.path}/${PHOTOS_COLLECTION}/${fileName}`,
+    )
     const photoSnapshot = await getDocs(photoQuery)
     if (photoSnapshot.empty) return null
+    console.log('foto', 'not empty')
 
     const photoData = {
         ...photoSnapshot.docs[0].data(),
@@ -148,14 +177,35 @@ export const getAlbums = async ({
                   where('albumCollection', '==', collectionName.toLowerCase()),
               ),
           )
-        : await getDocs(collection(db, ALBUM_COLLECTION))
+        : await getDocs(query(collection(db, ALBUM_COLLECTION)))
 
     if (albumSnapshot.empty) return []
     const albums = albumSnapshot.docs.map(
-        (album) => ({ ...album.data(), documentRef: album.ref } as AlbumData),
+        (album) => ({ ...album.data(), documentRef: album.ref }) as AlbumData,
     )
 
-    return albums
+    const filteredAlbums = albums.filter((album) => album.hidden !== true)
+
+    return filteredAlbums
+}
+
+export const getAlbum = async ({ name }: { name: string }) => {
+    const albumSnapshot = await getDocs(
+        query(
+            collection(db, ALBUM_COLLECTION),
+            where('name', '==', name.toLowerCase()),
+        ),
+    )
+
+    if (albumSnapshot.empty) return null
+    const album = albumSnapshot.docs
+        .map(
+            (album) =>
+                ({ ...album.data(), documentRef: album.ref }) as AlbumData,
+        )
+        .at(0)
+
+    return album
 }
 
 export async function getPhotoForPhotographyLandingPage(
@@ -163,7 +213,7 @@ export async function getPhotoForPhotographyLandingPage(
 ) {
     const albumQuery = query(
         collection(db, ALBUM_COLLECTION),
-        where('name', '==', 'featured'),
+        where('name', '==', 'utvalgte'),
     )
 
     const albumSnapshot = await getDocs(albumQuery)
@@ -187,7 +237,6 @@ export async function getPhotoForPhotographyLandingPage(
 
     return photosData[randomIndex]
 }
-
 
 export const updatePhotoData = async (
     documentRef: DocumentReference,
@@ -234,7 +283,7 @@ export function useAlbumsList() {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const _albums = querySnapshot.docs.map(
                 (album) =>
-                    ({ ...album.data(), documentRef: album.ref } as AlbumData),
+                    ({ ...album.data(), documentRef: album.ref }) as AlbumData,
             )
             console.log('getting albums. Length:', _albums.length)
 

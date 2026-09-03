@@ -1,0 +1,17 @@
+:root:has(.print-shop) {
+    --theme-color: var(--dark-color-3);
+    --theme-color-secondary: var(--dark-color-2);
+    --theme-color-difference: var(--light-color-2);
+}
+
+.print-shop {
+    position: relative;
+    height: 100%;
+
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+
+    &__section {
+        margin-top: 5rem;
+    }
+}

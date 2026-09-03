@@ -92,7 +92,7 @@ export const TagsPage = () => {
                         </Tag>
                     ))}
                 </TagGroup>
-                {/* Photos are split into two columns to allow for moasic layout 
+                {/* Photos are split into two columns to allow for moasic layout
                     with even distribution of elements. */}
                 <div className="photo-element__container first-column">
                     {photosFirstHalf?.map((photo) => (
@@ -141,18 +141,12 @@ export const TagsPage = () => {
                 )}
             </main>
             <FullscreenOverlay
-                photoUrls={photos.map((photo) => ({
-                    photo: photo.imageUrl,
-                    placeholder: photo.thumbnailUrl,
-                    photoName: getFilenameForUrl(photo.fileName),
-                }))}
+                photos={photos}
                 currentPhoto={fullscreenPhotoName}
-                onNavigate={(nextPhotoName) => {
-                    if (nextPhotoName === null)
-                        return navigate(`/foto/etiketter${searchParam}`)
-
-                    navigate(`/foto/etiketter/${nextPhotoName}${searchParam}`)
-                }}
+                nextPhotoPath={(nextPhotoName) =>
+                    `/foto/etiketter/${nextPhotoName}${searchParam}`
+                }
+                dismissFullscreenPath={`/foto/etiketter${searchParam}`}
             />
         </div>
     )
