@@ -86,7 +86,7 @@
         --margin-top-main: 2rem;
         --padding-sides: 0;
 
-        --row-height: 7rem;
+        --row-height: 5rem;
         --row-gap: 2.5rem;
         --column-gap: 1.25rem;
 
@@ -196,6 +196,8 @@
     column-gap: var(--column-gap);
     row-gap: var(--row-gap);
 
+    grid-template-rows: 25vh;
+
     animation: fade-in 2s ease;
 
     .spacing-box {
@@ -205,7 +207,6 @@
 
 @media only screen and (max-width: 1080px) {
     :root {
-        --row-height: 5rem;
         --font-size-extralarge: 7.5rem;
         --padding-sides: 2rem;
     }
@@ -248,11 +249,13 @@
 }
 
 .fade-in {
-    animation: fade-in 0.6s ease-in-out !important;
+    animation: fade-in 0.3s ease-in-out !important;
+    animation-fill-mode: both;
 }
 
 .fade-out {
     animation: fade-out 0.6s ease-in-out !important;
+    animation-fill-mode: both;
 }
 
 @keyframes fade-out {

@@ -19,26 +19,28 @@ export function MetaText({ photo }: { photo: PhotoData | null }) {
     return (
         <small className="shop-frame__metatext">
             {aperture && (
-                <>
-                    <IoMdAperture /> {aperture}
-                </>
+                <span style={{ display: 'inline-flex', marginRight: '0.5rem' }}>
+                    <IoMdAperture />
+                    &nbsp;{aperture}
+                </span>
             )}
             {shutterspeed && (
-                <>
-                    <IoMdStopwatch style={{ marginLeft: '0.5rem' }} />
-                    {shutterspeed}
-                </>
+                <span style={{ display: 'inline-flex', marginRight: '0.5rem' }}>
+                    <IoMdStopwatch />
+                    &nbsp;{shutterspeed}
+                </span>
             )}
             {iso && (
-                <>
-                    <MdIso style={{ marginLeft: '0.5rem' }} /> {iso}
-                </>
+                <span style={{ display: 'inline-flex', marginRight: '0.5rem' }}>
+                    <MdIso />
+                    &nbsp;{iso}
+                </span>
             )}
             {cameraName && (
-                <>
-                    <MdCameraAlt style={{ marginLeft: '0.5rem' }} />
-                    {cameraName}
-                </>
+                <span style={{ display: 'inline-flex' }}>
+                    <MdCameraAlt />
+                    &nbsp;{cameraName}
+                </span>
             )}
         </small>
     )

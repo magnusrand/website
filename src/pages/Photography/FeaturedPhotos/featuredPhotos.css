@@ -83,26 +83,12 @@
             margin: auto;
             margin-bottom: 2rem;
         }
-
-        .animation-in {
-            animation: fade-in 1s ease-out;
-            animation-fill-mode: both;
-        }
-        .animation-exit {
-            animation: fade-out 1s ease-out;
-            animation-fill-mode: both;
-        }
     }
 
     @media only screen and (max-width: 1080px) {
         &.featured-photos-page {
             --row-height: inherit;
             --image-gap: max(40vh, 40rem);
-
-            .animation-in,
-            .animation-exit {
-                animation-duration: 0.5s;
-            }
         }
     }
 

@@ -83,6 +83,12 @@ export const getPhotosInAlbum = async (albumName: string | undefined) => {
         albumRef,
     })) as PhotoData[]
 
+    if (sortPreference === 'custom') {
+        return photosData.sort(
+            (photoA, photoB) => photoA.priority - photoB.priority,
+        )
+    }
+
     return photosData
 }
 

@@ -90,7 +90,7 @@ export function ShopFrame({
                     )}`}
                     className="shop-frame__order-button"
                 >
-                    Bestill trykk
+                    Tilpass og bestill
                 </ButtonLink>
                 {originalImageFullscreenPath && (
                     <ButtonLink

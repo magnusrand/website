@@ -6,7 +6,6 @@
 
 .main-grid {
     &.displayed-photos-page {
-        --row-height: 5rem;
         --row-gap: 1.25rem;
 
         position: relative;

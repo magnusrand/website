@@ -122,7 +122,7 @@ export const ProgressiveImage = ({
             className={
                 'progressive-img ' +
                 `${imageIsLoading ? 'progressive-img--loading ' : ' '}` +
-                `${!imageIsLoading && imageInView ? 'animation-in ' : ' '}` +
+                `${!imageIsLoading && imageInView ? 'fade-in ' : ' '}` +
                 className
             }
             loading="lazy"

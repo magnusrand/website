@@ -32,16 +32,6 @@ export const DisplayPhotosPage = () => {
 
     const fullscreenPhotoName = params.photo?.toLowerCase()
 
-    const sortedPhotos = useMemo(
-        () =>
-            currentAlbum?.sort === 'custom'
-                ? photos.sort(
-                      (photoA, photoB) => photoA.priority - photoB.priority,
-                  )
-                : photos,
-        [photos, currentAlbum?.sort],
-    )
-
     useEffect(() => {
         const getPhotosForCurrentPage = async () => {
             const photoData = await getPhotosInAlbum(albumName)
@@ -53,29 +43,28 @@ export const DisplayPhotosPage = () => {
     const photoLayout = useMemo(() => {
         const _photoLayout: string[] = []
         let counter = 0
-        while (counter < sortedPhotos?.length) {
-            if (counter === sortedPhotos?.length - 1) {
+        while (counter < photos?.length) {
+            if (counter === photos?.length - 1) {
                 _photoLayout.push('full-width')
                 counter++
                 continue
             }
-            if (sortedPhotos[counter].metaData?.orientation === 'landscape') {
+            if (photos[counter].metaData?.orientation === 'landscape') {
                 _photoLayout.push('full-width')
                 counter++
                 continue
             }
             if (
-                sortedPhotos[counter].metaData?.orientation === 'portrait' &&
-                sortedPhotos[counter + 1].metaData?.orientation ===
-                    'portrait' &&
-                sortedPhotos[counter].displayMode !== 'story' &&
-                sortedPhotos[counter + 1].displayMode !== 'story'
+                photos[counter].metaData?.orientation === 'portrait' &&
+                photos[counter + 1].metaData?.orientation === 'portrait' &&
+                photos[counter].displayMode !== 'story' &&
+                photos[counter + 1].displayMode !== 'story'
             ) {
                 _photoLayout.push('half-left', 'half-right')
                 counter += 2
                 continue
             }
-            if (sortedPhotos[counter].metaData?.orientation === 'portrait') {
+            if (photos[counter].metaData?.orientation === 'portrait') {
                 _photoLayout.push('narrow-width')
                 counter++
                 continue
@@ -84,7 +73,7 @@ export const DisplayPhotosPage = () => {
             counter++
         }
         return _photoLayout
-    }, [sortedPhotos])
+    }, [photos])
 
     const displayedAlbumName = () => {
         if (!albumName) return 'feil  🥶'
@@ -96,7 +85,7 @@ export const DisplayPhotosPage = () => {
     }
 
     const dateRange = useMemo(() => {
-        const allDatesSorted = sortedPhotos
+        const allDatesSorted = photos
             .map((photo) => photo.metaData?.CreateDate?.seconds)
             .filter((date) => date !== undefined)
             .sort((a, b) => (a! > b! ? 1 : -1))
@@ -125,7 +114,7 @@ export const DisplayPhotosPage = () => {
             }
             return `${firstDate}–${lastDate}`
         }
-    }, [sortedPhotos.length])
+    }, [photos.length])
 
     return (
         <div className="main-grid displayed-photos-page">
@@ -135,10 +124,10 @@ export const DisplayPhotosPage = () => {
                 caption={dateRange}
             />
             {/** Add some whitespace unless first photo is story photo */}
-            {sortedPhotos?.[0]?.displayMode !== 'story' && (
+            {photos?.[0]?.displayMode !== 'story' && (
                 <div className="divider-box" />
             )}
-            {sortedPhotos?.map((photo, index) =>
+            {photos?.map((photo, index) =>
                 photo.displayMode === 'story' ? (
                     <StoryFrame
                         photo={photo}
@@ -172,7 +161,7 @@ export const DisplayPhotosPage = () => {
                 <MdArrowUpward />
             </IconButton>
             <FullscreenOverlay
-                photos={sortedPhotos}
+                photos={photos}
                 currentPhoto={fullscreenPhotoName}
                 nextPhotoPath={(nextPhotoName) =>
                     `/foto/album/${albumName}/${nextPhotoName}`
