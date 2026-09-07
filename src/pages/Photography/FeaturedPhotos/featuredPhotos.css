@@ -1,8 +1,3 @@
-#app {
-    height: 100vh;
-    height: 100dvh;
-}
-
 :root:has(.featured-photos-page) {
     --theme-color: var(--dark-color-3);
     --theme-color-secondary: var(--dark-color-2);
@@ -49,7 +44,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* this makes scroll indicator the size of the remaining viewport height 
+            /* this makes scroll indicator the size of the remaining viewport height
                height: calc(100vh - size-of-horizontal-texts - size-of-gaps - size-of-navbar); */
             height: calc(
                 100vh - (var(--row-height) * 2) - (var(--row-gap) * 3) - 25vh
@@ -88,26 +83,12 @@
             margin: auto;
             margin-bottom: 2rem;
         }
-
-        .animation-in {
-            animation: fade-in 1s ease-out;
-            animation-fill-mode: both;
-        }
-        .animation-exit {
-            animation: fade-out 1s ease-out;
-            animation-fill-mode: both;
-        }
     }
 
     @media only screen and (max-width: 1080px) {
         &.featured-photos-page {
             --row-height: inherit;
             --image-gap: max(40vh, 40rem);
-
-            .animation-in,
-            .animation-exit {
-                animation-duration: 0.5s;
-            }
         }
     }
 

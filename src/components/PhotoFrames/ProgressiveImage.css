@@ -1,5 +1,6 @@
 @layer base {
     :where(.progressive-img--loading) {
+        opacity: 0;
         aspect-ratio: 3 / 2;
     }
 }

@@ -1,0 +1,46 @@
+:root:has(.print-shop) {
+    --theme-color: var(--dark-color-3);
+    --theme-color-secondary: var(--dark-color-2);
+    --theme-color-difference: var(--light-color-2);
+}
+
+.print-shop {
+    position: relative;
+    height: 100%;
+
+    margin-bottom: 10rem;
+
+    &__section {
+        margin-top: 5rem;
+
+        &:last-child {
+            margin-bottom: 10rem;
+        }
+    }
+
+    &__other-photo-section {
+        display: flex;
+        flex-direction: column;
+        grid-column: 6 / -6;
+        margin-block: 5rem;
+        text-align: center;
+
+        @media screen and (max-width: 800px) {
+            grid-column: 3 / -3;
+        }
+
+        .mr-button {
+            width: fit-content;
+            margin-inline: auto;
+            cursor: pointer;
+        }
+        a:not(.mr-button) {
+            margin-top: 1lh;
+            text-decoration: underline;
+        }
+        svg {
+            position: relative;
+            top: 0.2rem;
+        }
+    }
+}

@@ -10,7 +10,12 @@ import { PhotoData } from 'src/types'
 
 import { formatDescriptionForHTML } from '../../firebase/utils'
 
-import { getAperture, getISO, getShutterSpeedFraction } from '../utils'
+import {
+    getAperture,
+    getISO,
+    getShutterSpeedFraction,
+    getCameraName,
+} from '../utils'
 
 import { ProgressiveImage } from './ProgressiveImage'
 
@@ -30,11 +35,7 @@ export const StoryFrame = ({
     id?: string
 }) => {
     const descriptionRef = useRef<HTMLParagraphElement>(null)
-    const cameraName = ` ${
-        photo.metaData?.Make !== photo.metaData?.Model?.split(' ')[0]
-            ? `${photo.metaData?.Make} `
-            : ''
-    }${photo.metaData?.Model}`
+    const cameraName = getCameraName(photo)
 
     const description = formatDescriptionForHTML(photo.description)
 

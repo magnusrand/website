@@ -14,6 +14,7 @@ import {
     FaLinkedin,
     FaSoundcloud,
     FaTags,
+    FaStore,
 } from 'react-icons/fa'
 import {
     MobileNavDropdown,
@@ -71,9 +72,9 @@ export const MobileNavBar = ({
                             linkPath="foto"
                         />
                         <MobileNavDropdownItem
-                            title="Etiketter"
-                            icon={<FaTags />}
-                            linkPath="foto/etiketter"
+                            title="Utvalgte"
+                            icon={<MdOutlinePhotoLibrary />}
+                            linkPath="foto/utvalgte"
                         />
                         <MobileNavDropdownItem
                             title="Album"
@@ -81,9 +82,14 @@ export const MobileNavBar = ({
                             linkPath="foto/album"
                         />
                         <MobileNavDropdownItem
-                            title="Utvalgte"
-                            icon={<MdOutlinePhotoLibrary />}
-                            linkPath="foto/utvalgte"
+                            title="Etiketter"
+                            icon={<FaTags />}
+                            linkPath="foto/etiketter"
+                        />
+                        <MobileNavDropdownItem
+                            title="Butikk"
+                            icon={<FaStore />}
+                            linkPath="foto/butikk"
                         />
                     </MobileNavDropdown>
                     <MobileNavDropdown

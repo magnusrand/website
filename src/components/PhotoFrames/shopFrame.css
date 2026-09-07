@@ -1,0 +1,54 @@
+.shop-frame {
+    grid-column: 2 / -2;
+    display: grid;
+    grid-template-columns: subgrid;
+
+    @media screen and (max-width: 800px) {
+        grid-column: 1 / -1;
+    }
+
+    &__image {
+        grid-column: 2 / 8;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+
+        @media screen and (max-width: 800px) {
+            grid-column: 2 / -2;
+        }
+    }
+    &__info {
+        grid-column: 8 / -4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        @media screen and (max-width: 1200px) {
+            grid-column: 8 / -3;
+        }
+
+        @media screen and (max-width: 800px) {
+            grid-column: 2 / -2;
+        }
+    }
+
+    &__photo-name {
+        margin-block: 0;
+
+        @media screen and (max-width: 800px) {
+            margin-top: 1rem;
+        }
+    }
+
+    &__order-button,
+    &__original-image-button {
+        width: fit-content;
+        margin-top: 1rem;
+    }
+
+    &__metatext {
+        svg {
+            position: relative;
+            top: 0.2rem;
+        }
+    }
+}

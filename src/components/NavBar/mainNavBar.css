@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: calc(var(--row-height) - var(--row-gap));
+    height: 0;
     margin-top: var(--margin-top-main);
     transition: opacity 1s ease-in-out;
 
