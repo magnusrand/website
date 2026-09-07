@@ -54,13 +54,13 @@ export const LandingPage = () => {
                 Album
             </ButtonLink>
             <ButtonLink
-                to="/foto/etiketter"
+                to="/foto/butikk"
                 className="photo-landing-page__link-button"
                 style={{
                     '--button-color': 'var(--dark-color-1)',
                 }}
             >
-                Etiketter
+                Butikk
             </ButtonLink>
             <Filters />
         </div>
