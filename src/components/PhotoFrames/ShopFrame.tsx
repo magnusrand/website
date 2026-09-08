@@ -98,7 +98,7 @@ export function ShopFrame({
                         variant="secondary"
                         to={originalImageFullscreenPath}
                     >
-                        Vis bildet i album
+                        Åpne bildet i album
                     </ButtonLink>
                 )}
             </div>
