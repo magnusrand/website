@@ -1,6 +1,8 @@
 @import '../../main-styles.css';
 
 .landing-page.main-grid {
+    --row-height: 7rem;
+
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
@@ -101,6 +103,8 @@
 
 @media only screen and (max-width: 1080px) {
     .landing-page.main-grid {
+        --row-height: inherit;
+
         padding-left: 2rem;
         padding-right: 2rem;
         height: 100vh;
